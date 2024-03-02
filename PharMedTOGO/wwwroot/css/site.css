@@ -21,7 +21,10 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #12161f;
-    color: white;
+    background: #eee;
+    color: black;
     margin-bottom: 60px;
+}
+header{
+    background-color: mediumseagreen;
 }

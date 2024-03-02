@@ -1,20 +1,20 @@
 ﻿:root {
-    --color-primary: #2f67ec;
+    --color-primary: white;
 }
 
 nav {
     position: relative;
-    background: #1f2635;
     font-weight: 400;
     display: flex;
+    height: auto;
 }
-.insightNavbar{
+
+.insightNavbar {
     width: 100%;
 }
 
 nav .item {
     font-size: 1rem;
-    display: inline-block;
     position: relative;
     padding: 0 20px;
     cursor: pointer;
@@ -51,7 +51,7 @@ nav .item {
     }
 
         .dropdown a:hover {
-            background: #254fb5;
+            background-color: lightgreen;
         }
 
 .underline {
@@ -89,7 +89,16 @@ nav .item:nth-child(5):hover ~ .underline {
     transform: translate(400%, 0);
 }
 
+nav .item:nth-child(6):hover ~ .underline {
+    transform: translate(500%, 0);
+}
+
+nav .item:nth-child(7):hover ~ .underline {
+    transform: translate(600%, 0);
+}
+
+
 a {
     text-decoration: none;
-    color: white !important;
+    color: black !important;
 }
