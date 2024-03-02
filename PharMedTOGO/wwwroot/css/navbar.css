@@ -1,0 +1,95 @@
+﻿:root {
+    --color-primary: #2f67ec;
+}
+
+nav {
+    position: relative;
+    background: #1f2635;
+    font-weight: 400;
+    display: flex;
+}
+.insightNavbar{
+    width: 100%;
+}
+
+nav .item {
+    font-size: 1rem;
+    display: inline-block;
+    position: relative;
+    padding: 0 20px;
+    cursor: pointer;
+    z-index: 5;
+    min-width: 10em;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+.dropdown {
+    overflow: hidden;
+    list-style: none;
+    position: absolute;
+    padding: 0;
+    width: 100%;
+    left: 0;
+    top: 62px;
+}
+
+    .dropdown > div {
+        transform: translate(0, -100%);
+        transition: all 0.5s 0.1s;
+        position: relative;
+    }
+
+    .dropdown a {
+        display: block;
+        padding: 0;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background: var(--color-primary);
+    }
+
+        .dropdown a:hover {
+            background: #254fb5;
+        }
+
+.underline {
+    height: 6px;
+    background: var(--color-primary);
+    position: absolute;
+    bottom: 0;
+    width: 10em;
+    z-index: 2;
+    pointer-events: none;
+    transition: 0.35s;
+}
+
+nav .item:hover > .dropdown > div {
+    transform: translate(0);
+}
+
+nav .item:nth-child(1):hover ~ .underline {
+    transform: translate(0, 0);
+}
+
+nav .item:nth-child(2):hover ~ .underline {
+    transform: translate(100%, 0);
+}
+
+nav .item:nth-child(3):hover ~ .underline {
+    transform: translate(200%, 0);
+}
+
+nav .item:nth-child(4):hover ~ .underline {
+    transform: translate(300%, 0);
+}
+
+nav .item:nth-child(5):hover ~ .underline {
+    transform: translate(400%, 0);
+}
+
+a {
+    text-decoration: none;
+    color: white !important;
+}
