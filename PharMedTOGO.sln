@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharMedTOGO", "PharMedTOGO\PharMedTOGO.csproj", "{54AA3B3F-6336-4C1F-B6E5-C375C1FDA6EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharMedTOGO.Core", "PharMedTOGO.Core\PharMedTOGO.Core.csproj", "{83DC4A4E-9341-4761-9A3F-F33133872004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharMedTOGO.Infrastrucure", "PharMedTOGO.Infrastrucure\PharMedTOGO.Infrastrucure.csproj", "{AE22F1B9-FEFA-4354-9194-22661AEC61DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{54AA3B3F-6336-4C1F-B6E5-C375C1FDA6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54AA3B3F-6336-4C1F-B6E5-C375C1FDA6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54AA3B3F-6336-4C1F-B6E5-C375C1FDA6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83DC4A4E-9341-4761-9A3F-F33133872004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83DC4A4E-9341-4761-9A3F-F33133872004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83DC4A4E-9341-4761-9A3F-F33133872004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83DC4A4E-9341-4761-9A3F-F33133872004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE22F1B9-FEFA-4354-9194-22661AEC61DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE22F1B9-FEFA-4354-9194-22661AEC61DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE22F1B9-FEFA-4354-9194-22661AEC61DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE22F1B9-FEFA-4354-9194-22661AEC61DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
