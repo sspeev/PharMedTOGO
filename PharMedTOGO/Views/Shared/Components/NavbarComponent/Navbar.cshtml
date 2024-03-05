@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
-<nav class="insightNavbar">
+﻿<nav class="insightNavbar">
     <a class="item" asp-controller="Home" asp-action="Index">Home</a>
     <a class="item" asp-controller="Home" asp-action="Privacy">About</a>
     <div class="item">
@@ -26,17 +22,6 @@
             </div>
         </div>
     </div>
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <a class="item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        <form class="item form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
-        </form>
-    }
-    else
-    {
-        <a class="item" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        <a class="item" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    }
     <div class="underline"></div>
+    <partial name="_LoginPartial" />
 </nav>
