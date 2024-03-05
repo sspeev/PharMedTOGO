@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PharMedTOGO.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class PharMedDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public PharMedDbContext(DbContextOptions<PharMedDbContext> options)
             : base(options)
         {
+
         }
     }
 }

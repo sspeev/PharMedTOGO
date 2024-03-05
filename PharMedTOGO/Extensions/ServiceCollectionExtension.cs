@@ -13,8 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection service, IConfiguration config)
         {
-            var connectionString = config.GetConnectionString("DefaultConnection");
-            service.AddDbContext<ApplicationDbContext>(options =>
+            var connectionString = config.GetConnectionString("MyConnection");
+            service.AddDbContext<PharMedDbContext>(options =>
                 options.UseSqlServer(connectionString));
             service.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.SignIn.RequireConfirmedAccount = true;
 
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<PharMedDbContext>();
 
             return service;
         }
