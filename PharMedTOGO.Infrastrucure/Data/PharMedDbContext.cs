@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace PharMedTOGO.Data
+namespace PharMedTOGO.Infrastrucure.Data
 {
     public class PharMedDbContext : IdentityDbContext
     {
