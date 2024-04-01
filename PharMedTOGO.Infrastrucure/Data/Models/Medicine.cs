@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PharMedTOGO.Infrastrucure.Data.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static PharMedTOGO.Infrastrucure.Constants.DataConstants;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
@@ -21,11 +23,28 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public bool RequiresPrescription { get; set; }
 
         [Required]
+        [Column(TypeName = "decimal(18, 2)")]
         [Comment("The price of the medicine")]
         public decimal Price { get; set; }
 
         [Required]
+        [EnumDataType(typeof(MedicineCategory))]
+        public MedicineCategory Category { get; set; }
+
+        [Required]
         [Comment("A byte array for pdf file where is stored the description of the medicine")]
         public byte[] Description { get; set; } = null!;
+
+        [Required]
+        public int PrescriptionId { get; set; }
+
+        [ForeignKey(nameof(PrescriptionId))]
+        public Prescription? Prescription { get; set; }
+
+        [Required]
+        public int SaleId { get; set; }
+
+        [ForeignKey(nameof(SaleId))]
+        public Sale Sale { get; set; } = null!;
     }
 }

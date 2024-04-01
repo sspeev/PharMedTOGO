@@ -13,5 +13,11 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [Comment("The address of the patient")]
         public string Address { get; set; } = string.Empty;
+
+        public IList<Prescription> Prescriptions { get; set; }
+            = new List<Prescription>();
+
+        public IList<Order> Orders { get; set; }
+            = new List<Order>();
     }
 }

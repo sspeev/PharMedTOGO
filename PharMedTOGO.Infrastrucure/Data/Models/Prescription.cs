@@ -31,12 +31,7 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public DateTime CreatedOn { get; set; }
 
         [Required]
-        [Comment("The identifier of the patient")]
-        public int PatientId { get; set; }
-
-        [Required]
         [Comment("Navigational property ")]
-        [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
 
         public IList<Medicine> Medicines { get; set; }

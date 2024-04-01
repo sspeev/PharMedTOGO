@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PharMedTOGO.Data;
+using PharMedTOGO.Infrastrucure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
