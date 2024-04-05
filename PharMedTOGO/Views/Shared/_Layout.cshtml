@@ -14,11 +14,9 @@
         @await Component.InvokeAsync(nameof(NavbarComponent))
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main>
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
