@@ -1,6 +1,6 @@
 ﻿namespace PharMedTOGO.Infrastrucure.Constants
 {
-    public class DataConstants
+    public static class DataConstants
     {
         public const int MedicineNameMaxLength = 40;
         public const int MedicineNameMinLength = 3;
