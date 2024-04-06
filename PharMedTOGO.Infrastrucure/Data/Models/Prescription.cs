@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static PharMedTOGO.Infrastrucure.Constants.DataConstants;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
 {
@@ -13,25 +11,25 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(DoctorFirstNameMaxLength)]
-        [Comment("The doctor's first name")]
-        public string DoctorFirstName { get; set; } = string.Empty;
+        [Comment("Boolean property which shows if the current prescription is validated from the admin")]
+        public bool IsValidated { get; set; }
 
-        [Required]
-        [MaxLength(DoctorLastNameMaxLength)]
-        [Comment("The doctor's last name")]
-        public string DoctorLastName { get; set; } = string.Empty;
-
-        [Required]
-        [Comment("Boolean property which shows if the current prescription is checked from the admin")]
-        public bool IsChecked { get; set; }
-
-        [Required]
         [Comment("The creation date of the prescription")]
         public DateTime CreatedOn { get; set; }
 
+        [Comment("The expire date of the prescription")]
+        public DateTime ExpireDate { get; set; }
+
+        [Comment("Prescription's description")]
+        public string Description { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Patient's identifier")]
+        public int PatientId { get; set; }
+
         [Required]
         [Comment("Navigational property ")]
+        [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
 
         public IList<Medicine> Medicines { get; set; }

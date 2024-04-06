@@ -30,6 +30,8 @@ namespace PharMedTOGO.Infrastrucure.Data
             builder.ApplyConfiguration(new MedicineConfiguration());
             builder.ApplyConfiguration(new PatientConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new PrescriptionConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
 
             base.OnModelCreating(builder);
         }

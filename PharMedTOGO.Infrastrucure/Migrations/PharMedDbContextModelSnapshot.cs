@@ -86,10 +86,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -142,7 +138,35 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.HasData(
+                        new
+                        {
+                            Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7c647000-dfd7-4942-a9d4-37895e60236f",
+                            Email = "stoyan@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEAgcmj9FRtJEEA+11GUOzfOcU+RnjyBry4VBxvoV5nm6ZlF/sZ2+RLFN4vVJ9WIzFA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d8042106-0257-4ae8-b7ef-2452d9e59d85",
+                            TwoFactorEnabled = false,
+                            UserName = "Stoyan"
+                        },
+                        new
+                        {
+                            Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "488db0ed-b8f8-4950-a45c-0872396d799d",
+                            Email = "kristalin@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEKc2kPym3xnevqxQWj/xPKsP6U905pc1ssfCqoWWHh3YyI+AJr6lLdzC3FqBv+5/qA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5e035708-1a9b-4057-bc5c-bb6fc01780ab",
+                            TwoFactorEnabled = false,
+                            UserName = "Kristalin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -242,9 +266,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Description")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("A byte array for pdf file where is stored the description of the medicine");
 
                     b.Property<string>("Name")
@@ -256,7 +280,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PrescriptionId")
+                    b.Property<int?>("PrescriptionId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -267,7 +291,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasColumnType("bit")
                         .HasComment("Boolean property which shows if the current medicine requires prescription");
 
-                    b.Property<int>("SaleId")
+                    b.Property<int?>("SaleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -291,9 +315,8 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PharmacyId")
                         .HasColumnType("int");
@@ -315,6 +338,74 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.HasIndex("SaleId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("The patient's identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("The address of the patient");
+
+                    b.Property<string>("EGN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("The egn of the patient");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
+                        .HasComment("The patient's first name");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
+                        .HasComment("The patient's last name");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("The user's identifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EGN")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Patients");
+
+                    b.HasComment("The patient entity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Burgas-Slaveikov",
+                            EGN = "1234567890",
+                            FirstName = "Stoyan",
+                            LastName = "Peev",
+                            UserId = "d42ae752-35a7-4ba3-a9c0-190484b6c253"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Pomorie-Mahala-N1",
+                            EGN = "908765432",
+                            FirstName = "Kristalin",
+                            LastName = "Zhelezhchev",
+                            UserId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
+                        });
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Pharmacy", b =>
@@ -347,25 +438,22 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("The creation date of the prescription");
 
-                    b.Property<string>("DoctorFirstName")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)")
-                        .HasComment("The doctor's first name");
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Prescription's description");
 
-                    b.Property<string>("DoctorLastName")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)")
-                        .HasComment("The doctor's last name");
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("The expire date of the prescription");
 
-                    b.Property<bool>("IsChecked")
+                    b.Property<bool>("IsValidated")
                         .HasColumnType("bit")
-                        .HasComment("Boolean property which shows if the current prescription is checked from the admin");
+                        .HasComment("Boolean property which shows if the current prescription is validated from the admin");
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int")
+                        .HasComment("Patient's identifier");
 
                     b.HasKey("Id");
 
@@ -374,6 +462,26 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.ToTable("Prescriptions");
 
                     b.HasComment("The prescription entity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedOn = new DateTime(2024, 4, 6, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7199),
+                            Description = "Grip",
+                            ExpireDate = new DateTime(2024, 4, 16, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7203),
+                            IsValidated = true,
+                            PatientId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedOn = new DateTime(2024, 3, 26, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7241),
+                            Description = "COVID-19",
+                            ExpireDate = new DateTime(2024, 4, 6, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7242),
+                            IsValidated = false,
+                            PatientId = 2
+                        });
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Sale", b =>
@@ -385,29 +493,20 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Decimal value for the sale percentage");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("When the sale ends");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("When the sale starts");
 
                     b.HasKey("Id");
 
                     b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("The address of the patient");
-
-                    b.Property<int>("EGN")
-                        .HasColumnType("int")
-                        .HasComment("The egn of the patient");
-
-                    b.HasDiscriminator().HasValue("Patient");
-
-                    b.HasComment("The patient entity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -467,19 +566,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .WithMany("Medicines")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Prescription", "Prescription")
+                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Prescription", null)
                         .WithMany("Medicines")
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("PrescriptionId");
 
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Sale", "Sale")
                         .WithMany()
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Prescription");
+                        .HasForeignKey("SaleId");
 
                     b.Navigation("Sale");
                 });
@@ -519,6 +612,17 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Navigation("Sale");
                 });
 
+            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
                 {
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Patient", "Patient")
@@ -535,6 +639,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Navigation("Medicines");
                 });
 
+            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Prescriptions");
+                });
+
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Pharmacy", b =>
                 {
                     b.Navigation("Orders");
@@ -543,13 +654,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
                 {
                     b.Navigation("Medicines");
-                });
-
-            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("Prescriptions");
                 });
 #pragma warning restore 612, 618
         }

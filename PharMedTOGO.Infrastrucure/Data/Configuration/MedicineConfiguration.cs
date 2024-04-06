@@ -9,11 +9,6 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
         public void Configure(EntityTypeBuilder<Medicine> builder)
         {
             builder
-                .HasOne(m => m.Prescription)
-                .WithMany(p => p.Medicines)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
                 .HasOne(m => m.Sale);
         }
     }

@@ -28,9 +28,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EGN = table.Column<int>(type: "int", nullable: true, comment: "The egn of the patient"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "The address of the patient"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -49,8 +46,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                },
-                comment: "The patient entity");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Pharmacies",
@@ -71,7 +67,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Decimal value for the sale percentage"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "When the sale starts"),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "When the sale ends")
                 },
                 constraints: table =>
                 {
@@ -185,24 +183,48 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "The patient's identifier")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false, comment: "The patient's first name"),
+                    LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false, comment: "The patient's last name"),
+                    EGN = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "The egn of the patient"),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "The address of the patient"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "The user's identifier")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Patients_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "The patient entity");
+
+            migrationBuilder.CreateTable(
                 name: "Prescriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorFirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false, comment: "The doctor's first name"),
-                    DoctorLastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false, comment: "The doctor's last name"),
-                    IsChecked = table.Column<bool>(type: "bit", nullable: false, comment: "Boolean property which shows if the current prescription is checked from the admin"),
+                    IsValidated = table.Column<bool>(type: "bit", nullable: false, comment: "Boolean property which shows if the current prescription is validated from the admin"),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "The creation date of the prescription"),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "The expire date of the prescription"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Prescription's description"),
+                    PatientId = table.Column<int>(type: "int", nullable: false, comment: "Patient's identifier")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prescriptions_AspNetUsers_PatientId",
+                        name: "FK_Prescriptions_Patients_PatientId",
                         column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 },
@@ -214,7 +236,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
                     PrescriptionId = table.Column<int>(type: "int", nullable: false),
                     PharmacyId = table.Column<int>(type: "int", nullable: false),
                     SaleId = table.Column<int>(type: "int", nullable: false)
@@ -223,9 +245,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_PatientId",
+                        name: "FK_Orders_Patients_PatientId",
                         column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -258,10 +280,10 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     RequiresPrescription = table.Column<bool>(type: "bit", nullable: false, comment: "Boolean property which shows if the current medicine requires prescription"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "The price of the medicine"),
                     Category = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<byte[]>(type: "varbinary(max)", nullable: false, comment: "A byte array for pdf file where is stored the description of the medicine"),
-                    PrescriptionId = table.Column<int>(type: "int", nullable: false),
-                    SaleId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "A byte array for pdf file where is stored the description of the medicine"),
+                    SaleId = table.Column<int>(type: "int", nullable: true),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    PrescriptionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -275,16 +297,44 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         name: "FK_Medicines_Prescriptions_PrescriptionId",
                         column: x => x.PrescriptionId,
                         principalTable: "Prescriptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Medicines_Sales_SaleId",
                         column: x => x.SaleId,
                         principalTable: "Sales",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 },
                 comment: "Medicine Entity");
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "3fe16750-157b-4110-a05f-0d2ba0812b3c", 0, "488db0ed-b8f8-4950-a45c-0872396d799d", "kristalin@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEKc2kPym3xnevqxQWj/xPKsP6U905pc1ssfCqoWWHh3YyI+AJr6lLdzC3FqBv+5/qA==", null, false, "5e035708-1a9b-4057-bc5c-bb6fc01780ab", false, "Kristalin" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "d42ae752-35a7-4ba3-a9c0-190484b6c253", 0, "7c647000-dfd7-4942-a9d4-37895e60236f", "stoyan@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEAgcmj9FRtJEEA+11GUOzfOcU+RnjyBry4VBxvoV5nm6ZlF/sZ2+RLFN4vVJ9WIzFA==", null, false, "d8042106-0257-4ae8-b7ef-2452d9e59d85", false, "Stoyan" });
+
+            migrationBuilder.InsertData(
+                table: "Patients",
+                columns: new[] { "Id", "Address", "EGN", "FirstName", "LastName", "UserId" },
+                values: new object[] { 1, "Burgas-Slaveikov", "1234567890", "Stoyan", "Peev", "d42ae752-35a7-4ba3-a9c0-190484b6c253" });
+
+            migrationBuilder.InsertData(
+                table: "Patients",
+                columns: new[] { "Id", "Address", "EGN", "FirstName", "LastName", "UserId" },
+                values: new object[] { 2, "Pomorie-Mahala-N1", "908765432", "Kristalin", "Zhelezhchev", "3fe16750-157b-4110-a05f-0d2ba0812b3c" });
+
+            migrationBuilder.InsertData(
+                table: "Prescriptions",
+                columns: new[] { "Id", "CreatedOn", "Description", "ExpireDate", "IsValidated", "PatientId" },
+                values: new object[] { 1, new DateTime(2024, 4, 6, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7199), "Grip", new DateTime(2024, 4, 16, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7203), true, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Prescriptions",
+                columns: new[] { "Id", "CreatedOn", "Description", "ExpireDate", "IsValidated", "PatientId" },
+                values: new object[] { 2, new DateTime(2024, 3, 26, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7241), "COVID-19", new DateTime(2024, 4, 6, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7242), false, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -361,6 +411,17 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                 column: "SaleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Patients_EGN",
+                table: "Patients",
+                column: "EGN",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_UserId",
+                table: "Patients",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Prescriptions_PatientId",
                 table: "Prescriptions",
                 column: "PatientId");
@@ -400,6 +461,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sales");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

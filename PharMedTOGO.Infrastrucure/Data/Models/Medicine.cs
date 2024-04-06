@@ -33,18 +33,11 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [Required]
         [Comment("A byte array for pdf file where is stored the description of the medicine")]
-        public byte[] Description { get; set; } = null!;
+        public string Description { get; set; } = string.Empty;
 
-        [Required]
-        public int PrescriptionId { get; set; }
-
-        [ForeignKey(nameof(PrescriptionId))]
-        public Prescription? Prescription { get; set; }
-
-        [Required]
-        public int SaleId { get; set; }
+        public int? SaleId { get; set; }
 
         [ForeignKey(nameof(SaleId))]
-        public Sale Sale { get; set; } = null!;
+        public Sale? Sale { get; set; }
     }
 }

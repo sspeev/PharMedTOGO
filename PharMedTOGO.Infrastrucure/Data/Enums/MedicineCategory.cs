@@ -2,10 +2,10 @@
 {
     public enum MedicineCategory
     {
-        Cosmetics,
-        FoodAdditives,
-        Homeophatic,
-        Antibiotics,
-        General
+        Cosmetics = 1,
+        FoodAdditives = 2,
+        Homeophatic = 3,
+        Antibiotics = 4,
+        General = 5
     }
 }
