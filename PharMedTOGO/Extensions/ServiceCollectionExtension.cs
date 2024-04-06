@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Services;
 using PharMedTOGO.Infrastrucure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -8,6 +10,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection service)
         {
+            service.AddScoped<ISaleService, SaleService>();
+            service.AddScoped<IMedicineService, MedicineService>();
+
             return service;
         }
 
@@ -25,7 +30,11 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             service.AddDefaultIdentity<IdentityUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
 
             }).AddEntityFrameworkStores<PharMedDbContext>();
 

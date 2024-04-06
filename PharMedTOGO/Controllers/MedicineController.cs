@@ -1,14 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 
 namespace PharMedTOGO.Controllers
 {
     public class MedicineController : Controller
     {
+        private readonly IMedicineService medicineService;
+
+        public MedicineController(IMedicineService _medicineService)
+        {
+            medicineService = _medicineService;
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
             return View(new MedicineFormModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(MedicineFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await medicineService.CreateAsync(model);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

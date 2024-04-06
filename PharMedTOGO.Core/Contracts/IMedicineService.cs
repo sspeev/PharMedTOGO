@@ -1,7 +1,9 @@
-﻿namespace PharMedTOGO.Core.Contracts
+﻿using PharMedTOGO.Core.Models;
+
+namespace PharMedTOGO.Core.Contracts
 {
     public interface IMedicineService
     {
-        Task<bool> ExistsByIdAsync(int id);
+        Task CreateAsync(MedicineFormModel model);
     }
 }

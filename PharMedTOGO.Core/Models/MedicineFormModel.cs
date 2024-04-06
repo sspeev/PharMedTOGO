@@ -21,6 +21,7 @@ namespace PharMedTOGO.Core.Models
                     MedicinePriceMinValue,
                     MedicinePriceMaxValue,
                     ErrorMessage = MedicinePriceRangeError)]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
@@ -28,7 +29,7 @@ namespace PharMedTOGO.Core.Models
         public MedicineCategory Category { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
-        [Display(Name = "Upload a file which contains the description of the medicine")]
-        public byte[] Description { get; set; } = null!;
+        [Display(Name = "Write a short description of the medicine")]
+        public string Description { get; set; } = string.Empty;
     }
 }

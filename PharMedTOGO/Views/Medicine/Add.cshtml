@@ -1,44 +1,37 @@
 ﻿@using PharMedTOGO.Infrastrucure.Data.Enums
 @model MedicineFormModel
-<div class="d-flex justify-content-center align-items-center gap-3">
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" placeholder="Title...">
-            <span asp-validation-for="Name" class="small text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="RequiresPrescription"></label>
-            <input type="checkbox" asp-for="RequiresPrescription" class="form-check-input">
-        </div>
-        <div class="form-group">
-            <label asp-for="Price"></label>
-            <input asp-for="Price" class="form-control" placeholder="Price...">
-            <span asp-validation-for="Price" class="small text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Category"></label>
-            <input asp-for="Category" class="form-control" placeholder="Your fine URL here...">
-            <span asp-validation-for="Category" class="small text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <input type="file" asp-for="Description" class="form-control">
-            <span asp-validation-for="Description" class="small text-danger"></span>
-        </div>
-        @* <div class="form-group">
-            <label>@nameof(Model.Category)</label>
-            <select asp-for="Category" class="form-control">
-                @foreach (var category in MedicineCategory)
-                {
-                    <option value="@category.Id">@category.Name</option>
-                    <option value="@MedicineCategory"></option>
-                }
-            </select>
-            <span asp-validation-for="CategoryId" class="small text-danger"></span>
-        </div> *@
-        <div class="text-center">
-            <input class="btn btn-primary mt-3" type="submit" value="Save" />
-        </div>
-    </form>
-</div>
+
+<form asp-action="Add" method="post" class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Name...">
+        <span asp-validation-for="Name" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="RequiresPrescription"></label>
+        <input class="form-check-input" type="checkbox" asp-for="RequiresPrescription">
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" placeholder="Price...">
+        <span asp-validation-for="Price" class="small text-danger"></span>
+    </div>
+    <div>
+        <label>@nameof(Model.Category)</label>
+        <select asp-for="Category" class="form-control">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <option value="@i">@((MedicineCategory)i)</option>
+            }
+        </select>
+        <span asp-validation-for="Category" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input type="text" asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="small text-danger"></span>
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Save" />
+    </div>
+</form>

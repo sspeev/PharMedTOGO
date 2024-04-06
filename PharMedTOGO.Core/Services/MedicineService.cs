@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data;
+using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Core.Services
 {
@@ -13,9 +15,19 @@ namespace PharMedTOGO.Core.Services
             context = _context;
         }
 
-        public async Task<bool> ExistsByIdAsync(int id)
+        public async Task CreateAsync(MedicineFormModel model)
         {
-            return await context.Medicines.AsNoTracking().AnyAsync(m => m.Id == id);
+            var medicine = new Medicine()
+            {
+                Name = model.Name,
+                RequiresPrescription = model.RequiresPrescription,
+                Category = model.Category,
+                Price = model.Price,
+                Description = model.Description
+            };
+
+            await context.AddAsync(medicine);
+            await context.SaveChangesAsync();
         }
     }
 }
