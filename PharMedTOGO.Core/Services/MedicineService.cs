@@ -81,5 +81,21 @@ namespace PharMedTOGO.Core.Services
             await context.AddAsync(medicine);
             await context.SaveChangesAsync();
         }
+
+        public async Task<MedicineDetailsServiceModel> MedicineDetails(int id)
+        {
+            return await context.Medicines
+                .AsNoTracking()
+                .Where(m => m.Id == id)
+                .Select(m => new MedicineDetailsServiceModel()
+                {
+                    Name = m.Name,
+                    ImageUrl = m.ImageUrl,
+                    Category = m.Category,
+                    Price = m.Price,
+                    Description = m.Description
+                })
+                .FirstAsync();
+        }
     }
 }

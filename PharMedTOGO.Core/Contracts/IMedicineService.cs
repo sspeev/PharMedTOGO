@@ -11,5 +11,7 @@ namespace PharMedTOGO.Core.Contracts
             MedicineSorting sorting = MedicineSorting.Newest,
             int currentPage = 1,
             int medicinePerPage = 1);
+
+        Task<MedicineDetailsServiceModel> MedicineDetails(int id);
     }
 }

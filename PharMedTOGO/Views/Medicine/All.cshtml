@@ -59,7 +59,7 @@
 {
     <h2 class="text-center">No medicines found by the given criteria!</h2>
 }
-<div class="d-grid gap-2 m-3">
+<div class="d-flex gap-2 m-3">
     @foreach (var medicine in Model.Medicines)
     {
         <partial name="_MedicinePartial" model="@medicine" />

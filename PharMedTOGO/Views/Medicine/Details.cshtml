@@ -1,0 +1,24 @@
+﻿@model MedicineDetailsServiceModel
+
+<div class="container">
+    <div class="d-flex flex-row gap-lg-3 justify-content-center">
+        <div>
+            <img class="card-img-top" style="width: 20rem; border-radius: 5%" src="@Model.ImageUrl" alt="Medicine Image">
+        </div>
+        <div>
+            <p class="text-info fs-3">Name: <b>@Model.Name</b></p>
+            <p class="text-info fs-3">Category: <b>@Model.Category</b></p>
+            <p class="text-info fs-3">Requires prescription: <b>@(Model.RequiresPrescription ? "Yes" : "No")</b></p>
+            <p class="text-info fs-3">Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></p>
+            <p class="text-info fs-3">Description: @Model.Description</p>
+        </div>
+        <div class="d-flex flex-column gap-lg-2">
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                <a class="btn btn-warning" asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <a class="btn btn-danger" asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-success" asp-controller="Sale" asp-action="Add" asp-route-id="@Model.Id">Make a sale</a>
+            }
+        </div>
+    </div>
+</div>
