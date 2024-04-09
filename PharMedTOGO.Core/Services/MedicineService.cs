@@ -34,11 +34,11 @@ namespace PharMedTOGO.Core.Services
             medicinesToShow = sorting switch
             {
                 MedicineSorting.Price => medicinesToShow.OrderBy(m => m.Price),
-                MedicineSorting.General => medicinesToShow.OrderBy(m => m.Category == MedicineCategory.General),
-                MedicineSorting.Cosmetics => medicinesToShow.OrderBy(m => m.Category == MedicineCategory.Cosmetics),
-                MedicineSorting.Homeophatic => medicinesToShow.OrderBy(m => m.Category == MedicineCategory.Homeophatic),
-                MedicineSorting.FoodAdditives => medicinesToShow.OrderBy(m => m.Category == MedicineCategory.FoodAdditives),
-                MedicineSorting.Antibiotics => medicinesToShow.OrderBy(m => m.Category == MedicineCategory.Antibiotics),
+                MedicineSorting.General => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.General),
+                MedicineSorting.Cosmetics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Cosmetics),
+                MedicineSorting.Homeophatic => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Homeophatic),
+                MedicineSorting.FoodAdditives => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.FoodAdditives),
+                MedicineSorting.Antibiotics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Antibiotics),
                 _ => medicinesToShow.OrderByDescending(h => h.Id)
             };
 
@@ -50,6 +50,7 @@ namespace PharMedTOGO.Core.Services
                     Id = h.Id,
                     Name = h.Name,
                     Category = h.Category,
+                    ImageUrl = h.ImageUrl,
                     Description = h.Description,
                     Price = h.Price,
                     RequiresPrescription = h.RequiresPrescription,
@@ -71,6 +72,7 @@ namespace PharMedTOGO.Core.Services
             {
                 Name = model.Name,
                 RequiresPrescription = model.RequiresPrescription,
+                ImageUrl = model.ImageUrl,
                 Category = model.Category,
                 Price = model.Price,
                 Description = model.Description

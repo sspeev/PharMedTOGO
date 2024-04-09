@@ -6,11 +6,11 @@ namespace PharMedTOGO.Core.Attributes
 {
     public class DateValid : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             DateTime dateTime;
 
-            var isValid = DateTime.TryParseExact(value.ToString(),
+            var isValid = DateTime.TryParseExact(value?.ToString(),
                 DateFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,

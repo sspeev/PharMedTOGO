@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 
@@ -28,7 +29,23 @@ namespace PharMedTOGO.Controllers
             }
             await medicineService.CreateAsync(model);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All", "Medicine");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> All([FromQuery] AllMedicinesQueryModel query)
+        {
+            var model = await medicineService.AllAsync(
+                query.SearchTerm, 
+                query.Sorting,
+                query.CurrentPage,
+                query.MedicinesPerPage);
+
+            query.MedicinesCount = model.MedicinesCount;
+            query.Medicines = model.Medicines;
+
+            return View(query);
         }
     }
 }

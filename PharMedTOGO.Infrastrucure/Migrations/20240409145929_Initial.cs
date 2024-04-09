@@ -277,6 +277,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false, comment: "The identifier of the medicine")
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false, comment: "The name of the medicine"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "The url of the medicine's image"),
                     RequiresPrescription = table.Column<bool>(type: "bit", nullable: false, comment: "Boolean property which shows if the current medicine requires prescription"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "The price of the medicine"),
                     Category = table.Column<int>(type: "int", nullable: false),
@@ -309,12 +310,12 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3fe16750-157b-4110-a05f-0d2ba0812b3c", 0, "488db0ed-b8f8-4950-a45c-0872396d799d", "kristalin@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEKc2kPym3xnevqxQWj/xPKsP6U905pc1ssfCqoWWHh3YyI+AJr6lLdzC3FqBv+5/qA==", null, false, "5e035708-1a9b-4057-bc5c-bb6fc01780ab", false, "Kristalin" });
+                values: new object[] { "3fe16750-157b-4110-a05f-0d2ba0812b3c", 0, "c3c5e889-dfab-4547-bf35-a7b0c3124d87", "kristalin@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEIZOGqljyXpFFqmJ5BNIwkyJFaahICk5KxOami8f16hk+GTX1mw6TiKpy6PLMBWwVQ==", null, false, "666153dd-ce45-4866-9c06-7705c7444c9e", false, "Kristalin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "d42ae752-35a7-4ba3-a9c0-190484b6c253", 0, "7c647000-dfd7-4942-a9d4-37895e60236f", "stoyan@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEAgcmj9FRtJEEA+11GUOzfOcU+RnjyBry4VBxvoV5nm6ZlF/sZ2+RLFN4vVJ9WIzFA==", null, false, "d8042106-0257-4ae8-b7ef-2452d9e59d85", false, "Stoyan" });
+                values: new object[] { "d42ae752-35a7-4ba3-a9c0-190484b6c253", 0, "9e94243c-a414-476b-982a-c23ded1201c5", "stoyan@mail.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEG+jns+fuIM1CGlu9y8wEouQK/muTKa4fxyeDS5/qyHF1/yIKcl8KDr7okWV+R/iTg==", null, false, "c9713cc2-456f-4724-afe7-bbfb499c402f", false, "Stoyan" });
 
             migrationBuilder.InsertData(
                 table: "Patients",
@@ -329,12 +330,12 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             migrationBuilder.InsertData(
                 table: "Prescriptions",
                 columns: new[] { "Id", "CreatedOn", "Description", "ExpireDate", "IsValidated", "PatientId" },
-                values: new object[] { 1, new DateTime(2024, 4, 6, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7199), "Grip", new DateTime(2024, 4, 16, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7203), true, 2 });
+                values: new object[] { 1, new DateTime(2024, 4, 9, 14, 59, 29, 45, DateTimeKind.Utc).AddTicks(9638), "Grip", new DateTime(2024, 4, 19, 17, 59, 29, 45, DateTimeKind.Local).AddTicks(9642), true, 2 });
 
             migrationBuilder.InsertData(
                 table: "Prescriptions",
                 columns: new[] { "Id", "CreatedOn", "Description", "ExpireDate", "IsValidated", "PatientId" },
-                values: new object[] { 2, new DateTime(2024, 3, 26, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7241), "COVID-19", new DateTime(2024, 4, 6, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7242), false, 2 });
+                values: new object[] { 2, new DateTime(2024, 3, 29, 14, 59, 29, 45, DateTimeKind.Utc).AddTicks(9680), "COVID-19", new DateTime(2024, 4, 9, 17, 59, 29, 45, DateTimeKind.Local).AddTicks(9681), false, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

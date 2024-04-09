@@ -10,6 +10,6 @@ namespace PharMedTOGO.Core.Contracts
         Task<AllMedicinesQueryModel> AllAsync(string? serachTerm = null,
             MedicineSorting sorting = MedicineSorting.Newest,
             int currentPage = 1,
-            int housePerPage = 1);
+            int medicinePerPage = 1);
     }
 }

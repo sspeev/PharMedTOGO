@@ -19,6 +19,10 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public string Name { get; set; } = string.Empty;
 
         [Required]
+        [Comment("The url of the medicine's image")]
+        public string ImageUrl { get; set; } = string.Empty;
+
+        [Required]
         [Comment("Boolean property which shows if the current medicine requires prescription")]
         public bool RequiresPrescription { get; set; }
 

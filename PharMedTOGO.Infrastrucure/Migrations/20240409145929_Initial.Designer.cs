@@ -12,7 +12,7 @@ using PharMedTOGO.Infrastrucure.Data;
 namespace PharMedTOGO.Infrastrucure.Migrations
 {
     [DbContext(typeof(PharMedDbContext))]
-    [Migration("20240406183848_Initial")]
+    [Migration("20240409145929_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,13 +145,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         {
                             Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c647000-dfd7-4942-a9d4-37895e60236f",
+                            ConcurrencyStamp = "9e94243c-a414-476b-982a-c23ded1201c5",
                             Email = "stoyan@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEAgcmj9FRtJEEA+11GUOzfOcU+RnjyBry4VBxvoV5nm6ZlF/sZ2+RLFN4vVJ9WIzFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG+jns+fuIM1CGlu9y8wEouQK/muTKa4fxyeDS5/qyHF1/yIKcl8KDr7okWV+R/iTg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d8042106-0257-4ae8-b7ef-2452d9e59d85",
+                            SecurityStamp = "c9713cc2-456f-4724-afe7-bbfb499c402f",
                             TwoFactorEnabled = false,
                             UserName = "Stoyan"
                         },
@@ -159,13 +159,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         {
                             Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "488db0ed-b8f8-4950-a45c-0872396d799d",
+                            ConcurrencyStamp = "c3c5e889-dfab-4547-bf35-a7b0c3124d87",
                             Email = "kristalin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEKc2kPym3xnevqxQWj/xPKsP6U905pc1ssfCqoWWHh3YyI+AJr6lLdzC3FqBv+5/qA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIZOGqljyXpFFqmJ5BNIwkyJFaahICk5KxOami8f16hk+GTX1mw6TiKpy6PLMBWwVQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e035708-1a9b-4057-bc5c-bb6fc01780ab",
+                            SecurityStamp = "666153dd-ce45-4866-9c06-7705c7444c9e",
                             TwoFactorEnabled = false,
                             UserName = "Kristalin"
                         });
@@ -272,6 +272,11 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasComment("A byte array for pdf file where is stored the description of the medicine");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("The url of the medicine's image");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -469,18 +474,18 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 6, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7199),
+                            CreatedOn = new DateTime(2024, 4, 9, 14, 59, 29, 45, DateTimeKind.Utc).AddTicks(9638),
                             Description = "Grip",
-                            ExpireDate = new DateTime(2024, 4, 16, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7203),
+                            ExpireDate = new DateTime(2024, 4, 19, 17, 59, 29, 45, DateTimeKind.Local).AddTicks(9642),
                             IsValidated = true,
                             PatientId = 2
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 3, 26, 18, 38, 48, 570, DateTimeKind.Utc).AddTicks(7241),
+                            CreatedOn = new DateTime(2024, 3, 29, 14, 59, 29, 45, DateTimeKind.Utc).AddTicks(9680),
                             Description = "COVID-19",
-                            ExpireDate = new DateTime(2024, 4, 6, 21, 38, 48, 570, DateTimeKind.Local).AddTicks(7242),
+                            ExpireDate = new DateTime(2024, 4, 9, 17, 59, 29, 45, DateTimeKind.Local).AddTicks(9681),
                             IsValidated = false,
                             PatientId = 2
                         });

@@ -15,6 +15,9 @@ namespace PharMedTOGO.Core.Models
             ErrorMessage = MedicineNameLengthErrorMessage)]
         public string Name { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = RequiredMessage)]
+        public string ImageUrl { get; set; } = string.Empty;
+
         public bool RequiresPrescription { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
