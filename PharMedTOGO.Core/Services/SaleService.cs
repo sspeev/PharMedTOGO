@@ -15,7 +15,7 @@ namespace PharMedTOGO.Core.Services
             context = _context;
         }
 
-        public async Task CreateAsync(SaleFormModel model)
+        public async Task<SaleServiceModel> CreateAsync(SaleFormModel model)
         {
             var sale = new Sale() 
             {
@@ -26,6 +26,13 @@ namespace PharMedTOGO.Core.Services
 
             await context.AddAsync(sale);
             await context.SaveChangesAsync();
+
+            return new SaleServiceModel()
+            {
+                Discount = sale.Discount,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
+            };
         }
 
         public async Task<SaleServiceModel> FindByIdAsync(int id)

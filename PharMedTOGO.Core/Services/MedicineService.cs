@@ -66,6 +66,21 @@ namespace PharMedTOGO.Core.Services
             };
         }
 
+        public async Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel)
+        {
+            var medicine = await ExistsByIdAsync(medicineId);
+            var sale = new Sale()
+            {
+                Discount = saleModel.Discount,
+                StartDate = saleModel.StartDate,
+                EndDate = saleModel.EndDate,
+            };
+            medicine.Sale = sale;
+            medicine.Price = medicine.Price - Math.Round(medicine.Price * (sale.Discount / 100));
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task CreateAsync(MedicineFormModel model)
         {
             var medicine = new Medicine()
@@ -82,6 +97,26 @@ namespace PharMedTOGO.Core.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task<Medicine> ExistsByIdAsync(int id)
+        {
+            return await context.Medicines
+                .FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Unexisting medicine");
+        }
+
+        public MedicineDetailsServiceModel MapMedicineToDetails(Medicine medicine)
+        {
+            return new MedicineDetailsServiceModel()
+            {
+                Id = medicine.Id,
+                Name = medicine.Name,
+                Category = medicine.Category,
+                Price = medicine.Price,
+                Description = medicine.Description,
+                RequiresPrescription = medicine.RequiresPrescription,
+                ImageUrl = medicine.ImageUrl
+            };
+        }
+
         public async Task<MedicineDetailsServiceModel> MedicineDetails(int id)
         {
             return await context.Medicines
@@ -89,6 +124,7 @@ namespace PharMedTOGO.Core.Services
                 .Where(m => m.Id == id)
                 .Select(m => new MedicineDetailsServiceModel()
                 {
+                    Id = m.Id,
                     Name = m.Name,
                     ImageUrl = m.ImageUrl,
                     Category = m.Category,
@@ -97,5 +133,7 @@ namespace PharMedTOGO.Core.Services
                 })
                 .FirstAsync();
         }
+
+
     }
 }

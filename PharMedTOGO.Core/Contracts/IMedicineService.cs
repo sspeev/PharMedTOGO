@@ -1,5 +1,6 @@
 ﻿using PharMedTOGO.Core.Enumerations;
 using PharMedTOGO.Core.Models;
+using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Core.Contracts
 {
@@ -13,5 +14,11 @@ namespace PharMedTOGO.Core.Contracts
             int medicinePerPage = 1);
 
         Task<MedicineDetailsServiceModel> MedicineDetails(int id);
+
+        Task<Medicine> ExistsByIdAsync(int id);
+
+        MedicineDetailsServiceModel MapMedicineToDetails(Medicine medicine);
+        Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel);
+
     }
 }

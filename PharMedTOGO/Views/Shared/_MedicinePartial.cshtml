@@ -14,8 +14,8 @@
             <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                <a asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                <a asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
                 @if (!Model.RequiresPrescription)
                 {
                     <form class="input-group-sm" asp-controller="House" asp-action="Rent" asp-route-id="@Model.Id" method="post">

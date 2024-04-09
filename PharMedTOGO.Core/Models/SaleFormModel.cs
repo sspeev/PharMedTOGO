@@ -15,13 +15,13 @@ namespace PharMedTOGO.Core.Models
         [Required(ErrorMessage = RequiredMessage)]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = DateFormat)]
-        [DateValid]
+        //[DateValid]
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = DateFormat)]
-        [DateValid]
+        //[DateValid]
         public DateTime EndDate { get; set; }
     }
 }

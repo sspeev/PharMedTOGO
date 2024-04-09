@@ -9,28 +9,40 @@ namespace PharMedTOGO.Controllers
     public class SaleController : Controller
     {
         private readonly ISaleService saleService;
+        private readonly IMedicineService medicineService;
 
-        public SaleController(ISaleService _saleService)
+        public SaleController(
+            ISaleService _saleService,
+            IMedicineService _medicineService)
         {
             saleService = _saleService;
+            medicineService = _medicineService;
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(int id)
         {
+            TempData.Add("medicineId", id);
             return View(new SaleFormModel());
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(SaleFormModel model)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
+
             if (model == null)
             {
                 return BadRequest();
             }
-            await saleService.CreateAsync(model);
+            var saleModel = await saleService.CreateAsync(model);
+            await medicineService.AttachSaleToMedticine((int)TempData["medicineId"], saleModel);
 
-            return RedirectToAction("Index", "Home");
+            TempData.Remove("medicineId");
+            return RedirectToAction("All", "Medicine");
         }
     }
 }
