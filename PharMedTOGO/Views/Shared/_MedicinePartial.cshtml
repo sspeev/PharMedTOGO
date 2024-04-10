@@ -1,0 +1,34 @@
+﻿@model MedicineServiceModel
+
+<div class="col-md-2">
+    <div class="card">
+        <div class="d-flex justify-content-center">
+            <img class="card-img-top w-50 h-auto" src="@Model.ImageUrl" alt="Medicine Image">
+        </div>
+        <div class="card-body text-center">
+            <h4 class="text-black">@Model.Name</h4>
+            <h6 class="text-black">Category: <b>@Model.Category</b></h6>
+            <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
+            <h6 class="text-black">RequiresPrescription: <b>@(Model.RequiresPrescription ? "Yes" : "No")</b></h6>
+            <br />
+            <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                @if (!Model.RequiresPrescription)
+                {
+                    <form class="input-group-sm" asp-controller="House" asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Rent" />
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="House" asp-action="Leave" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Leave" />
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</div>
