@@ -44,5 +44,16 @@ namespace PharMedTOGO.Controllers
             TempData.Remove("medicineId");
             return RedirectToAction("All", "Medicine");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> All([FromQuery] AllSalesQueryModel query)
+        {
+            var model = await saleService.AllAsync();
+
+            query.TotalSales = model.TotalSales;
+            query.Sales = model.Sales;
+
+            return View(query);
+        }
     }
 }

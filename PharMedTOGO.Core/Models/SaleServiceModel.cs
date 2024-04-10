@@ -29,5 +29,8 @@ namespace PharMedTOGO.Core.Models
         public bool IsApplied { get; set; }
 
         public bool IsEnded { get; set; }
+
+        public IEnumerable<MedicineServiceModel> Medicines { get; set; }
+        = new List<MedicineServiceModel>();
     }
 }

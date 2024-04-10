@@ -48,7 +48,7 @@ namespace PharMedTOGO.Controllers
 
             query.MedicinesCount = model.MedicinesCount;
             query.Medicines = model.Medicines;
-            await saleService.CheckAllSales(query.Medicines);
+            //await saleService.CheckAllSales(query.Medicines);
 
             return View(query);
         }

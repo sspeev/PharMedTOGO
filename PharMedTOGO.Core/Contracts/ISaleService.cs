@@ -11,6 +11,8 @@ namespace PharMedTOGO.Core.Contracts
 
         Task<SaleServiceModel> MapByIdSale(int id);
 
-        Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines);
+        //Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines);
+
+        Task<AllSalesQueryModel> AllAsync();
     }
 }

@@ -19,6 +19,29 @@ namespace PharMedTOGO.Core.Services
             medicineService = _medicineService;
         }
 
+        public async Task<AllSalesQueryModel> AllAsync()
+        {
+            var sales = await context.Sales
+                .AsNoTracking()
+                .Select(s => new SaleServiceModel()
+                {
+                    Id = s.Id,
+                    Discount = s.Discount,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    IsApplied = s.IsApplied,
+                    IsEnded = s.IsEnded,
+                })
+                .ToListAsync();
+
+            return new AllSalesQueryModel()
+            {
+                TotalSales = sales.Count,
+                Sales = sales
+            };
+
+        }
+
         public async Task<SaleServiceModel> CreateAsync(SaleFormModel model)
         {
             var sale = new Sale() 
@@ -60,33 +83,33 @@ namespace PharMedTOGO.Core.Services
             };
         }
 
-        public async Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines)
-        {
-            foreach (var item in medicines)
-            {
-                if (item.SaleId.HasValue)
-                {
-                    var sale = await FindByIdAsync(item.SaleId.Value);
-                    var medicine = await medicineService.FindByIdAsync(item.Id);
-                    var discount = item.Price * (item.Price / 100);
-                    if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
-                    {
-                        if (!sale.IsApplied)
-                        {
-                            item.Price = item.Price - discount;
-                            medicine.Price = medicine.Price - discount;
-                            sale.IsApplied = true;
-                        }
-                    }
-                    else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
-                    {
-                        item.Price = item.Price + discount;
-                        medicine.Price = medicine.Price - discount;
-                        sale.IsEnded = true;
-                    }
-                }
-            }
-            await context.SaveChangesAsync();
-        }
+        //public async Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines)
+        //{
+        //    foreach (var item in medicines)
+        //    {
+        //        if (item.SaleId.HasValue)
+        //        {
+        //            var sale = await FindByIdAsync(item.SaleId.Value);
+        //            var medicine = await medicineService.FindByIdAsync(item.Id);
+        //            var discount = item.Price * (item.Price / 100);
+        //            if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
+        //            {
+        //                if (!sale.IsApplied)
+        //                {
+        //                    item.Price = item.Price - discount;
+        //                    medicine.Price = medicine.Price - discount;
+        //                    sale.IsApplied = true;
+        //                }
+        //            }
+        //            else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
+        //            {
+        //                item.Price = item.Price + discount;
+        //                medicine.Price = medicine.Price - discount;
+        //                sale.IsEnded = true;
+        //            }
+        //        }
+        //    }
+        //    await context.SaveChangesAsync();
+        //}
     }
 }
