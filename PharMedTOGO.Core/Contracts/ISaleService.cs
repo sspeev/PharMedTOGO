@@ -1,4 +1,5 @@
 ﻿using PharMedTOGO.Core.Models;
+using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Core.Contracts
 {
@@ -6,6 +7,10 @@ namespace PharMedTOGO.Core.Contracts
     {
         Task<SaleServiceModel> CreateAsync(SaleFormModel model);
 
-        Task<SaleServiceModel> FindByIdAsync(int id);
+        Task<Sale> FindByIdAsync(int id);
+
+        Task<SaleServiceModel> MapByIdSale(int id);
+
+        Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines);
     }
 }

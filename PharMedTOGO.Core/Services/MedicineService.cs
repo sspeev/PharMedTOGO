@@ -54,10 +54,11 @@ namespace PharMedTOGO.Core.Services
                     Description = h.Description,
                     Price = h.Price,
                     RequiresPrescription = h.RequiresPrescription,
+                    SaleId = h.SaleId,
                 })
                 .ToListAsync();
 
-            var totalHouses = medicines.Count();
+            var totalHouses = medicines.Count;
 
             return new AllMedicinesQueryModel()
             {
@@ -68,15 +69,15 @@ namespace PharMedTOGO.Core.Services
 
         public async Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel)
         {
-            var medicine = await ExistsByIdAsync(medicineId);
+            var medicine = await FindByIdAsync(medicineId);
             var sale = new Sale()
             {
+                Id = saleModel.Id,
                 Discount = saleModel.Discount,
                 StartDate = saleModel.StartDate,
                 EndDate = saleModel.EndDate,
             };
             medicine.Sale = sale;
-            medicine.Price = medicine.Price - Math.Round(medicine.Price * (sale.Discount / 100));
 
             await context.SaveChangesAsync();
         }
@@ -97,7 +98,7 @@ namespace PharMedTOGO.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<Medicine> ExistsByIdAsync(int id)
+        public async Task<Medicine> FindByIdAsync(int id)
         {
             return await context.Medicines
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Unexisting medicine");
@@ -129,11 +130,11 @@ namespace PharMedTOGO.Core.Services
                     ImageUrl = m.ImageUrl,
                     Category = m.Category,
                     Price = m.Price,
-                    Description = m.Description
+                    Description = m.Description,
+                    RequiresPrescription = m.RequiresPrescription,
+
                 })
                 .FirstAsync();
         }
-
-
     }
 }

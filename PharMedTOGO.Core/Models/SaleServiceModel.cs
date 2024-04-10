@@ -25,5 +25,9 @@ namespace PharMedTOGO.Core.Models
         [DisplayFormat(DataFormatString = DateFormat)]
         [DateValid]
         public DateTime EndDate { get; set; }
+
+        public bool IsApplied { get; set; }
+
+        public bool IsEnded { get; set; }
     }
 }

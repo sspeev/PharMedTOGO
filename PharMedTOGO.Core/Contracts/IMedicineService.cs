@@ -15,7 +15,7 @@ namespace PharMedTOGO.Core.Contracts
 
         Task<MedicineDetailsServiceModel> MedicineDetails(int id);
 
-        Task<Medicine> ExistsByIdAsync(int id);
+        Task<Medicine> FindByIdAsync(int id);
 
         MedicineDetailsServiceModel MapMedicineToDetails(Medicine medicine);
         Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel);

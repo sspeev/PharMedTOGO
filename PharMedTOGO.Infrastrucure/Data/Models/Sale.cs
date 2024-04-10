@@ -19,5 +19,11 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [Comment("When the sale ends")]
         public DateTime EndDate { get; set; }
+
+        [Comment("Is the sale applied on a medicine")]
+        public bool IsApplied { get; set; }
+
+        [Comment("Is the sale ended")]
+        public bool IsEnded { get; set; }
     }
 }

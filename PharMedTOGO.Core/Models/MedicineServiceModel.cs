@@ -34,5 +34,7 @@ namespace PharMedTOGO.Core.Models
 
         [Required(ErrorMessage = RequiredMessage)]
         public string Description { get; set; } = string.Empty;
+
+        public int? SaleId { get; set; }
     }
 }

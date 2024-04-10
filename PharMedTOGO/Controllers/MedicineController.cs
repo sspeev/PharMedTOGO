@@ -8,10 +8,14 @@ namespace PharMedTOGO.Controllers
     public class MedicineController : Controller
     {
         private readonly IMedicineService medicineService;
+        private readonly ISaleService saleService;
 
-        public MedicineController(IMedicineService _medicineService)
+        public MedicineController(
+            IMedicineService _medicineService,
+            ISaleService _saleService)
         {
             medicineService = _medicineService;
+            saleService = _saleService;
         }
 
         [HttpGet]
@@ -44,6 +48,7 @@ namespace PharMedTOGO.Controllers
 
             query.MedicinesCount = model.MedicinesCount;
             query.Medicines = model.Medicines;
+            await saleService.CheckAllSales(query.Medicines);
 
             return View(query);
         }
