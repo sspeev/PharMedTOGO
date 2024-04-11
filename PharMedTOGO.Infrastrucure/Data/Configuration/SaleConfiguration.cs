@@ -4,13 +4,13 @@ using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
-    public class MedicineConfiguration : IEntityTypeConfiguration<Medicine>
+    public class SaleConfiguration : IEntityTypeConfiguration<Sale>
     {
-        public void Configure(EntityTypeBuilder<Medicine> builder)
+        public void Configure(EntityTypeBuilder<Sale> builder)
         {
             builder
-                .HasOne(m => m.Sale)
-                .WithMany(s => s.Medicines);
+                .HasMany(s => s.Medicines)
+                .WithOne(s => s.Sale);
         }
     }
 }

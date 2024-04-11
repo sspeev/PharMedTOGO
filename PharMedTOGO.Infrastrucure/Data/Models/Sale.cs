@@ -26,7 +26,7 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("Is the sale ended")]
         public bool IsEnded { get; set; }
 
-        public IEnumerable<Medicine> Medicines { get; set; }
+        public IList<Medicine> Medicines { get; set; }
         = new List<Medicine>();
     }
 }

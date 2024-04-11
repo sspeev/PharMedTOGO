@@ -1,0 +1,32 @@
+﻿@model AllMedicinesQueryModel
+
+@{
+    ViewData["Title"] = $"Attach Medicine on sale({ViewData["saleId"]})";
+    var saleId = TempData["saleId"];
+}
+<h1>@ViewData["Title"]</h1>
+
+<h4 class="text-light">Total available medicines count: @Model.Medicines.Count()</h4>
+@if (!Model.Medicines.Any())
+{
+    <h2 class="text-center">No medicines found!</h2>
+}
+<div class="d-flex gap-2 m-3">
+    @foreach (var medicine in Model.Medicines)
+    {
+        <div class="col-md-2">
+            <div class="card">
+                <div class="d-flex justify-content-center">
+                    <img class="card-img-top w-50 h-auto" src="@medicine.ImageUrl" alt="Medicine Image">
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="text-black">@medicine.Name</h4>
+                    <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", medicine.Price) BGN</b></h6>
+                    <form asp-controller="Sale" asp-action="AttachMedicine" method="post">
+                        <input class="text-light bg-info p-1" style="border-radius: 0.5em" type="submit" value="Apply to sale" asp-route-saleId="@saleId" asp-route-medicineId="@medicine.Id" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>

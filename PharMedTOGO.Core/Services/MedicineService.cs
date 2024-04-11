@@ -11,13 +11,18 @@ namespace PharMedTOGO.Core.Services
     public class MedicineService : IMedicineService
     {
         private readonly PharMedDbContext context;
+        //private readonly ISaleService saleService;
 
-        public MedicineService(PharMedDbContext _context)
+        public MedicineService(
+            PharMedDbContext _context//,
+            //ISaleService _saleService
+            )
         {
             context = _context;
+            //saleService = _saleService;
         }
 
-        public async Task<AllMedicinesQueryModel> AllAsync(string? serachTerm = null, MedicineSorting sorting = MedicineSorting.Newest, int currentPage = 1, int medicinesPerPage = 1)
+        public async Task<AllMedicinesQueryModel> AllSortedAsync(string? serachTerm = null, MedicineSorting sorting = MedicineSorting.Newest, int currentPage = 1, int medicinesPerPage = 1)
         {
             var medicinesToShow = context.Medicines
                 .AsNoTracking();
@@ -67,20 +72,20 @@ namespace PharMedTOGO.Core.Services
             };
         }
 
-        public async Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel)
-        {
-            var medicine = await FindByIdAsync(medicineId);
-            var sale = new Sale()
-            {
-                Id = saleModel.Id,
-                Discount = saleModel.Discount,
-                StartDate = saleModel.StartDate,
-                EndDate = saleModel.EndDate,
-            };
-            medicine.Sale = sale;
+        //public async Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel)
+        //{
+        //    var medicine = await FindByIdAsync(medicineId);
+        //    var sale = new Sale()
+        //    {
+        //        Id = saleModel.Id,
+        //        Discount = saleModel.Discount,
+        //        StartDate = saleModel.StartDate,
+        //        EndDate = saleModel.EndDate,
+        //    };
+        //    medicine.Sale = sale;
 
-            await context.SaveChangesAsync();
-        }
+        //    await context.SaveChangesAsync();
+        //}
 
         public async Task CreateAsync(MedicineFormModel model)
         {
@@ -135,6 +140,30 @@ namespace PharMedTOGO.Core.Services
 
                 })
                 .FirstAsync();
+        }
+
+        public async Task<AllMedicinesQueryModel> AllAsync()
+        {
+            var medicines = await context.Medicines
+                .AsNoTracking()
+                .Select(h => new MedicineServiceModel()
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    Category = h.Category,
+                    ImageUrl = h.ImageUrl,
+                    Description = h.Description,
+                    Price = h.Price,
+                    RequiresPrescription = h.RequiresPrescription,
+                    SaleId = h.SaleId,
+                })
+                .ToListAsync();
+
+            return new AllMedicinesQueryModel()
+            {
+                MedicinesCount = medicines.Count,
+                Medicines = medicines
+            };
         }
     }
 }

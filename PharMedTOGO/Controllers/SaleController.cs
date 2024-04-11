@@ -22,27 +22,25 @@ namespace PharMedTOGO.Controllers
         [HttpGet]
         public IActionResult Add(int id)
         {
-            TempData.Add("medicineId", id);
             return View(new SaleFormModel());
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(SaleFormModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             if (model == null)
             {
                 return BadRequest();
             }
-            var saleModel = await saleService.CreateAsync(model);
-            await medicineService.AttachSaleToMedticine((int)TempData["medicineId"], saleModel);
+            await saleService.CreateAsync(model);
+            //await medicineService.AttachSaleToMedticine((int)TempData["medicineId"], saleModel);
 
-            TempData.Remove("medicineId");
-            return RedirectToAction("All", "Medicine");
+            return RedirectToAction("All", "Sale");
         }
 
         [HttpGet]
@@ -52,8 +50,29 @@ namespace PharMedTOGO.Controllers
 
             query.TotalSales = model.TotalSales;
             query.Sales = model.Sales;
+            query.Medicines = model.Medicines;
 
             return View(query);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AttachMedicine(int saleId)
+        {
+            var medicines = await medicineService.AllAsync();
+            TempData["saleId"] = saleId;
+            return View(medicines);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await saleService.AttachMedicine(saleId, medicineId);
+
+            return RedirectToAction("All", "Sale");
         }
     }
 }

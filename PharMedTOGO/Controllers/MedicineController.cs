@@ -40,15 +40,15 @@ namespace PharMedTOGO.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllMedicinesQueryModel query)
         {
-            var model = await medicineService.AllAsync(
-                query.SearchTerm, 
+            var model = await medicineService.AllSortedAsync(
+                query.SearchTerm,
                 query.Sorting,
                 query.CurrentPage,
                 query.MedicinesPerPage);
 
             query.MedicinesCount = model.MedicinesCount;
             query.Medicines = model.Medicines;
-            //await saleService.CheckAllSales(query.Medicines);
+            await saleService.CheckSaleDates(query.Medicines);
 
             return View(query);
         }

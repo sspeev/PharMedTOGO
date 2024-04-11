@@ -8,17 +8,20 @@ namespace PharMedTOGO.Core.Contracts
     {
         Task CreateAsync(MedicineFormModel model);
 
-        Task<AllMedicinesQueryModel> AllAsync(string? serachTerm = null,
+        Task<AllMedicinesQueryModel> AllSortedAsync(string? serachTerm = null,
             MedicineSorting sorting = MedicineSorting.Newest,
             int currentPage = 1,
             int medicinePerPage = 1);
+
+        Task<AllMedicinesQueryModel> AllAsync();
 
         Task<MedicineDetailsServiceModel> MedicineDetails(int id);
 
         Task<Medicine> FindByIdAsync(int id);
 
         MedicineDetailsServiceModel MapMedicineToDetails(Medicine medicine);
-        Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel);
+
+        //Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel);
 
     }
 }

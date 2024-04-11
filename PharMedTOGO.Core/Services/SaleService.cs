@@ -34,17 +34,33 @@ namespace PharMedTOGO.Core.Services
                 })
                 .ToListAsync();
 
+            var medicines = await context.Medicines
+                .AsNoTracking()
+                .Select(m => new MedicineServiceModel()
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Description = m.Description,
+                    Category = m.Category,
+                    RequiresPrescription = m.RequiresPrescription,
+                    ImageUrl = m.ImageUrl,
+                    Price = m.Price,
+                    //SaleId = m.SaleId,
+                })
+                .ToListAsync();
+
             return new AllSalesQueryModel()
             {
                 TotalSales = sales.Count,
-                Sales = sales
+                Sales = sales,
+                Medicines = medicines
             };
 
         }
 
         public async Task<SaleServiceModel> CreateAsync(SaleFormModel model)
         {
-            var sale = new Sale() 
+            var sale = new Sale()
             {
                 Discount = model.Discount,
                 StartDate = model.StartDate,
@@ -83,33 +99,43 @@ namespace PharMedTOGO.Core.Services
             };
         }
 
-        //public async Task CheckAllSales(IEnumerable<MedicineServiceModel> medicines)
-        //{
-        //    foreach (var item in medicines)
-        //    {
-        //        if (item.SaleId.HasValue)
-        //        {
-        //            var sale = await FindByIdAsync(item.SaleId.Value);
-        //            var medicine = await medicineService.FindByIdAsync(item.Id);
-        //            var discount = item.Price * (item.Price / 100);
-        //            if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
-        //            {
-        //                if (!sale.IsApplied)
-        //                {
-        //                    item.Price = item.Price - discount;
-        //                    medicine.Price = medicine.Price - discount;
-        //                    sale.IsApplied = true;
-        //                }
-        //            }
-        //            else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
-        //            {
-        //                item.Price = item.Price + discount;
-        //                medicine.Price = medicine.Price - discount;
-        //                sale.IsEnded = true;
-        //            }
-        //        }
-        //    }
-        //    await context.SaveChangesAsync();
-        //}
+        public async Task CheckSaleDates(IEnumerable<MedicineServiceModel> medicines)
+        {
+            foreach (var medicine in medicines)
+            {
+                if (medicine.SaleId.HasValue)
+                {
+                    var sale = await FindByIdAsync(medicine.SaleId.Value);
+                    var discount = medicine.Price * (medicine.Price / 100);
+                    if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
+                    {
+                        if (!sale.IsApplied)
+                        {
+                            medicine.Price = medicine.Price - discount;
+                            medicine.Price = medicine.Price - discount;
+                            sale.IsApplied = true;
+                        }
+                    }
+                    else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
+                    {
+                        medicine.Price = medicine.Price + discount;
+                        medicine.Price = medicine.Price + discount;
+                        sale.IsEnded = true;
+                    }
+                }
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AttachMedicine(int saleId, int medicineId)
+        {
+            var sale = await FindByIdAsync(saleId);
+            var medicine = await medicineService.FindByIdAsync(medicineId);
+
+            sale.Medicines.Add(medicine);
+            medicine.SaleId = saleId;
+
+            await context.SaveChangesAsync();
+        }
     }
 }
