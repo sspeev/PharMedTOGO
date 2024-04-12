@@ -16,7 +16,7 @@ namespace PharMedTOGO.Core.Models
 
         public int MedicinesCount { get; set; }
 
-        public IEnumerable<MedicineServiceModel> Medicines { get; set; }
+        public IList<MedicineServiceModel> Medicines { get; set; }
         = new List<MedicineServiceModel>();
     }
 }

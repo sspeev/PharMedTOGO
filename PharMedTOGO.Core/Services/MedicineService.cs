@@ -22,14 +22,14 @@ namespace PharMedTOGO.Core.Services
             //saleService = _saleService;
         }
 
-        public async Task<AllMedicinesQueryModel> AllSortedAsync(string? serachTerm = null, MedicineSorting sorting = MedicineSorting.Newest, int currentPage = 1, int medicinesPerPage = 1)
+        public async Task<AllMedicinesQueryModel> AllSortedAsync(string? searchTerm = null, MedicineSorting sorting = MedicineSorting.Newest, int currentPage = 1, int medicinesPerPage = 1)
         {
             var medicinesToShow = context.Medicines
                 .AsNoTracking();
 
-            if (serachTerm != null)
+            if (searchTerm != null)
             {
-                string normalizedSearchTerm = serachTerm.ToLower();
+                string normalizedSearchTerm = searchTerm.ToLower();
 
                 medicinesToShow = medicinesToShow
                     .Where(h => (h.Name.ToLower().Contains(normalizedSearchTerm)) ||
@@ -63,7 +63,7 @@ namespace PharMedTOGO.Core.Services
                 })
                 .ToListAsync();
 
-            var totalHouses = medicines.Count;
+            var totalHouses = medicinesToShow.Count();
 
             return new AllMedicinesQueryModel()
             {
@@ -109,9 +109,9 @@ namespace PharMedTOGO.Core.Services
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Unexisting medicine");
         }
 
-        public MedicineDetailsServiceModel MapMedicineToDetails(Medicine medicine)
+        public MedicineServiceModel MapMedicineToService(Medicine medicine)
         {
-            return new MedicineDetailsServiceModel()
+            return new MedicineServiceModel()
             {
                 Id = medicine.Id,
                 Name = medicine.Name,
@@ -136,8 +136,7 @@ namespace PharMedTOGO.Core.Services
                     Category = m.Category,
                     Price = m.Price,
                     Description = m.Description,
-                    RequiresPrescription = m.RequiresPrescription,
-
+                    RequiresPrescription = m.RequiresPrescription
                 })
                 .FirstAsync();
         }

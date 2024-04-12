@@ -59,20 +59,30 @@ namespace PharMedTOGO.Controllers
         public async Task<IActionResult> AttachMedicine(int saleId)
         {
             var medicines = await medicineService.AllAsync();
-            TempData["saleId"] = saleId;
-            return View(medicines);
+            var model = new AttachMedicineFormModel()
+            {
+                SaleId = saleId,
+                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+            };
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
             await saleService.AttachMedicine(saleId, medicineId);
 
-            return RedirectToAction("All", "Sale");
+            var medicines = await medicineService.AllAsync();
+            var model = new AttachMedicineFormModel()
+            {
+                SaleId = saleId,
+                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+            };
+            return View(model);
         }
     }
 }

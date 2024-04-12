@@ -1,8 +1,7 @@
-﻿@model AllMedicinesQueryModel
+﻿@model AttachMedicineFormModel
 
 @{
-    ViewData["Title"] = $"Attach Medicine on sale({ViewData["saleId"]})";
-    var saleId = TempData["saleId"];
+    ViewData["Title"] = $"Attach Medicine on sale({Model.SaleId})";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -22,8 +21,8 @@
                 <div class="card-body text-center">
                     <h4 class="text-black">@medicine.Name</h4>
                     <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", medicine.Price) BGN</b></h6>
-                    <form asp-controller="Sale" asp-action="AttachMedicine" method="post">
-                        <input class="text-light bg-info p-1" style="border-radius: 0.5em" type="submit" value="Apply to sale" asp-route-saleId="@saleId" asp-route-medicineId="@medicine.Id" />
+                    <form asp-controller="Sale" asp-action="AttachMedicine" asp-route-saleId="@Model.SaleId" asp-route-medicineId="@medicine.Id" method="post">
+                        <input class="text-light bg-info p-1" style="border-radius: 0.5em" type="submit" value="Apply to sale"/>
                     </form>
                 </div>
             </div>

@@ -101,25 +101,26 @@ namespace PharMedTOGO.Core.Services
 
         public async Task CheckSaleDates(IEnumerable<MedicineServiceModel> medicines)
         {
-            foreach (var medicine in medicines)
+            foreach (var medicineModel in medicines)
             {
-                if (medicine.SaleId.HasValue)
+                if (medicineModel.SaleId.HasValue)
                 {
-                    var sale = await FindByIdAsync(medicine.SaleId.Value);
-                    var discount = medicine.Price * (medicine.Price / 100);
+                    var medicine = await medicineService.FindByIdAsync(medicineModel.Id);
+                    var sale = await FindByIdAsync(medicineModel.SaleId.Value);
+                    var discount = medicineModel.Price * (sale.Discount / 100);
                     if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
                     {
                         if (!sale.IsApplied)
                         {
-                            medicine.Price = medicine.Price - discount;
+                            medicineModel.Price = medicineModel.Price - discount;
                             medicine.Price = medicine.Price - discount;
                             sale.IsApplied = true;
                         }
                     }
                     else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
                     {
-                        medicine.Price = medicine.Price + discount;
-                        medicine.Price = medicine.Price + discount;
+                        medicineModel.Price = medicineModel.Price + discount;
+                        medicine.Price = medicine.Price - discount;
                         sale.IsEnded = true;
                     }
                 }
