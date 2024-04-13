@@ -147,5 +147,18 @@ namespace PharMedTOGO.Core.Services
 
             await context.SaveChangesAsync();
         }
+
+        public async Task EditAsync(int saleId, SaleFormModel model)
+        {
+            var sale = await FindByIdAsync(saleId);
+
+            sale.Discount = model.Discount;
+            sale.StartDate = model.StartDate;
+            sale.EndDate = model.EndDate;
+
+            await context.SaveChangesAsync();
+        }
+
+
     }
 }

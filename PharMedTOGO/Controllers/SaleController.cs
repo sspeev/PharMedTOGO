@@ -80,5 +80,38 @@ namespace PharMedTOGO.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var sale = await saleService.FindByIdAsync(id);
+
+            if (sale == null)
+            {
+                return NotFound();
+            }
+
+            var model = new SaleFormModel()
+            {
+                Discount = sale.Discount,
+                StartDate = sale.StartDate,
+                EndDate = sale.EndDate
+            };
+
+            TempData.Add("saleId", id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, SaleFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await saleService.EditAsync(id, model);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

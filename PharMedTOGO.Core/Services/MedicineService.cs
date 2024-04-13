@@ -169,5 +169,18 @@ namespace PharMedTOGO.Core.Services
 
             await context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int medicineId)
+        {
+            var medicine = await FindByIdAsync(medicineId);
+
+            if (medicine.SaleId != null)
+            {
+                medicine.Sale = null;
+            }
+
+            context.Remove(medicine);
+            await context.SaveChangesAsync();
+        }
     }
 }

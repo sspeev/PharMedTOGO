@@ -23,5 +23,7 @@ namespace PharMedTOGO.Core.Contracts
         MedicineServiceModel MapMedicineToService(Medicine medicine);
 
         Task EditAsync(int medicineId, MedicineFormModel model);
+
+        Task DeleteAsync(int medicineId);
     }
 }

@@ -71,7 +71,7 @@ namespace PharMedTOGO.Controllers
 
             if (medicine == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var formModel = new MedicineFormModel()
@@ -98,6 +98,36 @@ namespace PharMedTOGO.Controllers
             await medicineService.EditAsync(id, model);
 
             return RedirectToAction(nameof(Details), new { id = id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var medicine = await medicineService.FindByIdAsync(id);
+            if (medicine == null)
+            {
+                return NotFound();
+            }
+
+            var model = new MedicineDeleteModel()
+            {
+                Id = medicine.Id,
+                Name = medicine.Name,
+                ImageUrl = medicine.ImageUrl,
+                Price = medicine.Price,
+                Description = medicine.Description
+            };
+            TempData.Add("medicineId", id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await medicineService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿@model MedicineDeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    int id = (int)TempData["medicineId"];
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<form asp-controller="Medicine" asp-action="DeleteConfirmed" asp-route-id="@id" method="post">
+    <div class="row gap-3">
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Medicine Image">
+        </div>
+        <div class="col-md-6 d-flex gap-2 flex-column">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</form>
