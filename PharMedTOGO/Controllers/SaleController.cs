@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 
 namespace PharMedTOGO.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    public class SaleController : Controller
+    public class SaleController : BaseController
     {
         private readonly ISaleService saleService;
         private readonly IMedicineService medicineService;
@@ -28,119 +26,175 @@ namespace PharMedTOGO.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(SaleFormModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
 
-            if (model == null)
+                if (model == null)
+                {
+                    return BadRequest();
+                }
+                await saleService.CreateAsync(model);
+
+                return RedirectToAction("All", "Sale");
+            }
+            catch (Exception)
             {
-                return BadRequest();
+                return GeneralError();
             }
-            await saleService.CreateAsync(model);
-            //await medicineService.AttachSaleToMedticine((int)TempData["medicineId"], saleModel);
-
-            return RedirectToAction("All", "Sale");
         }
 
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] AllSalesQueryModel query)
         {
-            var model = await saleService.AllAsync();
+            try
+            {
+                var model = await saleService.AllAsync();
 
-            query.TotalSales = model.TotalSales;
-            query.Sales = model.Sales;
-            query.Medicines = model.Medicines;
+                query.TotalSales = model.TotalSales;
+                query.Sales = model.Sales;
+                query.Medicines = model.Medicines;
 
-            return View(query);
+                return View(query);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> AttachMedicine(int saleId)
         {
-            var medicines = await medicineService.AllAsync();
-            var model = new AttachMedicineFormModel()
+            try
             {
-                SaleId = saleId,
-                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
-            };
-            return View(model);
+                var medicines = await medicineService.AllAsync();
+                var model = new AttachMedicineFormModel()
+                {
+                    SaleId = saleId,
+                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+                };
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
         {
-            await saleService.AttachMedicine(saleId, medicineId);
-
-            var medicines = await medicineService.AllAsync();
-            var model = new AttachMedicineFormModel()
+            try
             {
-                SaleId = saleId,
-                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
-            };
-            return View(model);
+                await saleService.AttachMedicine(saleId, medicineId);
+
+                var medicines = await medicineService.AllAsync();
+                var model = new AttachMedicineFormModel()
+                {
+                    SaleId = saleId,
+                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+                };
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var sale = await saleService.FindByIdAsync(id);
-
-            if (sale == null)
+            try
             {
-                return NotFound();
+                var sale = await saleService.FindByIdAsync(id);
+
+                if (sale == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new SaleFormModel()
+                {
+                    Discount = sale.Discount,
+                    StartDate = sale.StartDate,
+                    EndDate = sale.EndDate
+                };
+
+                TempData.Add("saleId", id);
+                return View(model);
             }
-
-            var model = new SaleFormModel()
+            catch (Exception)
             {
-                Discount = sale.Discount,
-                StartDate = sale.StartDate,
-                EndDate = sale.EndDate
-            };
-
-            TempData.Add("saleId", id);
-            return View(model);
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, SaleFormModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
-            await saleService.EditAsync(id, model);
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                await saleService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var sale = await saleService.FindByIdAsync(id);
-
-            if (sale == null)
+            try
             {
-                return NotFound();
+                var sale = await saleService.FindByIdAsync(id);
+
+                if (sale == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new SaleDeleteModel()
+                {
+                    Id = sale.Id,
+                    StartDate = sale.StartDate,
+                    EndDate = sale.EndDate
+                };
+                TempData.Add("saleId", id);
+
+                return View(model);
             }
-
-            var model = new SaleDeleteModel()
+            catch (Exception)
             {
-                Id = sale.Id,
-                StartDate = sale.StartDate,
-                EndDate = sale.EndDate
-            };
-            TempData.Add("saleId", id);
-
-            return View(model);
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await saleService.DeleteAsync(id);
+            try
+            {
+                await saleService.DeleteAsync(id);
 
-            return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
     }
 }

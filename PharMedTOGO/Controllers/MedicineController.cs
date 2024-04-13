@@ -5,7 +5,7 @@ using PharMedTOGO.Core.Models;
 
 namespace PharMedTOGO.Controllers
 {
-    public class MedicineController : Controller
+    public class MedicineController : BaseController
     {
         private readonly IMedicineService medicineService;
         private readonly ISaleService saleService;
@@ -27,107 +27,164 @@ namespace PharMedTOGO.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(MedicineFormModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
-            await medicineService.CreateAsync(model);
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                if (model == null)
+                {
+                    return NotFound();
+                }
+                await medicineService.CreateAsync(model);
 
-            return RedirectToAction("All", "Medicine");
+                return RedirectToAction(nameof(All), "Medicine");
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
+
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllMedicinesQueryModel query)
         {
-            var allMedicines = await medicineService.AllAsync();
-            await saleService.CheckSaleDates(allMedicines.Medicines);
+            try
+            {
+                var allMedicines = await medicineService.AllAsync();
+                await saleService.CheckSaleDates(allMedicines.Medicines);
 
-            var model = medicineService.AllSorted(
-                query.SearchTerm,
-                query.Sorting,
-                query.CurrentPage,
-                query.MedicinesPerPage,
-                allMedicines);
+                var model = medicineService.AllSorted(
+                    query.SearchTerm,
+                    query.Sorting,
+                    query.CurrentPage,
+                    query.MedicinesPerPage,
+                    allMedicines);
 
-            query.MedicinesCount = model.MedicinesCount;
-            query.Medicines = model.Medicines;
+                query.MedicinesCount = model.MedicinesCount;
+                query.Medicines = model.Medicines;
 
-            return View(query);
+                return View(query);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await medicineService.MedicineDetails(id);
+            try
+            {
+                var model = await medicineService.MedicineDetails(id);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var medicine = await medicineService.FindByIdAsync(id);
-
-            if (medicine == null)
+            try
             {
-                return NotFound();
+                var medicine = await medicineService.FindByIdAsync(id);
+
+                if (medicine == null)
+                {
+                    return NotFound();
+                }
+
+                var formModel = new MedicineFormModel()
+                {
+                    Name = medicine.Name,
+                    RequiresPrescription = medicine.RequiresPrescription,
+                    Price = medicine.Price,
+                    Category = medicine.Category,
+                    Description = medicine.Description,
+                    ImageUrl = medicine.ImageUrl
+                };
+                TempData.Add("medicineId", id);
+                return View(formModel);
             }
-
-            var formModel = new MedicineFormModel()
+            catch (Exception)
             {
-                Name = medicine.Name,
-                RequiresPrescription = medicine.RequiresPrescription,
-                Price = medicine.Price,
-                Category = medicine.Category,
-                Description = medicine.Description,
-                ImageUrl = medicine.ImageUrl
-            };
-            TempData.Add("medicineId", id);
-            return View(formModel);
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, MedicineFormModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                if (model == null)
+                {
+                    return NotFound();
+                }
+                await medicineService.EditAsync(id, model);
+
+                return RedirectToAction(nameof(Details), new { id = id });
             }
-
-            await medicineService.EditAsync(id, model);
-
-            return RedirectToAction(nameof(Details), new { id = id });
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var medicine = await medicineService.FindByIdAsync(id);
-            if (medicine == null)
+            try
             {
-                return NotFound();
+                var medicine = await medicineService.FindByIdAsync(id);
+                if (medicine == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new MedicineDeleteModel()
+                {
+                    Id = medicine.Id,
+                    Name = medicine.Name,
+                    ImageUrl = medicine.ImageUrl,
+                    Price = medicine.Price,
+                    Description = medicine.Description
+                };
+                TempData.Add("medicineId", id);
+
+                return View(model);
             }
-
-            var model = new MedicineDeleteModel()
+            catch (Exception)
             {
-                Id = medicine.Id,
-                Name = medicine.Name,
-                ImageUrl = medicine.ImageUrl,
-                Price = medicine.Price,
-                Description = medicine.Description
-            };
-            TempData.Add("medicineId", id);
-
-            return View(model);
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await medicineService.DeleteAsync(id);
+            try
+            {
+                await medicineService.DeleteAsync(id);
 
-            return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
     }
 }
