@@ -15,17 +15,22 @@ namespace PharMedTOGO.Core.Services
 
         public MedicineService(
             PharMedDbContext _context//,
-            //ISaleService _saleService
+                                     //ISaleService _saleService
             )
         {
             context = _context;
             //saleService = _saleService;
         }
 
-        public async Task<AllMedicinesQueryModel> AllSortedAsync(string? searchTerm = null, MedicineSorting sorting = MedicineSorting.Newest, int currentPage = 1, int medicinesPerPage = 1)
+        public AllMedicinesQueryModel AllSorted(
+            string? searchTerm = null,
+            MedicineSorting sorting = MedicineSorting.Newest,
+            int currentPage = 1,
+            int medicinesPerPage = 1,
+            AllMedicinesQueryModel medicinesQuery = null)
         {
-            var medicinesToShow = context.Medicines
-                .AsNoTracking();
+
+            var medicinesToShow = medicinesQuery.Medicines.ToList();
 
             if (searchTerm != null)
             {
@@ -33,21 +38,21 @@ namespace PharMedTOGO.Core.Services
 
                 medicinesToShow = medicinesToShow
                     .Where(h => (h.Name.ToLower().Contains(normalizedSearchTerm)) ||
-                                (h.Description.ToLower().Contains(normalizedSearchTerm)));
+                                (h.Description.ToLower().Contains(normalizedSearchTerm))).ToList();
             }
 
             medicinesToShow = sorting switch
             {
-                MedicineSorting.Price => medicinesToShow.OrderBy(m => m.Price),
-                MedicineSorting.General => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.General),
-                MedicineSorting.Cosmetics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Cosmetics),
-                MedicineSorting.Homeophatic => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Homeophatic),
-                MedicineSorting.FoodAdditives => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.FoodAdditives),
-                MedicineSorting.Antibiotics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Antibiotics),
-                _ => medicinesToShow.OrderByDescending(h => h.Id)
+                MedicineSorting.Price => medicinesToShow.OrderBy(m => m.Price).ToList(),
+                MedicineSorting.General => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.General).ToList(),
+                MedicineSorting.Cosmetics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Cosmetics).ToList(),
+                MedicineSorting.Homeophatic => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Homeophatic).ToList(),
+                MedicineSorting.FoodAdditives => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.FoodAdditives).ToList(),
+                MedicineSorting.Antibiotics => medicinesToShow.OrderByDescending(m => m.Category == MedicineCategory.Antibiotics).ToList(),
+                _ => medicinesToShow.OrderByDescending(h => h.Id).ToList()
             };
 
-            var medicines = await medicinesToShow
+            var medicines = medicinesToShow
                 .Skip((currentPage - 1) * medicinesPerPage)
                 .Take(medicinesPerPage)
                 .Select(h => new MedicineServiceModel()
@@ -61,7 +66,7 @@ namespace PharMedTOGO.Core.Services
                     RequiresPrescription = h.RequiresPrescription,
                     SaleId = h.SaleId,
                 })
-                .ToListAsync();
+                .ToList();
 
             var totalHouses = medicinesToShow.Count();
 
@@ -71,21 +76,30 @@ namespace PharMedTOGO.Core.Services
                 Medicines = medicines
             };
         }
+        public async Task<AllMedicinesQueryModel> AllAsync()
+        {
+            var medicines = await context.Medicines
+                .AsNoTracking()
+                .Select(h => new MedicineServiceModel()
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    Category = h.Category,
+                    ImageUrl = h.ImageUrl,
+                    Description = h.Description,
+                    Price = h.Price,
+                    HasSaleApplied = h.HasSaleApplied,
+                    RequiresPrescription = h.RequiresPrescription,
+                    SaleId = h.SaleId
+                })
+                .ToListAsync();
 
-        //public async Task AttachSaleToMedticine(int medicineId, SaleServiceModel saleModel)
-        //{
-        //    var medicine = await FindByIdAsync(medicineId);
-        //    var sale = new Sale()
-        //    {
-        //        Id = saleModel.Id,
-        //        Discount = saleModel.Discount,
-        //        StartDate = saleModel.StartDate,
-        //        EndDate = saleModel.EndDate,
-        //    };
-        //    medicine.Sale = sale;
-
-        //    await context.SaveChangesAsync();
-        //}
+            return new AllMedicinesQueryModel()
+            {
+                MedicinesCount = medicines.Count,
+                Medicines = medicines
+            };
+        }
 
         public async Task CreateAsync(MedicineFormModel model)
         {
@@ -117,6 +131,7 @@ namespace PharMedTOGO.Core.Services
                 Name = medicine.Name,
                 Category = medicine.Category,
                 Price = medicine.Price,
+                HasSaleApplied = medicine.HasSaleApplied,
                 Description = medicine.Description,
                 RequiresPrescription = medicine.RequiresPrescription,
                 ImageUrl = medicine.ImageUrl
@@ -141,28 +156,18 @@ namespace PharMedTOGO.Core.Services
                 .FirstAsync();
         }
 
-        public async Task<AllMedicinesQueryModel> AllAsync()
+        public async Task EditAsync(int medicineId, MedicineFormModel model)
         {
-            var medicines = await context.Medicines
-                .AsNoTracking()
-                .Select(h => new MedicineServiceModel()
-                {
-                    Id = h.Id,
-                    Name = h.Name,
-                    Category = h.Category,
-                    ImageUrl = h.ImageUrl,
-                    Description = h.Description,
-                    Price = h.Price,
-                    RequiresPrescription = h.RequiresPrescription,
-                    SaleId = h.SaleId,
-                })
-                .ToListAsync();
+            var medicine = await FindByIdAsync(medicineId);
 
-            return new AllMedicinesQueryModel()
-            {
-                MedicinesCount = medicines.Count,
-                Medicines = medicines
-            };
+            medicine.Name = model.Name;
+            medicine.Category = model.Category;
+            medicine.Price = model.Price;
+            medicine.RequiresPrescription = model.RequiresPrescription;
+            medicine.Description = model.Description;
+            medicine.ImageUrl = model.ImageUrl;
+
+            await context.SaveChangesAsync();
         }
     }
 }

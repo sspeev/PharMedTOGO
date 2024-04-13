@@ -6,7 +6,7 @@
 
         public int CurrMedicineId { get; set; }
 
-        public IList<MedicineServiceModel> Medicines { get; set; }
+        public IEnumerable<MedicineServiceModel> Medicines { get; set; }
         = new List<MedicineServiceModel>();
     }
 }

@@ -70,10 +70,6 @@ namespace PharMedTOGO.Controllers
         [HttpPost]
         public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
             await saleService.AttachMedicine(saleId, medicineId);
 
             var medicines = await medicineService.AllAsync();

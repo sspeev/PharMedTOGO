@@ -28,6 +28,8 @@ namespace PharMedTOGO.Core.Models
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
+        public bool HasSaleApplied { get; set; }
+
         [Required(ErrorMessage = RequiredMessage)]
         [EnumDataType(typeof(MedicineCategory))]
         public MedicineCategory Category { get; set; }
@@ -36,5 +38,7 @@ namespace PharMedTOGO.Core.Models
         public string Description { get; set; } = string.Empty;
 
         public int? SaleId { get; set; }
+
+        public SaleServiceModel? Sale { get; set; }
     }
 }

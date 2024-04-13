@@ -29,8 +29,7 @@ namespace PharMedTOGO.Core.Services
                     Discount = s.Discount,
                     StartDate = s.StartDate,
                     EndDate = s.EndDate,
-                    IsApplied = s.IsApplied,
-                    IsEnded = s.IsEnded,
+                    IsEnded = s.IsEnded
                 })
                 .ToListAsync();
 
@@ -45,7 +44,7 @@ namespace PharMedTOGO.Core.Services
                     RequiresPrescription = m.RequiresPrescription,
                     ImageUrl = m.ImageUrl,
                     Price = m.Price,
-                    //SaleId = m.SaleId,
+                    SaleId = m.SaleId
                 })
                 .ToListAsync();
 
@@ -94,7 +93,6 @@ namespace PharMedTOGO.Core.Services
                 Discount = sale.Discount,
                 StartDate = sale.StartDate,
                 EndDate = sale.EndDate,
-                IsApplied = sale.IsApplied,
                 IsEnded = sale.IsEnded
             };
         }
@@ -105,22 +103,32 @@ namespace PharMedTOGO.Core.Services
             {
                 if (medicineModel.SaleId.HasValue)
                 {
-                    var medicine = await medicineService.FindByIdAsync(medicineModel.Id);
-                    var sale = await FindByIdAsync(medicineModel.SaleId.Value);
+
+                    var medicine = await medicineService.FindByIdAsync(medicineModel.Id);//to apply the changes on the database
+                    var sale = await FindByIdAsync(medicineModel.SaleId.Value);// to apply the discount on the medicine
+
                     var discount = medicineModel.Price * (sale.Discount / 100);
                     if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
                     {
-                        if (!sale.IsApplied)
+                        if (!medicine.HasSaleApplied)
                         {
                             medicineModel.Price = medicineModel.Price - discount;
                             medicine.Price = medicine.Price - discount;
-                            sale.IsApplied = true;
+
+                            medicineModel.HasSaleApplied = true;
+                            medicine.HasSaleApplied = true;
                         }
                     }
-                    else if (sale.EndDate < DateTime.Now && sale.IsApplied && !sale.IsEnded)
+                    else if (sale.EndDate < DateTime.Now && !sale.IsEnded)
                     {
                         medicineModel.Price = medicineModel.Price + discount;
                         medicine.Price = medicine.Price - discount;
+
+                        medicine.Sale = null;
+
+                        medicine.SaleId = null;
+                        medicineModel.SaleId = null;
+
                         sale.IsEnded = true;
                     }
                 }
@@ -133,7 +141,8 @@ namespace PharMedTOGO.Core.Services
             var sale = await FindByIdAsync(saleId);
             var medicine = await medicineService.FindByIdAsync(medicineId);
 
-            sale.Medicines.Add(medicine);
+            IList<Medicine> saleMedicines = sale.Medicines.ToList();
+            saleMedicines.Add(medicine);
             medicine.SaleId = saleId;
 
             await context.SaveChangesAsync();

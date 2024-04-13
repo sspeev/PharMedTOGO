@@ -10,7 +10,7 @@
 <article class="d-flex gap-lg-3 flex-wrap">
     @foreach (var sale in Model.Sales)
     {
-        if (!sale.IsApplied)
+        if (!sale.IsEnded)
         {
             <div class="bg-light p-lg-3" style="border-radius: 0.5em">
                 <h6 class="text-dark">Discount: @($"{sale.Discount:f0}%")</h6>

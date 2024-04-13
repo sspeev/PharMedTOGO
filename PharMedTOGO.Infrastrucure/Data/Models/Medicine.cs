@@ -31,6 +31,9 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("The price of the medicine")]
         public decimal Price { get; set; }
 
+        [Comment("Is the sale applied")]
+        public bool HasSaleApplied { get; set; }
+
         [Required]
         [EnumDataType(typeof(MedicineCategory))]
         public MedicineCategory Category { get; set; }
