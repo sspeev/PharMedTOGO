@@ -18,5 +18,7 @@ namespace PharMedTOGO.Core.Contracts
         Task CheckSaleDates(IEnumerable<MedicineServiceModel> medicinese);
 
         Task EditAsync(int saleId, SaleFormModel model);
+
+        Task DeleteAsync(int saleId);
     }
 }

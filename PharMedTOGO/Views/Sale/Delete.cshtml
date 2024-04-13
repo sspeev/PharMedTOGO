@@ -1,0 +1,31 @@
+﻿@model SaleDeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    int id = (int)TempData["saleId"];
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<form asp-controller="Sale" asp-action="DeleteConfirmed" asp-route-id="@id" method="post">
+    <div class="row gap-3">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</form>

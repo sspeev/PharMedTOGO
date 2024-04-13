@@ -17,7 +17,7 @@
                 <p class="text-black">Start date: @sale.StartDate.ToString(DateFormat)</p>
                 <p class="text-black">End date @sale.EndDate.ToString(DateFormat)</p>
                 <a asp-controller="Sale" asp-action="Edit" asp-route-id="@sale.Id" class="text-black bg-warning p-1" style="border-radius: 0.5em">Edit</a>
-                <a asp-controller="Sale" asp-action="Delete" class="text-black bg-danger p-1" style="border-radius: 0.5em">Delete</a>
+                <a asp-controller="Sale" asp-action="Delete" asp-route-id="@sale.Id" class="text-black bg-danger p-1" style="border-radius: 0.5em">Delete</a>
                 <a asp-controller="Sale" asp-action="AttachMedicine" asp-route-saleId="@sale.Id" class="text-black bg-success p-1" style="border-radius: 0.5em">Attach medicines</a>
             </div>
         }

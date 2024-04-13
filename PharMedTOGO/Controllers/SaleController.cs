@@ -113,5 +113,34 @@ namespace PharMedTOGO.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var sale = await saleService.FindByIdAsync(id);
+
+            if (sale == null)
+            {
+                return NotFound();
+            }
+
+            var model = new SaleDeleteModel()
+            {
+                Id = sale.Id,
+                StartDate = sale.StartDate,
+                EndDate = sale.EndDate
+            };
+            TempData.Add("saleId", id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await saleService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }
