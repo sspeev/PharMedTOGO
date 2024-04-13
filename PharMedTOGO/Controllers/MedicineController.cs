@@ -83,21 +83,21 @@ namespace PharMedTOGO.Controllers
                 Description = medicine.Description,
                 ImageUrl = medicine.ImageUrl
             };
-
+            TempData.Add("medicineId", id);
             return View(formModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int medicineId, MedicineFormModel model)
+        public async Task<IActionResult> Edit(int id, MedicineFormModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            await medicineService.EditAsync(medicineId, model);
+            await medicineService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id = medicineId });
+            return RedirectToAction(nameof(Details), new { id = id });
         }
     }
 }
