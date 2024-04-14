@@ -1,21 +1,13 @@
-﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:20283",
-      "sslPort": 44388
-    }
-  },
+{
   "profiles": {
     "PharMedTOGO": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7136;http://localhost:5202",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7136;http://localhost:5202",
       "PharMedTOGOProduction": {
         "commandName": "Project",
         "dotnetRunMessages": true,
@@ -32,6 +24,14 @@
           "ASPNETCORE_ENVIRONMENT": "Development"
         }
       }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:20283",
+      "sslPort": 44388
     }
   }
 }

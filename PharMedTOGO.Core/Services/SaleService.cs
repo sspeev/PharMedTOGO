@@ -88,11 +88,7 @@ namespace PharMedTOGO.Core.Services
         }
         public async Task<Sale> FindByIdAsync(int id)
         {
-            if (await ExistsByIdAsync(id))
-            {
-                return await context.Sales.FirstOrDefaultAsync(s => s.Id == id);
-            }
-            throw new ArgumentException("Unexisting sale");
+            return await context.Sales.FirstOrDefaultAsync(s => s.Id == id) ?? throw new ArgumentException("Unexisting sale");
         }
 
         public async Task<SaleServiceModel> MapByIdSale(int id)

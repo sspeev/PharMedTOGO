@@ -29,6 +29,10 @@ namespace PharMedTOGO.Core.Services
             int medicinesPerPage = 1,
             AllMedicinesQueryModel medicinesQuery = null)
         {
+            if (medicinesQuery == null)
+            {
+                throw new NullReferenceException("There are no medicines in the store");
+            }
 
             var medicinesToShow = medicinesQuery.Medicines.ToList();
 
@@ -115,6 +119,15 @@ namespace PharMedTOGO.Core.Services
 
             await context.AddAsync(medicine);
             await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsByIdAsync(int id)
+        {
+            if (await context.Medicines.FirstOrDefaultAsync(s => s.Id == id) == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<Medicine> FindByIdAsync(int id)

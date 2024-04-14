@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
+using PharMedTOGO.Models;
 
 namespace PharMedTOGO.Controllers
 {
@@ -43,9 +44,12 @@ namespace PharMedTOGO.Controllers
 
                 return RedirectToAction("All", "Sale");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -64,9 +68,12 @@ namespace PharMedTOGO.Controllers
 
                 return View(query);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -76,6 +83,7 @@ namespace PharMedTOGO.Controllers
             try
             {
                 //validation for admin needed
+
                 if (!await saleService.ExistsByIdAsync(saleId))
                 {
                     return BadRequest();
@@ -89,9 +97,12 @@ namespace PharMedTOGO.Controllers
                 };
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message,
+                });
             }
         }
 
@@ -100,12 +111,9 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                if (!await saleService.ExistsByIdAsync(saleId))
-                {
-                    return BadRequest();
-                }
+                //validation for admin needed
 
-                await saleService.AttachMedicine(saleId, medicineId);
+                await saleService.AttachMedicine(saleId, medicineId);//possible throwing
 
                 var medicines = await medicineService.AllAsync();
                 var model = new AttachMedicineFormModel()
@@ -115,10 +123,12 @@ namespace PharMedTOGO.Controllers
                 };
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -127,14 +137,9 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed 
+                //validation for admin needed
 
-                var sale = await saleService.FindByIdAsync(id);
-
-                if (sale == null)
-                {
-                    return BadRequest();
-                }
+                var sale = await saleService.FindByIdAsync(id);//possible throwing
 
                 var model = new SaleFormModel()
                 {
@@ -146,9 +151,12 @@ namespace PharMedTOGO.Controllers
                 TempData.Add("saleId", id);
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -157,6 +165,16 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                //validation for admin needed
+
+                if (!await saleService.ExistsByIdAsync(id))
+                {
+                    return BadRequest();
+                }
+                if (model == null)
+                {
+                    return BadRequest();
+                }
                 if (!ModelState.IsValid)
                 {
                     return View(model);
@@ -165,9 +183,12 @@ namespace PharMedTOGO.Controllers
 
                 return RedirectToAction(nameof(All));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -176,11 +197,13 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                var sale = await saleService.FindByIdAsync(id);
+                //validation for admin needed
+
+                var sale = await saleService.FindByIdAsync(id);// possible throwing
 
                 if (sale == null)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
 
                 var model = new SaleDeleteModel()
@@ -193,9 +216,12 @@ namespace PharMedTOGO.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
 
@@ -204,13 +230,22 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                //validation for admin needed
+
+                if (!await saleService.ExistsByIdAsync(id))
+                {
+                    return BadRequest();
+                }
                 await saleService.DeleteAsync(id);
 
                 return RedirectToAction(nameof(All));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return View("Error", "Home");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
         }
     }
