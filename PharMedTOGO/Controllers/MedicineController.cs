@@ -6,6 +6,7 @@ using PharMedTOGO.Models;
 
 namespace PharMedTOGO.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MedicineController : BaseController
     {
         private readonly IMedicineService medicineService;

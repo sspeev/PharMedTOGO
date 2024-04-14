@@ -13,10 +13,15 @@ namespace PharMedTOGO.Infrastrucure.Seed
 
         public Patient Patient2 { get; set; } = null!;
 
+        public IdentityUserRole<string> Admin { get; set; } = null!;
+
+        public IdentityRole AdminRole { get; set; }
+
         public SeedData()
         {
             SeedPatients();
             SeedPrescriptions();
+            SeedAdmins();
         }
 
         private void SeedPrescriptions()
@@ -67,6 +72,20 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 LastName = "Zhelezhchev",
                 EGN = "908765432",
                 Address = "Pomorie-Mahala-N1"
+            };
+        }
+
+        private void SeedAdmins()
+        {
+            AdminRole = new IdentityRole()
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            };
+            Admin = new IdentityUserRole<string>()
+            {
+                RoleId = "fac4faf3-e08e-4afd-9b70-6ecbc24dd968",
+                UserId = "b856dc85-6665-407e-b200-89d78da19413"
             };
         }
     }

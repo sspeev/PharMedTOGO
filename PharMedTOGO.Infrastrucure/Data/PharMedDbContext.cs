@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Infrastrucure.Data.Configuration;
 using PharMedTOGO.Infrastrucure.Data.Models;
+using PharMedTOGO.Infrastrucure.Seed;
 
 namespace PharMedTOGO.Infrastrucure.Data
 {
@@ -27,6 +29,11 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            var data = new SeedData();
+
+            builder.Entity<IdentityRole>()
+                .HasData(data.Admin);
+
             builder.ApplyConfiguration(new MedicineConfiguration());
             builder.ApplyConfiguration(new PatientConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());

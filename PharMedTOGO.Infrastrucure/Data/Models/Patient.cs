@@ -26,13 +26,6 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("The address of the patient")]
         public string Address { get; set; } = string.Empty;
 
-        //[Required]
-        //[Comment("The user's identifier")]
-        //public string UserId { get; set; } = string.Empty;
-
-        //[ForeignKey(nameof(UserId))]
-        //public IdentityUser User { get; set; } = null!;
-
         public IList<Prescription> Prescriptions { get; set; }
             = new List<Prescription>();
 
