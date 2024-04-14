@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Prerscription\" />
+    <Folder Include="wwwroot\photos\" />
   </ItemGroup>
 
 </Project>

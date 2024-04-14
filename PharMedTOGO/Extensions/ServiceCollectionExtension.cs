@@ -36,7 +36,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-
             })
             .AddEntityFrameworkStores<PharMedDbContext>();
 

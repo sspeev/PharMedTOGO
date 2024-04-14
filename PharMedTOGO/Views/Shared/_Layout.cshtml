@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <header>
+    <header class="h-25">
         @await Component.InvokeAsync(nameof(NavbarComponent))
     </header>
 
@@ -33,6 +33,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/b2cc653b32.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
