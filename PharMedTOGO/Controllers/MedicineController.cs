@@ -43,7 +43,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
 
         }
@@ -71,7 +71,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -86,7 +86,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -116,7 +116,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -139,7 +139,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -168,7 +168,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -183,7 +183,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
     }

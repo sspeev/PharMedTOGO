@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Unauthorized";
+}
+<div class="row">
+    <h1>@ViewData["Title"]</h1>
+    <div class="col-6">
+        <br>
+        <div class="row">
+            <div class="col-10">
+                <div class="text-left h4">
+                    <p>Oops, you are not authorized.</p>
+                </div> 
+                <div class="text-left h4"> Log in so as to access that resource <a asp-controller="User" asp-action="LogIn">Log in</a> Page</div>
+            </div>
+        </div>
+    </div>
+</div>

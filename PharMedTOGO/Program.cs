@@ -10,15 +10,14 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/Home/Error/500");
+    app.UseStatusCodePagesWithReExecute("Home/Error?statuscode={0}");
     app.UseMigrationsEndPoint();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    /*
-     app.UseExceptionHandler("/Home/Error/500");
-     app.UseStatusCodePagesWithRedirects("Home/Error?statuscode={0}");
-     */
+    app.UseExceptionHandler("/Home/Error/500");
+    app.UseStatusCodePagesWithReExecute("Home/Error?statuscode={0}");
     app.UseHsts();
 }
 

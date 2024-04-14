@@ -18,7 +18,7 @@ namespace PharMedTOGO.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int id)
+        public IActionResult Add()
         {
             return View(new SaleFormModel());
         }
@@ -33,6 +33,8 @@ namespace PharMedTOGO.Controllers
                     return View(model);
                 }
 
+                //validation for admin needed
+
                 if (model == null)
                 {
                     return BadRequest();
@@ -43,7 +45,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -52,6 +54,8 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                //validation for admin needed 
+
                 var model = await saleService.AllAsync();
 
                 query.TotalSales = model.TotalSales;
@@ -62,7 +66,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -71,6 +75,12 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                //validation for admin needed
+                if (!await saleService.ExistsByIdAsync(saleId))
+                {
+                    return BadRequest();
+                }
+
                 var medicines = await medicineService.AllAsync();
                 var model = new AttachMedicineFormModel()
                 {
@@ -81,7 +91,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -90,6 +100,11 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                if (!await saleService.ExistsByIdAsync(saleId))
+                {
+                    return BadRequest();
+                }
+
                 await saleService.AttachMedicine(saleId, medicineId);
 
                 var medicines = await medicineService.AllAsync();
@@ -103,7 +118,7 @@ namespace PharMedTOGO.Controllers
             catch (Exception)
             {
 
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -112,11 +127,13 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
+                //validation for admin needed 
+
                 var sale = await saleService.FindByIdAsync(id);
 
                 if (sale == null)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
 
                 var model = new SaleFormModel()
@@ -131,7 +148,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -150,7 +167,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -178,7 +195,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
 
@@ -193,7 +210,7 @@ namespace PharMedTOGO.Controllers
             }
             catch (Exception)
             {
-                return GeneralError();
+                return View("Error", "Home");
             }
         }
     }

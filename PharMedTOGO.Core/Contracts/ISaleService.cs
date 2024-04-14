@@ -7,6 +7,8 @@ namespace PharMedTOGO.Core.Contracts
     {
         Task<SaleServiceModel> CreateAsync(SaleFormModel model);
 
+        Task<bool> ExistsByIdAsync(int id);
+
         Task<Sale> FindByIdAsync(int id);
 
         Task<SaleServiceModel> MapByIdSale(int id);

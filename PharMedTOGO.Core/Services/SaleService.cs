@@ -78,10 +78,21 @@ namespace PharMedTOGO.Core.Services
                 IsEnded = false
             };
         }
-
+        public async Task<bool> ExistsByIdAsync(int id)
+        {
+            if (await context.Sales.FirstOrDefaultAsync(s => s.Id == id) == null)
+            {
+                return false;
+            }
+            return true;
+        }
         public async Task<Sale> FindByIdAsync(int id)
         {
-            return await context.Sales.FirstOrDefaultAsync(s => s.Id == id) ?? throw new ArgumentException("Unexisting sale");
+            if (await ExistsByIdAsync(id))
+            {
+                return await context.Sales.FirstOrDefaultAsync(s => s.Id == id);
+            }
+            throw new ArgumentException("Unexisting sale");
         }
 
         public async Task<SaleServiceModel> MapByIdSale(int id)
