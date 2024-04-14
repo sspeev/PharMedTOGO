@@ -13,13 +13,8 @@ namespace PharMedTOGO.Infrastrucure.Seed
 
         public Patient Patient2 { get; set; } = null!;
 
-        public IdentityUser User1 { get; set; }
-
-        public IdentityUser User2 { get; set; }
-
         public SeedData()
         {
-            SeedUsers();
             SeedPatients();
             SeedPrescriptions();
         }
@@ -49,44 +44,29 @@ namespace PharMedTOGO.Infrastrucure.Seed
 
         private void SeedPatients()
         {
-            Patient1 = new Patient()
-            {
-                Id = 1,
-                FirstName = "Stoyan",
-                LastName = "Peev",
-                EGN = "1234567890",
-                Address = "Burgas-Slaveikov",
-                UserId = "d42ae752-35a7-4ba3-a9c0-190484b6c253"
-            };
-
-            Patient2 = new Patient()
-            {
-                Id = 2,
-                FirstName = "Kristalin",
-                LastName = "Zhelezhchev",
-                EGN = "908765432",
-                Address = "Pomorie-Mahala-N1",
-                UserId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
-            };
-        }
-
-        private void SeedUsers()
-        {
             var hasher = new PasswordHasher<IdentityUser>();
-            User1 = new IdentityUser()
+            Patient1 = new Patient()
             {
                 Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                 UserName = "Stoyan",
                 Email = "stoyan@mail.com",
-                PasswordHash = hasher.HashPassword(User1, "123456")
+                PasswordHash = hasher.HashPassword(Patient1, "123456"),
+                FirstName = "Stoyan",
+                LastName = "Peev",
+                EGN = "1234567890",
+                Address = "Burgas-Slaveikov"
             };
 
-            User2 = new IdentityUser()
+            Patient2 = new Patient()
             {
                 Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                 UserName = "Kristalin",
                 Email = "kristalin@mail.com",
-                PasswordHash = hasher.HashPassword(User2, "123456")
+                PasswordHash = hasher.HashPassword(Patient2, "123456"),
+                FirstName = "Kristalin",
+                LastName = "Zhelezhchev",
+                EGN = "908765432",
+                Address = "Pomorie-Mahala-N1"
             };
         }
     }

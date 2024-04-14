@@ -12,22 +12,14 @@
             <h6 class="text-black">RequiresPrescription: <b>@(Model.RequiresPrescription ? "Yes" : "No")</b></h6>
             <br />
             <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
-            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            @if (User?.IsInRole("Admin") ?? false)
             {
                 <a asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
                 <a asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                @* @if (!Model.RequiresPrescription)
-                {
-                    <form class="input-group-sm" asp-controller="House" asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Rent" />
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="House" asp-action="Leave" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Leave" />
-                    </form>
-                } *@
+            }
+            @if (User?.IsInRole("Patient") ?? false)
+            {
+                @* <a asp-controller="Order" asp-action="AddToCard" asp-route-id="@Model.Id" class="btn btn-success">Add to cart</a> *@
             }
         </div>
     </div>

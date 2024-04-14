@@ -25,7 +25,7 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [Required]
         [Comment("Patient's identifier")]
-        public int PatientId { get; set; }
+        public string PatientId { get; set; } = string.Empty;
 
         [Required]
         [Comment("Navigational property ")]

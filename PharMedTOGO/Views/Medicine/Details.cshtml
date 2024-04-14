@@ -13,10 +13,14 @@
             <p class="text-info fs-3">Description: @Model.Description</p>
         </div>
         <div class="d-flex flex-column gap-lg-2">
-            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            @if (User?.IsInRole("Admin") ?? false)
             {
                 <a class="btn btn-warning" asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                 <a class="btn btn-danger" asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            }
+            @if (User?.IsInRole("Patient") ?? false)
+            {
+                @* <a asp-controller="Order" asp-action="AddToCard" asp-route-id="@Model.Id" class="btn btn-success">Add to cart</a> *@
             }
         </div>
     </div>

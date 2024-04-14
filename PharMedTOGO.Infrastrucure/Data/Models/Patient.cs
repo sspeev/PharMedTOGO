@@ -1,19 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static PharMedTOGO.Infrastrucure.Constants.DataConstants;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
 {
     [Index(nameof(EGN), IsUnique = true)]
     [Comment("The patient entity")]
-    public class Patient
+    public class Patient : IdentityUser
     {
-        [Key]
-        [Comment("The patient's identifier")]
-        public int Id { get; init; }
-
         [Required]
         [MaxLength(PatientFirstNameMaxLength)]
         [Comment("The patient's first name")]
@@ -31,12 +26,12 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("The address of the patient")]
         public string Address { get; set; } = string.Empty;
 
-        [Required]
-        [Comment("The user's identifier")]
-        public string UserId { get; set; } = string.Empty;
+        //[Required]
+        //[Comment("The user's identifier")]
+        //public string UserId { get; set; } = string.Empty;
 
-        [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        //[ForeignKey(nameof(UserId))]
+        //public IdentityUser User { get; set; } = null!;
 
         public IList<Prescription> Prescriptions { get; set; }
             = new List<Prescription>();
