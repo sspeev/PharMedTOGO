@@ -17,5 +17,7 @@
         public const string SaleRangeErrorMessage = "Incorrect percentage value. Must be between 1 and 100";
 
         public const string DateFormat = "dd/MM/yyyy";
+
+        public const string AdminConstant = "Admin";
     }
 }

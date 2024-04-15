@@ -1,10 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using PharMedTOGO.Extensions
-@using PharMedTOGO.Infrastrucure.Data.Models
-@inject SignInManager<Patient> SignInManager
-
-<nav class="insightNavbar">
-    <a class="item" asp-controller="Home" asp-action="Index">Home</a>
+﻿<nav class="insightNavbar">
+    <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="Index">Home</a>
     <div class="item">
         <a asp-controller="Medicine" asp-action="All">Medicine</a>
         <div class="dropdown">
@@ -21,13 +16,10 @@
             </div>
         </div>
     </div>
-    @if (User.IsAdmin())
-    {
-        <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin panel</a>
-    }
+    <a class="item" asp-area="Identity" asp-controller="Home" asp-action="Index">Public panel</a>
+    
     <div class="underline"></div>
-    @* <partial name="_LoginPartial" /> *@
-    <div class="d-flex justify-content-between w-100 ps-lg-4 pe-lg-4 align-content-center">
+    @* <div class="d-flex justify-content-between w-100 ps-lg-4 pe-lg-4 align-content-center">
         <div class="btn-group">
             <button type="button" class="btn btn-info dropdown-toggle ps-3 pe-3" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 10%">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -57,5 +49,5 @@
                 }
             </ul>
         </div>
-    </div>
+    </div> *@
 </nav>

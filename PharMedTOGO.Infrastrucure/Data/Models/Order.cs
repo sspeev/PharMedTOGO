@@ -9,6 +9,10 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public int Id { get; set; }
 
         [Required]
+        public string PatientId { get; set; } = string.Empty;
+
+        [Required]
+        [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
 
         [Required]
@@ -17,19 +21,7 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [ForeignKey(nameof(PrescriptionId))]
         public Prescription? Prescription { get; set; }
 
-        [Required]
-        public int PharmacyId { get; set; }
-
-        [ForeignKey(nameof(PharmacyId))]
-        public Pharmacy Pharmacy { get; set; } = null!;
-
         public IList<Medicine> Medicines { get; set; }
             = new List<Medicine>();
-
-        [Required]
-        public int SaleId { get; set; }
-
-        [ForeignKey(nameof(SaleId))]
-        public Sale Sale { get; set; } = null!;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PharMedTOGO.Infrastrucure.Data.Models;
+using PharMedTOGO.Infrastrucure.Seed;
 
 namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
@@ -8,16 +9,15 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder
-                .HasOne(o => o.Pharmacy)
-                .WithMany(p => p.Orders)
-                .OnDelete(DeleteBehavior.Restrict);
+            var data = new SeedData();
 
+            builder
+                .HasData(
+                    data.Order1,
+                    data.Order2
+                    );
             builder
                 .HasMany(o => o.Medicines);
-
-            builder
-                .HasOne(o => o.Sale);
         }
     }
 }

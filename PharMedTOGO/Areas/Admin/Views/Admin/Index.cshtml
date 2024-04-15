@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PharMedTOGO.Infrastrucure.Data.Models
+@inject UserManager<Patient> UserManager
+@{
+    ViewData["Title"] = "Admin panel";
+}
+
+<div class="text-center">
+    <h1 class="display-4">PharMedTOGO</h1>
+    <p>The fastest way to recive your medicines to home!</p>
+    
+
+    <h2>Admin panel</h2>
+    <div class="p-3">
+        <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName</h5>
+    </div>
+    <img class="w-25 " src="~/fontawesome-free-6.4.0-web/svgs/regular/unlock.svg" />
+</div>

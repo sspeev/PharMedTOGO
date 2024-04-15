@@ -34,22 +34,22 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseEndpoints(config =>
-//{
-//    config.MapControllerRoute(
-//        name: "areas",
-//        pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(config =>
+{
+    config.MapControllerRoute(
+        name: "areas",
+        pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-//    config.MapControllerRoute(
-//        name: "default",
-//        pattern: "/{controller=Home}/{action=Index}/{id?}");
+    config.MapControllerRoute(
+        name: "default",
+        pattern: "/{controller=Home}/{action=Index}/{id?}");
 
-//    config.MapDefaultControllerRoute();
+    config.MapDefaultControllerRoute();
 
-//    app.MapRazorPages();
-//});
+    app.MapRazorPages();
+});
 
-app.MapDefaultControllerRoute();
+//app.MapDefaultControllerRoute();
 app.MapRazorPages();
 
 await app.RunAsync();

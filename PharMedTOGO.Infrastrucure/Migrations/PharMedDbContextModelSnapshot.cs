@@ -51,8 +51,8 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fac4faf3-e08e-4afd-9b70-6ecbc24dd968",
-                            ConcurrencyStamp = "2931eabf-22a9-4201-b618-0695162053a1",
+                            Id = "9fb66dc7-697a-48fc-a009-3169578464bc",
+                            ConcurrencyStamp = "69aac090-dcc8-4e1a-ada5-6ea5691a862f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -216,6 +216,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
+                            RoleId = "9fb66dc7-697a-48fc-a009-3169578464bc"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -299,6 +306,85 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.ToTable("Medicines");
 
                     b.HasComment("Medicine Entity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = 5,
+                            Description = "Главоболие и температура",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://subra.bg/files/richeditor/os-product-images/11/nurofen-24-200mg.jpg",
+                            Name = "Нурофен",
+                            Price = 7.98m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = 5,
+                            Description = "Главоболие",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://sopharmacy.bg/media/sys_master/h3b/h9d/9063126761502.jpg",
+                            Name = "Беналгин",
+                            Price = 11.16m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = 5,
+                            Description = "При раздразнен стомах и диария",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://static.framar.bg/product/sopharma-buskolizin-tabletki-bolezneni-spazmi-hioscinov-butilbromid.jpg",
+                            Name = "Бусколизин",
+                            Price = 11.16m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = 3,
+                            Description = "Хрема, запушен нос и синузит",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://alpenpharma-bulgaria.bg/wp-content/uploads/2021/02/cinabsin-1.png",
+                            Name = "Цинабсин",
+                            Price = 17m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = 1,
+                            Description = "",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://depobebemag.bg/wp-content/uploads/2019/02/%D0%B1%D0%BE%D1%87%D0%BA%D0%BE-%D0%BC%D0%BE%D0%BA%D1%80%D0%B8-%D0%BA%D1%8A%D1%80%D0%BF%D0%B8-%D1%81%D0%BC%D1%80%D0%B0%D0%B4%D0%BB%D0%B8%D0%BA%D0%B0-90%D0%B1%D1%80.png",
+                            Name = "Мокри кърпи БОЧКО",
+                            Price = 2.6m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = 2,
+                            Description = "Продуктът предлага цялостна подкрепа за организма, особено през есенно-зимния сезон. Той укрепва имунната система благодарение на незаменимите мастни киселини и мощното антиоксидантно действие. Също така, стимулира метаболизма и помага на тялото да се справи със стреса. Подпомага сърдечно-съдовата система и умствената дейност, допринася за намаляване на умората и изтощението, и спомага за предпазването на клетките от окислителен стрес.",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://balevski.eu/cdn/shop/files/18-3._3-6-9.jpg?v=1688235019&width=823",
+                            Name = "Шипково масло с Омега 3, 6 и 9",
+                            Price = 34.9m,
+                            RequiresPrescription = false
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = 5,
+                            Description = "Сумамед съдържа азитромицин, който принадлежи към групата на антибактериалните лекарствени продукти за системно приложение, макролиден антибиотик.\r\n\r\nСумамед се прилага за лечение на пациенти с инфекции, причинени от един или повече от един чувствителни на азитромицин микроорганизми:\r\n\r\nинфекции на горните дихателни пътища: фарингит/тонзилит, синуит и възпаление на средното ухо\r\nинфекции на долните дихателни пътища: бронхит и пневмонии, придобити в обществото \r\nинфекции на кожата и меките тъкани: средно изразена форма на acne vulgaris, еритема хроника мигранс (първи стадий на Лаймска болест), еризипел, импетиго и вторична пиодермия\r\nполово предавани болести: неусложнени генитални инфекции причинени от Chlamydia trachomatis",
+                            HasSaleApplied = false,
+                            ImageUrl = "https://uploads.remediumapi.com/5ecc3d1b6af72c3ad4d460e1/103/257fe60e2311dced12194a77b5f7ffd2/720.jpeg",
+                            Name = "Сумамед",
+                            Price = 17.6m,
+                            RequiresPrescription = true
+                        });
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Order", b =>
@@ -313,44 +399,30 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PharmacyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PrescriptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("PharmacyId");
-
                     b.HasIndex("PrescriptionId");
 
-                    b.HasIndex("SaleId");
-
                     b.ToTable("Orders");
-                });
 
-            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Pharmacy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Pharmacies");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PatientId = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
+                            PrescriptionId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
+                            PrescriptionId = 2
+                        });
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
@@ -395,18 +467,18 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 14, 22, 22, 21, 494, DateTimeKind.Utc).AddTicks(1667),
-                            Description = "Grip",
-                            ExpireDate = new DateTime(2024, 4, 25, 1, 22, 21, 494, DateTimeKind.Local).AddTicks(1670),
+                            CreatedOn = new DateTime(2024, 4, 15, 13, 15, 39, 717, DateTimeKind.Local).AddTicks(9953),
+                            Description = "Flu",
+                            ExpireDate = new DateTime(2024, 4, 25, 13, 15, 39, 717, DateTimeKind.Local).AddTicks(9998),
                             IsValidated = true,
-                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
+                            PatientId = "d42ae752-35a7-4ba3-a9c0-190484b6c253"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 3, 22, 22, 21, 494, DateTimeKind.Utc).AddTicks(1715),
+                            CreatedOn = new DateTime(2024, 4, 4, 10, 15, 39, 718, DateTimeKind.Utc).AddTicks(7),
                             Description = "COVID-19",
-                            ExpireDate = new DateTime(2024, 4, 15, 1, 22, 21, 494, DateTimeKind.Local).AddTicks(1716),
+                            ExpireDate = new DateTime(2024, 4, 15, 13, 15, 39, 718, DateTimeKind.Local).AddTicks(8),
                             IsValidated = false,
                             PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
                         });
@@ -439,6 +511,24 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sales");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Discount = 50m,
+                            EndDate = new DateTime(2024, 4, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            IsEnded = false,
+                            StartDate = new DateTime(2024, 4, 15, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Discount = 30m,
+                            EndDate = new DateTime(2024, 4, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            IsEnded = false,
+                            StartDate = new DateTime(2024, 4, 15, 0, 0, 0, 0, DateTimeKind.Local)
+                        });
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
@@ -480,17 +570,17 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         {
                             Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c0c51760-7f92-4509-9d73-4b7229db2be4",
+                            ConcurrencyStamp = "1e19dbc6-c5d1-421e-a0e7-ff442884b06a",
                             Email = "stoyan@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFB6/hdhJadDUpyZBu1sd1YZ606FzI2kBHYePZNjBfeeYuyXB7LEyyQGvQirLxsgjw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHOQkBoExeS1ursOg9wO9u/6tVpO6OH3TBPzaGhCmX8wmdGFtSv5UIEc+d5cBgw+0w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f6b348a-e14c-4315-bdff-eeb30bcdd36b",
+                            SecurityStamp = "f32c3c74-0ac5-4438-aa54-c6d6945315d8",
                             TwoFactorEnabled = false,
                             UserName = "Stoyan",
                             Address = "Burgas-Slaveikov",
-                            EGN = "1234567890",
+                            EGN = "0549050487",
                             FirstName = "Stoyan",
                             LastName = "Peev"
                         },
@@ -498,17 +588,17 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         {
                             Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6e01361-cee6-4e14-80be-97f254f04a6a",
+                            ConcurrencyStamp = "d76ee5cb-d2b2-4e0d-8544-5634c1566293",
                             Email = "kristalin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPIIjxBhUu9urEIp0nISxUTEOIfZIvXBGLrrNaHRtReCHPAMhRthks48QqVZzpq0xw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKKun+feXig0l8WDo3FqomYATGjGsyEbOoBdlrnWm7VUYLuBEeeFfAoDg8SiWDMP7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9ce04dcc-f3f9-4f55-8ea9-11f9726b3658",
+                            SecurityStamp = "57ff3e94-8e0b-4ec5-9468-b5083f468b5a",
                             TwoFactorEnabled = false,
                             UserName = "Kristalin",
                             Address = "Pomorie-Mahala-N1",
-                            EGN = "908765432",
+                            EGN = "0506047819",
                             FirstName = "Kristalin",
                             LastName = "Zhelezhchev"
                         });
@@ -590,31 +680,15 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Pharmacy", "Pharmacy")
-                        .WithMany("Orders")
-                        .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Prescription", "Prescription")
                         .WithMany()
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Patient");
 
-                    b.Navigation("Pharmacy");
-
                     b.Navigation("Prescription");
-
-                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
@@ -631,11 +705,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Order", b =>
                 {
                     b.Navigation("Medicines");
-                });
-
-            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Pharmacy", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>

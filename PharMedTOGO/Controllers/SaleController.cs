@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Models;
+using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Controllers
 {
+    [Authorize(Roles = AdminConstant)]
     public class SaleController : BaseController
     {
         private readonly ISaleService saleService;

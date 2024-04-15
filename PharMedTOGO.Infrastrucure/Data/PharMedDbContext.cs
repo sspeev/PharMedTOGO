@@ -19,23 +19,16 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
 
-        public DbSet<Patient> Patients { get; set; } = null!;
-
         public DbSet<Order> Orders { get; set; } = null!;
-
-        public DbSet<Pharmacy> Pharmacies { get; set; } = null!;
 
         public DbSet<Sale> Sales { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            var data = new SeedData();
-
-            builder.Entity<IdentityRole>()
-                .HasData(data.Admin);
-
             builder.ApplyConfiguration(new MedicineConfiguration());
             builder.ApplyConfiguration(new PatientConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UsersRolesConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new PrescriptionConfiguration());
             builder.ApplyConfiguration(new SaleConfiguration());

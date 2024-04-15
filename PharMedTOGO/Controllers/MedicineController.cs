@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Models;
+using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = AdminConstant)]
     public class MedicineController : BaseController
     {
         private readonly IMedicineService medicineService;
@@ -85,6 +86,7 @@ namespace PharMedTOGO.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             try
