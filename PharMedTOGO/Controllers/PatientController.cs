@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data.Models;
+using PharMedTOGO.Models;
 
 namespace PharMedTOGO.Controllers
 {
@@ -24,98 +25,148 @@ namespace PharMedTOGO.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            if (User?.Identity?.IsAuthenticated ?? false)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new RegisterViewModel();
+
+                return View(model);
             }
-
-            var model = new RegisterViewModel();
-
-            return View(model);
+            catch (Exception e)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var passwordHasher = new PasswordHasher<Patient>();
+                var user = new Patient()
+                {
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    EGN = model.EGN,
+                    UserName = $"{model.FirstName}{model.LastName}"
+                };
+                user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+
+                var result = await userManager.CreateAsync(user, model.Password);
+                await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login", "Patient");
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+
                 return View(model);
             }
-
-            var passwordHasher = new PasswordHasher<Patient>();
-            var user = new Patient()
+            catch (Exception e)
             {
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                EGN = model.EGN,
-                UserName = $"{model.FirstName}{model.LastName}"
-            };
-            user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
-
-            var result = await userManager.CreateAsync(user, model.Password);
-            await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Login", "Patient");
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
             }
-
-            foreach (var item in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, item.Description);
-            }
-
-            return View(model);
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
-            if (User?.Identity?.IsAuthenticated ?? false)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new LoginViewModel();
+
+                model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                return View(model);
             }
-
-            var model = new LoginViewModel();
-
-            model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            return View(model);
+            catch (Exception e)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var user = await userManager.FindByEmailAsync(model.Email);
+
+                if (user != null)
+                {
+                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login");
+
                 return View(model);
             }
-
-            var user = await userManager.FindByEmailAsync(model.Email);
-
-            if (user != null)
+            catch (Exception e)
             {
-                var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-
-                if (result.Succeeded)
+                return View("Error", new ErrorViewModel()
                 {
-                    return RedirectToAction("Index", "Home");
-                }
+                    ExceptionMessage = e.Message
+                });
             }
-
-            ModelState.AddModelError(string.Empty, "Invalid login");
-
-            return View(model);
         }
 
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            try
+            {
+                await signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
+            }
         }
 
         [HttpPost]

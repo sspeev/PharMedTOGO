@@ -147,17 +147,17 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Prescription1 = new Prescription()
             {
                 Id = 1,
-                IsValid = true,
+                PrescriptionState = PrescriptionState.NotReviewed,
                 CreatedOn = DateTime.Now,
                 ExpireDate = DateTime.Now.AddDays(10),
                 Description = "Flu",
-                PatientId = Patient1.Id
+                PatientId = "f13628c2-5ff0-4d1c-a0e2-2527ec425aa4"
             };
 
             Prescription2 = new Prescription()
             {
                 Id = 2,
-                IsValid = false,
+                PrescriptionState = PrescriptionState.NotReviewed,
                 CreatedOn = DateTime.UtcNow.AddDays(-11),
                 ExpireDate = DateTime.Now,
                 Description = "COVID-19",

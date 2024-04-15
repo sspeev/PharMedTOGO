@@ -10,5 +10,9 @@ namespace PharMedTOGO.Core.Contracts
         Task<bool> ExistsByIdAsync(string userId);
 
         Task<PatientServiceModel> FindAdminById(string userId);
+
+        Task<int> HasUserPrescription(string userId);
+
+        Task Validate(bool valid, int id);
     }
 }

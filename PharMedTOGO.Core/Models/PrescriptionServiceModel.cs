@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using PharMedTOGO.Infrastrucure.Data.Enums;
 
 namespace PharMedTOGO.Core.Models
 {
@@ -6,11 +6,9 @@ namespace PharMedTOGO.Core.Models
     {
         public int Id { get; set; }
 
-        [DisplayName("Is your prescription valid")]
-        public bool IsValid { get; set; }
+        public PrescriptionState PrescriptionState { get; set; }
 
-        [DisplayName("Is your prescription reviewd from the admin")]
-        public bool IsReviewd { get; set; }
+        public bool IsValid { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
@@ -19,5 +17,11 @@ namespace PharMedTOGO.Core.Models
         public string Description { get; set; } = string.Empty;
 
         public string PatientId { get; set; } = string.Empty;
+
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string EGN { get; set; } = string.Empty;
     }
 }

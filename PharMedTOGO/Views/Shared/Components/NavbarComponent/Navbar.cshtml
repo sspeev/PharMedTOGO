@@ -1,8 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using PharMedTOGO.Areas.Admin.Models
+@using PharMedTOGO.Core.Contracts
 @using PharMedTOGO.Extensions
 @using PharMedTOGO.Infrastrucure.Data.Models
 @inject SignInManager<Patient> SignInManager
+@inject IAdminService adminService
 
+@{
+    int prescriptionId = await adminService.HasUserPrescription(User.Id());
+}
 <nav class="insightNavbar">
     <a class="item" asp-controller="Home" asp-action="Index">Home</a>
     <div class="item">
@@ -43,9 +49,15 @@
                     <li class="nav-item">
                         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My account</a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Order" asp-action="All">My Orders</a>
                     </li>
+                    @if (prescriptionId != 0)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="Details" asp-route-id="@prescriptionId">My Prescription</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <form class="form-inline" asp-controller="Patient" asp-action="Logout">
                             <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

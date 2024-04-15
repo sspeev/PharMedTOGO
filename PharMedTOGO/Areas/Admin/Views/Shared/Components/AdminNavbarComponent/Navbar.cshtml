@@ -2,14 +2,8 @@
 
 <nav class="insightNavbar">
     <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="Index">Home</a>
-    <div class="item">
-        <a asp-area="Admin" asp-controller="Admin" asp-action="AllUsers">Dashboard</a>
-        <div class="dropdown">
-            <div>
-                <a asp-area="" asp-controller="Medicine" asp-action="Add">Add new medicine</a>
-            </div>
-        </div>
-    </div>
+    <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="AllUsers">Dashboard</a>
+    <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="ValidatePrescriptions">Prescriptions</a>
     <a class="item" asp-area="" asp-controller="Home" asp-action="Index" title="back">Public panel</a>
     <div class="underline"></div>
     <div class="d-flex justify-content-between w-100 ps-lg-4 pe-lg-4 align-content-center">

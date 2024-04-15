@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharMedTOGO.Infrastrucure.Data;
 
@@ -11,9 +12,10 @@ using PharMedTOGO.Infrastrucure.Data;
 namespace PharMedTOGO.Infrastrucure.Migrations
 {
     [DbContext(typeof(PharMedDbContext))]
-    partial class PharMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415224833_new9")]
+    partial class new9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,16 +444,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                             AccessFailedCount = 0,
                             Address = "Burgas-Slaveikov",
-                            ConcurrencyStamp = "3459476c-9d45-4413-8bb2-f7a8d4411411",
+                            ConcurrencyStamp = "9aded681-7e94-4720-8e6b-e02ddbc77be2",
                             EGN = "0549050487",
                             Email = "stoyan@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Stoyan",
                             LastName = "Peev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPA1yE+3sfHey8n8r4ZQNduWUX5HVNALVVt3m9IcN7RAUOEMjkioVDq8ncVYwji6Ow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC0/lfD25gzJ11KKt5DRda7roU6ndGv3W8NTUna2Bw1Iqtqhb6wyFhJZziWXPxBsKg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4470a2a4-7324-4379-963b-121e6fb82e47",
+                            SecurityStamp = "f4a48a39-5408-455a-b566-44255b5eb8cb",
                             TwoFactorEnabled = false,
                             UserName = "Stoyan"
                         },
@@ -460,16 +462,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             AccessFailedCount = 0,
                             Address = "Pomorie-Mahala-N1",
-                            ConcurrencyStamp = "2e1b695f-d54b-4e7a-b7d9-b63241156a2a",
+                            ConcurrencyStamp = "7b5b2a2a-3433-4e37-8161-70879bd21f52",
                             EGN = "0506047819",
                             Email = "kristalin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Kristalin",
                             LastName = "Zhelezhchev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEDRwdZh9XV6AMordDR4IBNeS2z705RyYd53sNKwPMj0hIE7sZrKVrVPs5L4EetRoyg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMBDENeQiiBwHUoeRrUAcoMEf0Q7o+zEErzlxV+4D3f9GF4Q+w8L0IMxed0IGF0k6Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3e4f5f76-16f0-4c79-ad38-8196ebf73dc9",
+                            SecurityStamp = "9806b78d-abeb-4c05-8b67-5283347dbd49",
                             TwoFactorEnabled = false,
                             UserName = "Kristalin"
                         });
@@ -496,17 +498,18 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("The expire date of the prescription");
 
+                    b.Property<bool>("IsReviewd")
+                        .HasColumnType("bit")
+                        .HasComment("Boolean property which shows if the current prescription is reviewed from the admin");
+
                     b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasComment("Boolean property which shows if the current prescription is valid");
 
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasComment("Patient's identifier");
-
-                    b.Property<int>("PrescriptionState")
-                        .HasColumnType("int")
-                        .HasComment("Shows the current stated of validating the prescription");
 
                     b.HasKey("Id");
 
@@ -520,22 +523,22 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 16, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5647),
+                            CreatedOn = new DateTime(2024, 4, 16, 1, 48, 32, 410, DateTimeKind.Local).AddTicks(6466),
                             Description = "Flu",
-                            ExpireDate = new DateTime(2024, 4, 26, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5687),
+                            ExpireDate = new DateTime(2024, 4, 26, 1, 48, 32, 410, DateTimeKind.Local).AddTicks(6509),
+                            IsReviewd = false,
                             IsValid = false,
-                            PatientId = "f13628c2-5ff0-4d1c-a0e2-2527ec425aa4",
-                            PrescriptionState = 0
+                            PatientId = "f13628c2-5ff0-4d1c-a0e2-2527ec425aa4"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 4, 23, 33, 32, 308, DateTimeKind.Utc).AddTicks(5691),
+                            CreatedOn = new DateTime(2024, 4, 4, 22, 48, 32, 410, DateTimeKind.Utc).AddTicks(6514),
                             Description = "COVID-19",
-                            ExpireDate = new DateTime(2024, 4, 16, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5691),
+                            ExpireDate = new DateTime(2024, 4, 16, 1, 48, 32, 410, DateTimeKind.Local).AddTicks(6514),
+                            IsReviewd = false,
                             IsValid = false,
-                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
-                            PrescriptionState = 0
+                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
                         });
                 });
 
@@ -596,7 +599,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = "9fb66dc7-697a-48fc-a009-3169578464bc",
-                            ConcurrencyStamp = "9aa3369b-c557-4b5f-96c2-540611829301",
+                            ConcurrencyStamp = "3cccd4c5-9eb2-4c16-b2b2-91407eb4b7f0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

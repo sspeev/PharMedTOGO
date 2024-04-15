@@ -1,0 +1,26 @@
+﻿@model IEnumerable<PrescriptionServiceModel>
+
+@{
+    ViewData["Title"] = "Validate Prescriptions";
+}
+
+<h1>@ViewData["Title"]</h1>
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title text-black">Prescription N @item.Id</h5>
+            <h6 class="card-subtitle text-black">Prescription details</h6>
+            <p class="card-text text-black">Created On: @item.CreatedOn</p>
+            <p class="card-text text-black">Exppire Date: @item.ExpireDate</p>
+            <p class="card-text text-black">Prescription State: @item.PrescriptionState</p>
+            <p class="card-text text-black">Prescription State: @item.IsValid</p>
+            <form asp-area="Admin" asp-controller="Admin" asp-action="ValidatePrescriptions" asp-route-id="@item.Id" asp-route-valid="@true" method="post">
+                <button class="btn btn-success" type="submit">Valid</button>
+            </form>
+            <form asp-area="Admin" asp-controller="Admin" asp-action="ValidatePrescriptions" asp-route-id="@item.Id" asp-route-valid="@false" method="post">
+                <button class="btn btn-danger" type="submit">Invalid</button>
+            </form>
+        </div>
+    </div>
+}

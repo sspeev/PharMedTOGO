@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Areas.Admin.Models;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Infrastrucure.Data;
+using PharMedTOGO.Infrastrucure.Data.Enums;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Core.Services
@@ -10,10 +11,13 @@ namespace PharMedTOGO.Core.Services
     public class AdminService : IAdminService
     {
         private readonly PharMedDbContext context;
+        private readonly IPrescriptionService prescriptionService;
 
-        public AdminService(PharMedDbContext _context)
+        public AdminService(PharMedDbContext _context,
+            IPrescriptionService _prescriptionService)
         {
             context = _context;
+            prescriptionService = _prescriptionService;
         }
         public async Task<IEnumerable<PatientServiceModel>> AllUsersAsync()
         {
@@ -68,6 +72,33 @@ namespace PharMedTOGO.Core.Services
                 };
             }
             throw new ArgumentException("Unexisting admin");
+        }
+
+        public async Task<int> HasUserPrescription(string userId)
+        {
+            var prescription = await context.Prescriptions
+                .FirstOrDefaultAsync(pr => pr.PatientId == userId);
+
+            if (prescription != null)
+            {
+                return prescription.Id;
+            }
+            return 0;
+        }
+
+        public async Task Validate(bool valid, int id)
+        {
+            var prescription = await prescriptionService.FindByIdAsync(id);
+
+            if (valid)
+            {
+                prescription.IsValid = true;
+            }
+            else prescription.IsValid = false;
+
+            prescription.PrescriptionState = PrescriptionState.Finished;
+
+            await context.SaveChangesAsync();
         }
     }
 }

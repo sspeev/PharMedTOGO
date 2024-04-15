@@ -2,6 +2,7 @@
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data;
+using PharMedTOGO.Infrastrucure.Data.Enums;
 using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Core.Services
@@ -9,14 +10,26 @@ namespace PharMedTOGO.Core.Services
     public class PrescriptionService : IPrescriptionService
     {
         private readonly PharMedDbContext context;
-        private readonly IAdminService adminService;
 
-        public PrescriptionService(PharMedDbContext _context, 
-            IAdminService _adminService)
+        public PrescriptionService(PharMedDbContext _context)
         {
             context = _context;
-            adminService = _adminService;
+        }
 
+        public async Task<IEnumerable<PrescriptionServiceModel>> AllAsync()
+        {
+            return await context.Prescriptions
+                .AsNoTracking()
+                .Select(pr => new PrescriptionServiceModel()
+                {
+                    Id = pr.Id,
+                    CreatedOn = pr.CreatedOn,
+                    ExpireDate = pr.ExpireDate,
+                    PrescriptionState = pr.PrescriptionState,
+                    IsValid = pr.IsValid,
+                    PatientId = pr.PatientId
+                })
+                .ToListAsync();
         }
 
         public async Task<PrescriptionServiceModel> DetailsAsync(int id)
@@ -29,6 +42,7 @@ namespace PharMedTOGO.Core.Services
                 CreatedOn = prescription.CreatedOn,
                 ExpireDate = prescription.ExpireDate,
                 Description = prescription.Description,
+                PrescriptionState = prescription.PrescriptionState,
                 IsValid = prescription.IsValid,
                 PatientId = prescription.PatientId
             };
@@ -52,10 +66,14 @@ namespace PharMedTOGO.Core.Services
             throw new ArgumentException("Unexisting prescription");
         }
 
-        public async Task ValidatePrescription(int id, string userId)
+        public async Task ValidatePrescriptionAsync(int id)
         {
             var prescription = await FindByIdAsync(id);
-            prescription.IsReviewd = true;
+            if (prescription.PrescriptionState == PrescriptionState.NotReviewed)
+            {
+                prescription.PrescriptionState = PrescriptionState.Reviewing;
+            }
+            await context.SaveChangesAsync();
         }
     }
 }

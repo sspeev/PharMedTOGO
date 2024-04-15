@@ -1,0 +1,70 @@
+﻿@using PharMedTOGO.Core.Contracts
+@using static PharMedTOGO.Core.Constants.MessageConstants
+@model PrescriptionServiceModel
+@inject IPrescriptionService PrescriptionService
+
+@{
+    ViewData["Title"] = "Details";
+    var createdOn = Model.CreatedOn.ToString(DateFormat);
+    var expireDate = Model.ExpireDate.ToString(DateFormat);
+    var isValid = Model.IsValid ? "Yes" : "No";
+}
+<h1>Online prescription</h1>
+<hr />
+<div class="info">
+    <div class="prescrDetails">
+        <h3>Prescription Details</h3>
+        <div class="d-flex flex-column gap-2">
+            <div class="d-flex gap-2">
+                <label asp-for="PrescriptionState"></label>
+                <span>-  @Model.PrescriptionState</span>
+            </div>
+            @if (Model.PrescriptionState == PrescriptionState.Finished)
+            {
+                <div class="d-flex gap-2">
+                    <label asp-for="IsValid"></label>
+                    @if (isValid == "Yes")
+                    {
+                        <span class="text-success">-  @isValid</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">-  @isValid</span>
+                    }
+                </div>
+            }
+            <div class="d-flex gap-2">
+                <label asp-for="CreatedOn"></label>
+                <span>-  @createdOn</span>
+            </div>
+            <div class="d-flex gap-2">
+                <label asp-for="ExpireDate"></label>
+                <span>-  @expireDate</span>
+            </div>
+        </div>
+    </div>
+    <div class="patientDetails">
+        <h3>Patient Details</h3>
+        <div>
+            <div class="d-flex gap-2">
+                <label asp-for="FirstName"></label>
+                <span>-  @Model.FirstName</span>
+            </div>
+            <div class="d-flex gap-2">
+                <label asp-for="LastName"></label>
+                <span>-  @Model.LastName</span>
+            </div>
+            <div class="d-flex gap-2">
+                <label asp-for="EGN"></label>
+                <span>-  @Model.EGN</span>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex gap-2 descrip">
+        <label asp-for="Description"></label>
+        <span>-  @Model.Description</span>
+    </div>
+    <form asp-area="" asp-controller="Prescription" asp-action="Validate" asp-route-id="@Model.Id" method="post">
+        <button class="btn btn-success" type="submit">Validate</button>
+    </form>
+</div>

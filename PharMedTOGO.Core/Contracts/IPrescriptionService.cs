@@ -11,6 +11,8 @@ namespace PharMedTOGO.Core.Contracts
 
         Task<Prescription> FindByIdAsync(int id);
 
-        Task ValidatePrescription(int id, string userId);
+        Task ValidatePrescriptionAsync(int id);
+
+        Task<IEnumerable<PrescriptionServiceModel>> AllAsync();
     }
 }

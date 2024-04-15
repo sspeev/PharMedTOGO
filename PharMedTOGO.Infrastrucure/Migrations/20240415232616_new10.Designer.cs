@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharMedTOGO.Infrastrucure.Data;
 
@@ -11,9 +12,10 @@ using PharMedTOGO.Infrastrucure.Data;
 namespace PharMedTOGO.Infrastrucure.Migrations
 {
     [DbContext(typeof(PharMedDbContext))]
-    partial class PharMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415232616_new10")]
+    partial class new10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,16 +444,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                             AccessFailedCount = 0,
                             Address = "Burgas-Slaveikov",
-                            ConcurrencyStamp = "3459476c-9d45-4413-8bb2-f7a8d4411411",
+                            ConcurrencyStamp = "c8bc9e66-5e1e-4213-b17b-32f37b04d39b",
                             EGN = "0549050487",
                             Email = "stoyan@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Stoyan",
                             LastName = "Peev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPA1yE+3sfHey8n8r4ZQNduWUX5HVNALVVt3m9IcN7RAUOEMjkioVDq8ncVYwji6Ow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAqhmUnCzr0quulh4FGfZYgNztZHBEP61gbEv944/qQk90GeZ1O6YLs+fJ0zOqHCZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4470a2a4-7324-4379-963b-121e6fb82e47",
+                            SecurityStamp = "73a03edf-48f4-4d84-8de7-eabd65aebf5a",
                             TwoFactorEnabled = false,
                             UserName = "Stoyan"
                         },
@@ -460,16 +462,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             AccessFailedCount = 0,
                             Address = "Pomorie-Mahala-N1",
-                            ConcurrencyStamp = "2e1b695f-d54b-4e7a-b7d9-b63241156a2a",
+                            ConcurrencyStamp = "8657180e-2384-4845-935f-de49873d8fd2",
                             EGN = "0506047819",
                             Email = "kristalin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Kristalin",
                             LastName = "Zhelezhchev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEDRwdZh9XV6AMordDR4IBNeS2z705RyYd53sNKwPMj0hIE7sZrKVrVPs5L4EetRoyg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDgHnpyPtcvs/dsLREILxKEXhB9+zxWZg5yrSxVpDWTgpj2Fsa6hh7bwwXE1bMPaPA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3e4f5f76-16f0-4c79-ad38-8196ebf73dc9",
+                            SecurityStamp = "52b2de8b-39df-461c-bc4f-0d7148628ee4",
                             TwoFactorEnabled = false,
                             UserName = "Kristalin"
                         });
@@ -496,9 +498,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("The expire date of the prescription");
 
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
@@ -520,20 +519,18 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 16, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5647),
+                            CreatedOn = new DateTime(2024, 4, 16, 2, 26, 15, 737, DateTimeKind.Local).AddTicks(7895),
                             Description = "Flu",
-                            ExpireDate = new DateTime(2024, 4, 26, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5687),
-                            IsValid = false,
+                            ExpireDate = new DateTime(2024, 4, 26, 2, 26, 15, 737, DateTimeKind.Local).AddTicks(7935),
                             PatientId = "f13628c2-5ff0-4d1c-a0e2-2527ec425aa4",
                             PrescriptionState = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 4, 23, 33, 32, 308, DateTimeKind.Utc).AddTicks(5691),
+                            CreatedOn = new DateTime(2024, 4, 4, 23, 26, 15, 737, DateTimeKind.Utc).AddTicks(7938),
                             Description = "COVID-19",
-                            ExpireDate = new DateTime(2024, 4, 16, 2, 33, 32, 308, DateTimeKind.Local).AddTicks(5691),
-                            IsValid = false,
+                            ExpireDate = new DateTime(2024, 4, 16, 2, 26, 15, 737, DateTimeKind.Local).AddTicks(7939),
                             PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             PrescriptionState = 0
                         });
@@ -596,7 +593,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = "9fb66dc7-697a-48fc-a009-3169578464bc",
-                            ConcurrencyStamp = "9aa3369b-c557-4b5f-96c2-540611829301",
+                            ConcurrencyStamp = "25f2eb5b-ea45-4306-b13a-bbca1cab72b3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
