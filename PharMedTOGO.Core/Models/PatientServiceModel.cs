@@ -1,6 +1,8 @@
-﻿namespace PharMedTOGO.Areas.Admin.Models
+﻿using PharMedTOGO.Core.Models;
+
+namespace PharMedTOGO.Areas.Admin.Models
 {
-    public class UserServiceModel
+    public class PatientServiceModel
     {
         public string Id { get; set; } = string.Empty;
 

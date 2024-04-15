@@ -40,7 +40,7 @@ namespace PharMedTOGO.Controllers
 
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (model == null)
@@ -67,7 +67,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 var model = await saleService.AllAsync();
@@ -94,7 +94,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (!await saleService.ExistsByIdAsync(saleId))
@@ -126,7 +126,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 await saleService.AttachMedicine(saleId, medicineId);//possible throwing
@@ -155,7 +155,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 var sale = await saleService.FindByIdAsync(id);//possible throwing
@@ -186,7 +186,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (!await saleService.ExistsByIdAsync(id))
@@ -221,7 +221,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 var sale = await saleService.FindByIdAsync(id);// possible throwing
@@ -257,7 +257,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (!await saleService.ExistsByIdAsync(id))

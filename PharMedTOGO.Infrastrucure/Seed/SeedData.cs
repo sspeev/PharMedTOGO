@@ -147,7 +147,7 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Prescription1 = new Prescription()
             {
                 Id = 1,
-                IsValidated = true,
+                IsValid = true,
                 CreatedOn = DateTime.Now,
                 ExpireDate = DateTime.Now.AddDays(10),
                 Description = "Flu",
@@ -157,7 +157,7 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Prescription2 = new Prescription()
             {
                 Id = 2,
-                IsValidated = false,
+                IsValid = false,
                 CreatedOn = DateTime.UtcNow.AddDays(-11),
                 ExpireDate = DateTime.Now,
                 Description = "COVID-19",

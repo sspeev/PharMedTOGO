@@ -11,8 +11,12 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [Comment("Boolean property which shows if the current prescription is validated from the admin")]
-        public bool IsValidated { get; set; }
+        [Comment("Boolean property which shows if the current prescription is valid")]
+        public bool IsValid { get; set; }
+
+        [Required]
+        [Comment("Boolean property which shows if the current prescription is reviewed from the admin")]
+        public bool IsReviewd { get; set; }
 
         [Comment("The creation date of the prescription")]
         public DateTime CreatedOn { get; set; }

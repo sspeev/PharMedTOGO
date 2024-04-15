@@ -6,8 +6,9 @@ namespace PharMedTOGO.Core.Contracts
     {
         Task<bool> ExistsAdminByUserIdAsync(string userId);
         Task MakeAdminByIdAsync(string userId);
-        Task<IEnumerable<UserServiceModel>> AllUsersAsync();
-        //Task DeleteByIdAsync(string userId);
+        Task<IEnumerable<PatientServiceModel>> AllUsersAsync();
         Task<bool> ExistsByIdAsync(string userId);
+
+        Task<PatientServiceModel> FindAdminById(string userId);
     }
 }

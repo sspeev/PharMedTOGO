@@ -15,10 +15,10 @@ namespace PharMedTOGO.Core.Services
         {
             context = _context;
         }
-        public async Task<IEnumerable<UserServiceModel>> AllUsersAsync()
+        public async Task<IEnumerable<PatientServiceModel>> AllUsersAsync()
         {
             var users = await context.Users.AsNoTracking()
-                .Select(u => new UserServiceModel()
+                .Select(u => new PatientServiceModel()
                 {
                     Id = u.Id,
                     FirstName = u.FirstName,
@@ -53,5 +53,21 @@ namespace PharMedTOGO.Core.Services
 
         public async Task<bool> ExistsByIdAsync(string userId)
             => await context.Users.AnyAsync(u => u.Id == userId);
+
+        public async Task<PatientServiceModel> FindAdminById(string userId)
+        {
+            if (await ExistsAdminByUserIdAsync(userId))
+            {
+                var admin = await context.Users.FirstAsync(u => u.Id == userId);
+                return new PatientServiceModel()
+                {
+                    Id = admin.Id,
+                    FirstName = admin.FirstName,
+                    LastName = admin.LastName,
+                    EGN = admin.EGN
+                };
+            }
+            throw new ArgumentException("Unexisting admin");
+        }
     }
 }

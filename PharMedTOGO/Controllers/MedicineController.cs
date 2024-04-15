@@ -35,7 +35,7 @@ namespace PharMedTOGO.Controllers
             {
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (!ModelState.IsValid)
@@ -122,7 +122,7 @@ namespace PharMedTOGO.Controllers
 
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (medicine == null)
@@ -190,7 +190,7 @@ namespace PharMedTOGO.Controllers
 
                 if (!User.IsAdmin())
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 if (medicine == null)
