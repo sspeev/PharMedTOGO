@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
+using PharMedTOGO.Extensions;
 using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
@@ -32,7 +33,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (!ModelState.IsValid)
                 {
@@ -116,7 +120,10 @@ namespace PharMedTOGO.Controllers
             {
                 var medicine = await medicineService.FindByIdAsync(id);//possible throwing
 
-                //validation for admin
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (medicine == null)
                 {
@@ -181,7 +188,10 @@ namespace PharMedTOGO.Controllers
             {
                 var medicine = await medicineService.FindByIdAsync(id);//possible throwing
 
-                //validation for admin
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (medicine == null)
                 {

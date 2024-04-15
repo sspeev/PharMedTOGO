@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
+using PharMedTOGO.Extensions;
 using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
@@ -37,7 +38,10 @@ namespace PharMedTOGO.Controllers
                     return View(model);
                 }
 
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (model == null)
                 {
@@ -61,7 +65,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed 
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 var model = await saleService.AllAsync();
 
@@ -85,7 +92,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (!await saleService.ExistsByIdAsync(saleId))
                 {
@@ -114,7 +124,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 await saleService.AttachMedicine(saleId, medicineId);//possible throwing
 
@@ -140,7 +153,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 var sale = await saleService.FindByIdAsync(id);//possible throwing
 
@@ -168,7 +184,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (!await saleService.ExistsByIdAsync(id))
                 {
@@ -200,7 +219,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 var sale = await saleService.FindByIdAsync(id);// possible throwing
 
@@ -233,7 +255,10 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                //validation for admin needed
+                if (!User.IsAdmin())
+                {
+                    return Unauthorized();
+                }
 
                 if (!await saleService.ExistsByIdAsync(id))
                 {

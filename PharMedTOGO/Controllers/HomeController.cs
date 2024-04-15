@@ -5,13 +5,6 @@ namespace PharMedTOGO.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -40,9 +33,5 @@ namespace PharMedTOGO.Controllers
             }
             return View();
         }
-        //protected virtual async Task<ActionHelper> DeleteEditHelper(string id)
-        //{
-        //    return await Task.Run(() => { return new ActionHelper(); });
-        //}
     }
 }

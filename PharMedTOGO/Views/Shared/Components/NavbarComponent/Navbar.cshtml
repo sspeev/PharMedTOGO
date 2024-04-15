@@ -6,28 +6,31 @@
 <nav class="insightNavbar">
     <a class="item" asp-controller="Home" asp-action="Index">Home</a>
     <div class="item">
-        <a asp-controller="Medicine" asp-action="All">Medicine</a>
-        <div class="dropdown">
-            <div>
-                <a asp-controller="Medicine" asp-action="Add">Add new medicine</a>
+        <a asp-controller="Medicine" asp-action="All">Medicines</a>
+        @if (User.IsAdmin())
+        {
+            <div class="dropdown">
+                <div>
+                    <a asp-area="" asp-controller="Medicine" asp-action="Add">Add new medicine</a>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="item">
-        <a asp-controller="Sale" asp-action="All">Sales</a>
-        <div class="dropdown">
-            <div>
-                <a asp-controller="Sale" asp-action="Add">Add new sale</a>
-            </div>
-        </div>
+        }
     </div>
     @if (User.IsAdmin())
     {
+        <div class="item">
+            <a asp-area="" asp-controller="Sale" asp-action="All">Sales</a>
+            <div class="dropdown">
+                <div>
+                    <a asp-area="" asp-controller="Sale" asp-action="Add">Add new sale</a>
+                </div>
+            </div>
+        </div>
         <a class="item" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin panel</a>
     }
+    <a class="item">Shopping cart</a>
     <div class="underline"></div>
-    @* <partial name="_LoginPartial" /> *@
-    <div class="d-flex justify-content-between w-100 ps-lg-4 pe-lg-4 align-content-center">
+    <div class="d-flex justify-content-between ps-lg-4 pe-lg-4 align-content-center">
         <div class="btn-group">
             <button type="button" class="btn btn-info dropdown-toggle ps-3 pe-3" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 10%">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -39,6 +42,9 @@
                 {
                     <li class="nav-item">
                         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My account</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-controller="Order" asp-action="All">My Orders</a>
                     </li>
                     <li class="nav-item">
                         <form class="form-inline" asp-controller="Patient" asp-action="Logout">

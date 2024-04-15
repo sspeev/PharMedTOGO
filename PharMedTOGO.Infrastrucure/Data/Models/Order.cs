@@ -15,12 +15,6 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
 
-        [Required]
-        public int PrescriptionId { get; set; }
-
-        [ForeignKey(nameof(PrescriptionId))]
-        public Prescription? Prescription { get; set; }
-
         public IList<Medicine> Medicines { get; set; }
             = new List<Medicine>();
     }

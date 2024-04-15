@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharMedTOGO.Infrastrucure.Data;
 
@@ -11,9 +12,10 @@ using PharMedTOGO.Infrastrucure.Data;
 namespace PharMedTOGO.Infrastrucure.Migrations
 {
     [DbContext(typeof(PharMedDbContext))]
-    partial class PharMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415171320_changedContext")]
+    partial class changedContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,6 +209,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PrescriptionId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
                         .HasComment("The price of the medicine");
@@ -221,6 +226,8 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("PrescriptionId");
 
                     b.HasIndex("SaleId");
 
@@ -320,9 +327,14 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("PrescriptionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("PrescriptionId");
 
                     b.ToTable("Orders");
 
@@ -330,12 +342,14 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            PatientId = "d42ae752-35a7-4ba3-a9c0-190484b6c253"
+                            PatientId = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
+                            PrescriptionId = 1
                         },
                         new
                         {
                             Id = 2,
-                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
+                            PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
+                            PrescriptionId = 2
                         });
                 });
 
@@ -403,10 +417,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PrescriptionId")
-                        .HasColumnType("int")
-                        .HasComment("Prescription's identifier");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -430,8 +440,6 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("PrescriptionId");
-
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasComment("The patient entity");
@@ -442,16 +450,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
                             AccessFailedCount = 0,
                             Address = "Burgas-Slaveikov",
-                            ConcurrencyStamp = "92d110ab-e3f7-47aa-b86a-a2f6f4c4359f",
+                            ConcurrencyStamp = "d77ac45f-bcc6-4a7f-b90e-6e3c055c92bb",
                             EGN = "0549050487",
                             Email = "stoyan@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Stoyan",
                             LastName = "Peev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEJUoRYYL9r1/kjFnfhe0UpFMWMDJYurjK5zlat2m9Oj59WfaNg0Kv8wuyKHNeILszQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOmT5FXK/BCYNt+m/Tp4nFumLyYijnsryYrLw8JPv+xbD02Sl/mltrxLeFITq1TPzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d91d72cf-ea92-410e-a05c-8009a6a05a5a",
+                            SecurityStamp = "5d0e188c-ceed-4080-b9ba-9551f4b21624",
                             TwoFactorEnabled = false,
                             UserName = "Stoyan"
                         },
@@ -460,16 +468,16 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                             Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
                             AccessFailedCount = 0,
                             Address = "Pomorie-Mahala-N1",
-                            ConcurrencyStamp = "e196ea87-16d3-46cd-913c-5095506c9fc5",
+                            ConcurrencyStamp = "114b3e95-9f46-420c-bd0e-ee5af05d40d4",
                             EGN = "0506047819",
                             Email = "kristalin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Kristalin",
                             LastName = "Zhelezhchev",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPawwRnuoOFVQ+N5mHnNIuDmnubjzizn/2wuEka8jC8w836/oNYIXju1ELyF2U6Y7A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHEwsp4mMnvlirqbASY11mqadChDBG4Pg3YZuynheRBfZGZ6dJ0TWBbdU4mf6dPlQA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fdd9fcc8-7247-4780-93d0-e69c901cfc06",
+                            SecurityStamp = "7edb4363-33cf-4433-ae4c-fbe5ce501116",
                             TwoFactorEnabled = false,
                             UserName = "Kristalin"
                         });
@@ -517,18 +525,18 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 15, 21, 10, 26, 905, DateTimeKind.Local).AddTicks(6807),
+                            CreatedOn = new DateTime(2024, 4, 15, 20, 13, 19, 633, DateTimeKind.Local).AddTicks(1658),
                             Description = "Flu",
-                            ExpireDate = new DateTime(2024, 4, 25, 21, 10, 26, 905, DateTimeKind.Local).AddTicks(6849),
+                            ExpireDate = new DateTime(2024, 4, 25, 20, 13, 19, 633, DateTimeKind.Local).AddTicks(1703),
                             IsValidated = true,
                             PatientId = "d42ae752-35a7-4ba3-a9c0-190484b6c253"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 4, 18, 10, 26, 905, DateTimeKind.Utc).AddTicks(6856),
+                            CreatedOn = new DateTime(2024, 4, 4, 17, 13, 19, 633, DateTimeKind.Utc).AddTicks(1710),
                             Description = "COVID-19",
-                            ExpireDate = new DateTime(2024, 4, 15, 21, 10, 26, 905, DateTimeKind.Local).AddTicks(6857),
+                            ExpireDate = new DateTime(2024, 4, 15, 20, 13, 19, 633, DateTimeKind.Local).AddTicks(1711),
                             IsValidated = false,
                             PatientId = "3fe16750-157b-4110-a05f-0d2ba0812b3c"
                         });
@@ -591,7 +599,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         new
                         {
                             Id = "9fb66dc7-697a-48fc-a009-3169578464bc",
-                            ConcurrencyStamp = "bcba3774-5d44-4bc7-8bf5-51e603af5354",
+                            ConcurrencyStamp = "d0007842-66a1-44c5-9365-708f1168b80a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -650,15 +658,17 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Medicine", b =>
                 {
-                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Order", "Order")
+                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Order", null)
                         .WithMany("Medicines")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Prescription", null)
+                        .WithMany("Medicines")
+                        .HasForeignKey("PrescriptionId");
 
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Sale", "Sale")
                         .WithMany("Medicines")
                         .HasForeignKey("SaleId");
-
-                    b.Navigation("Order");
 
                     b.Navigation("Sale");
                 });
@@ -671,14 +681,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
-                {
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Prescription", "Prescription")
                         .WithMany()
-                        .HasForeignKey("PrescriptionId");
+                        .HasForeignKey("PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
 
                     b.Navigation("Prescription");
                 });
@@ -686,9 +695,9 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
                 {
                     b.HasOne("PharMedTOGO.Infrastrucure.Data.Models.Patient", "Patient")
-                        .WithMany()
+                        .WithMany("Prescriptions")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Patient");
@@ -702,6 +711,13 @@ namespace PharMedTOGO.Infrastrucure.Migrations
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Patient", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Prescriptions");
+                });
+
+            modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Prescription", b =>
+                {
+                    b.Navigation("Medicines");
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Sale", b =>

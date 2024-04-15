@@ -1,0 +1,62 @@
+﻿@using PharMedTOGO.Extensions
+@model IEnumerable<UserServiceModel>
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-light">
+                Id
+            </th>
+            <th class="text-light">
+                FirstName
+            </th>
+            <th class="text-light">
+                LastName
+            </th>
+            <th class="text-light">
+                EGN
+            </th>
+            @* <th>
+                Admin
+            </th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td class="text-light">
+                    @user.Id
+                </td>
+                <td class="text-light">
+                    @user.FirstName
+                </td>
+                <td class="text-light">
+                    @user.LastName
+                </td>
+                <td class="text-light">
+                    @user.EGN
+                </td>
+                @* @if (user)
+                {
+                    <td class="text-success">Yes</td>
+                }
+                else
+                {
+                    <td class="text-danger">No</td>
+                } *@
+                <td class="text-light gap-1">
+                    <form asp-area="Admin" asp-controller="Admin" asp-action="MakeUserAdmin" asp-route-id="@user.Id" method="post">
+                        <button class="btn btn-success text-light" type="submit">Make Admin</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

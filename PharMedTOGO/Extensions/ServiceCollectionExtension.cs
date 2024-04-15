@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             service.AddScoped<ISaleService, SaleService>();
             service.AddScoped<IMedicineService, MedicineService>();
+            service.AddScoped<IAdminService, AdminService>();
 
             return service;
         }
@@ -37,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
             })
-            .AddRoles<IdentityRole>()
+            .AddRoles<IdentityRole<string>>()
             .AddEntityFrameworkStores<PharMedDbContext>();
 
             return service;

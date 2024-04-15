@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static PharMedTOGO.Infrastrucure.Constants.DataConstants;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
@@ -26,10 +27,13 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("The address of the patient")]
         public string Address { get; set; } = string.Empty;
 
-        public IList<Prescription> Prescriptions { get; set; }
-            = new List<Prescription>();
+        [Comment("Prescription's identifier")]
+        public int? PrescriptionId { get; set; }
 
-        public IList<Order> Orders { get; set; }
+        [ForeignKey(nameof(PrescriptionId))]
+        public Prescription? Prescription { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
             = new List<Order>();
     }
 }

@@ -31,8 +31,5 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         [Comment("Navigational property ")]
         [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
-
-        public IList<Medicine> Medicines { get; set; }
-            = new List<Medicine>();
     }
 }

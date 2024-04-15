@@ -242,15 +242,13 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Order1 = new Order()
             {
                 Id = 1,
-                PatientId = Patient1.Id,
-                PrescriptionId = Prescription1.Id
+                PatientId = Patient1.Id
             };
 
             Order2 = new Order()
             {
                 Id = 2,
-                PatientId = Patient2.Id,
-                PrescriptionId = Prescription2.Id
+                PatientId = Patient2.Id
             };
         }
     }

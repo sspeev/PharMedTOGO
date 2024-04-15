@@ -7,7 +7,7 @@ using PharMedTOGO.Infrastrucure.Seed;
 
 namespace PharMedTOGO.Infrastrucure.Data
 {
-    public class PharMedDbContext : IdentityDbContext
+    public class PharMedDbContext : IdentityDbContext<Patient, IdentityRole<string>, string>
     {
         public PharMedDbContext(DbContextOptions<PharMedDbContext> options)
             : base(options)

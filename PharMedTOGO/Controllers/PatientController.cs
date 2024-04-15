@@ -55,7 +55,7 @@ namespace PharMedTOGO.Controllers
             user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
 
             var result = await userManager.CreateAsync(user, model.Password);
-
+            await signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (result.Succeeded)
             {
                 return RedirectToAction("Login", "Patient");
