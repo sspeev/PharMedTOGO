@@ -24,6 +24,7 @@ namespace PharMedTOGO.Core.Models
         [Range(typeof(decimal),
                     MedicinePriceMinValue,
                     MedicinePriceMaxValue,
+            ConvertValueInInvariantCulture = true,
                     ErrorMessage = MedicinePriceRangeError)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }

@@ -42,7 +42,7 @@ namespace PharMedTOGO.Areas.Admin.Controllers
                 {
                     users = await adminService.AllUsersAsync();
                     var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
 
                     memoryCache.Set(UserCacheKey, users, cacheOptions);
                 }

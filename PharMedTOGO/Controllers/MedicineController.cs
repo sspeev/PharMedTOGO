@@ -170,7 +170,7 @@ namespace PharMedTOGO.Controllers
                 }
                 await medicineService.EditAsync(id, model);
 
-                return RedirectToAction(nameof(Details));
+                return RedirectToAction(nameof(Details), new {id});
             }
             catch (Exception e) 
             { 

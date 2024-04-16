@@ -43,7 +43,7 @@ namespace PharMedTOGO.Controllers
                     model = await cartService.AllCartProducts(User.Id());
 
                     var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
 
                     memoryCache.Set(UserCacheKey, model, cacheOptions);
                 }
@@ -79,21 +79,28 @@ namespace PharMedTOGO.Controllers
 
                 var medicine = await mediicineService.FindByIdAsync(id);
                 var prescriptionId = await adminService.HasUserPrescription(User.Id());
-                if (prescriptionId == 0)
+                if (medicine.RequiresPrescription && prescriptionId == 0)
                 {
                     throw new ArgumentException("This medicine requires prescription which you do not have! Go to My prescription and send it to admin to validate it");
                 }
-                var prescription = await prescriptionService.FindByIdAsync(prescriptionId);
+                else if (medicine.RequiresPrescription)
+                {
+                    var prescription = await prescriptionService.FindByIdAsync(prescriptionId);
 
-                if (prescription.PrescriptionState != PrescriptionState.Finished)
-                {
-                    throw new ArgumentException("Your prescription hasn't been validated yet!");
+                    if (medicine.RequiresPrescription && prescription.PrescriptionState != PrescriptionState.Finished)
+                    {
+                        throw new ArgumentException("Your prescription hasn't been validated yet!");
+                    }
+                    if (medicine.RequiresPrescription && !prescription.IsValid)
+                    {
+                        throw new ArgumentException("You have invalid prescription");
+                    }
                 }
-                if (!prescription.IsValid)
+                else
                 {
-                    throw new ArgumentException("You have invalid prescription");
+                    await cartService.AddToCartAsync(id, User.Id());// possible throwing
+                    memoryCache.Remove(UserCacheKey);
                 }
-                await cartService.AddToCartAsync(id, User.Id());
 
                 return RedirectToAction(nameof(ShoppingCart), "Cart");
             }

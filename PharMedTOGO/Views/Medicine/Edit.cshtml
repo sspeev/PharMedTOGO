@@ -31,10 +31,15 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+            <div>
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i">@((MedicineCategory)i)</option>
+                    }
+                </select>
+                <span asp-validation-for="Category" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
