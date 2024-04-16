@@ -40,7 +40,7 @@ function highlight() {
         h6.style.transition = "1s";
     });
 
-    
+
 }
 function highout() {
 
@@ -54,3 +54,15 @@ function highout() {
         h6.style.color = '#f5f5f5';
     });
 }
+
+
+jQuery(function ($) {
+
+    $.validator.addMethod('number', function (value, element) {
+        return this.optional(element) || /^-?(?:\d+)(?:(\.|,)\d+)?$/.test(value);
+    });
+    
+    $.validator.methods.range = function (value, element, paran) {
+        return this.optional(element) || (Number(value.replace(',', '.')) >= Number(param[0]) && Number(value.replace(',', '.')) <= Number(paran[1]));   
+    }
+});

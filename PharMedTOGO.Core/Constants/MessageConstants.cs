@@ -19,5 +19,7 @@
         public const string DateFormat = "dd/MM/yyyy";
 
         public const string AdminConstant = "Admin";
+
+        public const string UserCacheKey = "UserCacheKey";
     }
 }

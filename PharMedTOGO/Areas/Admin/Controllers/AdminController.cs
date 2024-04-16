@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using PharMedTOGO.Areas.Admin.Models;
 using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Models;
+using PharMedTOGO.Extensions;
 using PharMedTOGO.Infrastrucure.Data.Enums;
 using PharMedTOGO.Models;
+using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Areas.Admin.Controllers
 {
@@ -9,13 +14,16 @@ namespace PharMedTOGO.Areas.Admin.Controllers
     {
         private readonly IAdminService adminService;
         private readonly IPrescriptionService prescriptionService;
+        private readonly IMemoryCache memoryCache;
 
         public AdminController(
             IAdminService _adminService,
-            IPrescriptionService _prescriptionService)
+            IPrescriptionService _prescriptionService,
+            IMemoryCache _memoryCache)
         {
             adminService = _adminService;
             prescriptionService = _prescriptionService;
+            memoryCache = _memoryCache;
         }
 
         public IActionResult Index()
@@ -28,7 +36,16 @@ namespace PharMedTOGO.Areas.Admin.Controllers
         {
             try
             {
-                var users = await adminService.AllUsersAsync();
+                var users = memoryCache.Get<IEnumerable<PatientServiceModel>>(UserCacheKey);
+
+                if (users == null)
+                {
+                    users = await adminService.AllUsersAsync();
+                    var cacheOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+
+                    memoryCache.Set(UserCacheKey, users, cacheOptions);
+                }
 
                 return View(users);
             }

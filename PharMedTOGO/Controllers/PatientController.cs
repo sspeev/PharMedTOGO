@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data.Models;
 using PharMedTOGO.Models;
+using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Controllers
 {
@@ -11,14 +13,17 @@ namespace PharMedTOGO.Controllers
     {
         private readonly SignInManager<Patient> signInManager;
         private readonly UserManager<Patient> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public PatientController(
             SignInManager<Patient> _signInManager,
-            UserManager<Patient> _userManager
+            UserManager<Patient> _userManager,
+            IMemoryCache _memoryCache
             )
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            memoryCache = _memoryCache;
         }
 
         [HttpGet]
@@ -71,6 +76,7 @@ namespace PharMedTOGO.Controllers
                 await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (result.Succeeded)
                 {
+                    memoryCache.Remove(UserCacheKey);
                     return RedirectToAction("Login", "Patient");
                 }
 
@@ -135,6 +141,10 @@ namespace PharMedTOGO.Controllers
 
                     if (result.Succeeded)
                     {
+                        if (await userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                        }
                         return RedirectToAction("Index", "Home");
                     }
                 }

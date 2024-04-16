@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Models;
 using PharMedTOGO.Extensions;
 using PharMedTOGO.Infrastrucure.Data.Enums;
 using PharMedTOGO.Models;
+using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Controllers
 {
@@ -12,18 +15,20 @@ namespace PharMedTOGO.Controllers
         private readonly IMedicineService mediicineService;
         private readonly IAdminService adminService;
         private readonly IPrescriptionService prescriptionService;
+        private readonly IMemoryCache memoryCache;
 
         public CartController(
             ICartService _cartService,
             IMedicineService _medicineService,
             IAdminService _adminService,
-            IPrescriptionService _prescriptionService)
+            IPrescriptionService _prescriptionService,
+            IMemoryCache _memoryCache)
         {
             cartService = _cartService;
             mediicineService = _medicineService;
             adminService = _adminService;
             prescriptionService = _prescriptionService;
-
+            memoryCache = _memoryCache;
         }
 
         [HttpGet]
@@ -31,8 +36,17 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                var model = await cartService.AllCartProducts(User.Id());
+                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKey);
 
+                if (model == null)
+                {
+                    model = await cartService.AllCartProducts(User.Id());
+
+                    var cacheOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+
+                    memoryCache.Set(UserCacheKey, model, cacheOptions);
+                }
                 return View(model);
             }
             catch (Exception e)
@@ -60,7 +74,7 @@ namespace PharMedTOGO.Controllers
                 if (await cartService.AlreadyAddedToCart(id, User.Id()))
                 {
                     throw new ArgumentException("The current medicine is already added to the shopping cart!");
-                
+
                 }
 
                 var medicine = await mediicineService.FindByIdAsync(id);
