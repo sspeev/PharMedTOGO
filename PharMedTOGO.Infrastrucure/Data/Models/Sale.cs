@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
 {
@@ -10,9 +9,8 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18, 2)")]
         [Comment("Decimal value for the sale percentage")]
-        public decimal Discount { get; set; }
+        public int Discount { get; set; }
 
         [Comment("When the sale starts")]
         public DateTime StartDate { get; set; }

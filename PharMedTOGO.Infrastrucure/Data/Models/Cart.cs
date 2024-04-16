@@ -3,19 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharMedTOGO.Infrastrucure.Data.Models
 {
-    public class Order
+    public class Cart
     {
         [Key]
-        public int Id { get; set; }
-
-        [Required]
         public string PatientId { get; set; } = string.Empty;
 
-        [Required]
         [ForeignKey(nameof(PatientId))]
         public Patient Patient { get; set; } = null!;
 
-        public IList<Medicine> Medicines { get; set; }
-            = new List<Medicine>();
+        [Required]
+        public int MedicineId { get; set; }
+
+        [ForeignKey(nameof(MedicineId))]
+        public Medicine Medicine { get; set; } = null!;
     }
 }

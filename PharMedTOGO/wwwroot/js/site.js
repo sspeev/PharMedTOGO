@@ -26,3 +26,31 @@ function appearSection() {
         else partial.style.display = "block";
     }
 }
+
+function highlight() {
+
+    // Get the button element
+    const button = document.querySelector('.buton');
+    const h6 = document.querySelector(".pay");
+
+    // Add a mouseover event listener
+    button.addEventListener('mouseover', () => {
+        // Change the button's background color
+        h6.style.color = '#2a2f43';
+        h6.style.transition = "1s";
+    });
+
+    
+}
+function highout() {
+
+    // Get the button element
+    const button = document.querySelector('.buton');
+    const h6 = document.querySelector(".pay");
+
+    // Add a mouseout event listener
+    button.addEventListener('mouseout', () => {
+        // Change the button's background color back to its original color
+        h6.style.color = '#f5f5f5';
+    });
+}

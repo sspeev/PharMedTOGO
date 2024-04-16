@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Infrastrucure.Data.Configuration;
 using PharMedTOGO.Infrastrucure.Data.Models;
-using PharMedTOGO.Infrastrucure.Seed;
 
 namespace PharMedTOGO.Infrastrucure.Data
 {
@@ -19,9 +18,9 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
 
-        public DbSet<Order> Orders { get; set; } = null!;
-
         public DbSet<Sale> Sales { get; set; } = null!;
+
+        public DbSet<Cart> Carts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,9 +28,9 @@ namespace PharMedTOGO.Infrastrucure.Data
             builder.ApplyConfiguration(new PatientConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
             builder.ApplyConfiguration(new UsersRolesConfiguration());
-            builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new PrescriptionConfiguration());
             builder.ApplyConfiguration(new SaleConfiguration());
+            builder.ApplyConfiguration(new CartConfiguration());
 
             base.OnModelCreating(builder);
         }

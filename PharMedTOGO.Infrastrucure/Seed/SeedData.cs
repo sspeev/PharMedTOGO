@@ -32,10 +32,6 @@ namespace PharMedTOGO.Infrastrucure.Seed
 
         public Sale Sale2 { get; set; } = null!;
 
-        public Order Order1 { get; set; } = null!;
-
-        public Order Order2 { get; set; } = null!;
-
         public List<IdentityRole> Roles { get; set; } = new List<IdentityRole>();
 
         public List<IdentityUserRole<string>> UsersRoles { get; set; } = new List<IdentityUserRole<string>>();
@@ -47,7 +43,6 @@ namespace PharMedTOGO.Infrastrucure.Seed
             SeedPatients();
             SeedRoles();
             SeedPrescriptions();
-            SeedOrders();
             SeedUsersRoles();
         }
 
@@ -234,21 +229,6 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 StartDate = DateTime.Now.Date,
                 EndDate = DateTime.Now.Date.AddDays(10),
                 IsEnded = false
-            };
-        }
-
-        private void SeedOrders()
-        {
-            Order1 = new Order()
-            {
-                Id = 1,
-                PatientId = Patient1.Id
-            };
-
-            Order2 = new Order()
-            {
-                Id = 2,
-                PatientId = Patient2.Id
             };
         }
     }

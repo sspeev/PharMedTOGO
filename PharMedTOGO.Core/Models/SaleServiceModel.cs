@@ -1,5 +1,4 @@
-﻿using PharMedTOGO.Core.Attributes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Core.Models
@@ -12,7 +11,7 @@ namespace PharMedTOGO.Core.Models
         [Range(SaleRangePriceMinValue,
             SaleRangeMaxValue,
             ErrorMessage = SaleRangeErrorMessage)]
-        public decimal Discount { get; set; }
+        public int Discount { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
         [DataType(DataType.Date)]

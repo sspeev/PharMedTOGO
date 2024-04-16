@@ -32,8 +32,5 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [ForeignKey(nameof(PrescriptionId))]
         public Prescription? Prescription { get; set; }
-
-        public IEnumerable<Order> Orders { get; set; }
-            = new List<Order>();
     }
 }

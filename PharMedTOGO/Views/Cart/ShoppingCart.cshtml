@@ -1,0 +1,57 @@
+﻿@using PharMedTOGO.Core.Contracts
+@model AllCartsQueryModel
+@inject ISaleService saleService
+
+<div class="container">
+    <div class="cart">
+        <div class="d-flex gap-3">
+            <h2 class="text-center text-black">My Cart</h2>
+            <div style="width: 40px; height: 40px;">
+                <img src="~/fontawesome-free-6.4.0-web/svgs/solid/cart-shopping.svg" alt="Alternate Text" />
+            </div>
+        </div>
+        @if (!Model.Medicines.Any())
+        {
+            <h1 class="cartMessage">Your shopping cart is empty!</h1>
+        }
+        else
+        {
+            @foreach (var medicine in Model.Medicines)
+            {
+                <div class="cart-item">
+                    <div>
+                        <img class="medicineImg" src="@medicine.ImageUrl" alt="Medicine image">
+                    </div>
+                    <div class="details">
+                        <h4>@medicine.Name</h4>
+                        <p class="text-black">Requires prescription: @medicine.RequiresPrescription</p>
+                        <p class="text-black">Category: @medicine.Category</p>
+                        @if (medicine.SaleId != null)
+                        {
+                            <div class="d-flex gap-2">
+                                @{
+                                    medicine.Sale = await saleService.MapByIdSale(medicine.SaleId.Value);
+                                }
+                                <p class="text-black">Discount: @($"{medicine.Sale.Discount:f0}%")</p>
+                                <div style="width: 40px; height: 40px;">
+                                    <img src="~/fontawesome-free-6.4.0-web/svgs/solid/tag.svg" alt="Sale icon" />
+                                </div>
+                            </div>
+                        }
+                        <p>Price: @medicine.Price BGN</p>
+                        <form asp-area="" asp-controller="Cart" asp-action="Remove" asp-route-id="@medicine.Id" method="post">
+                            <button class="btn btn-danger button">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            }
+            <h3 class="cartMessage">If the order is over 30BGN the delivery is free</h3>
+            <form class="cart-footer">
+                <button onmouseover="highlight()" onmouseout="highout()" class="buton">
+                    <p class="text-center">Checkout</p>
+                </button>
+                <h4 class="pay">Total + Delivery: @Model.Total BGN</h4>
+            </form>
+        }
+    </div>
+</div>

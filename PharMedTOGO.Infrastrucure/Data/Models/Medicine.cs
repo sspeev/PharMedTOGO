@@ -46,10 +46,5 @@ namespace PharMedTOGO.Infrastrucure.Data.Models
 
         [ForeignKey(nameof(SaleId))]
         public Sale? Sale { get; set; }
-
-        public int? OrderId { get; set; }
-
-        [ForeignKey(nameof(OrderId))]
-        public Order? Order { get; set; }
     }
 }

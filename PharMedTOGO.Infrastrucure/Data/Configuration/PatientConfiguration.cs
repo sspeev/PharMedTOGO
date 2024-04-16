@@ -19,11 +19,6 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
 
             builder
                 .HasOne(pat => pat.Prescription);
-
-            builder
-                .HasMany(p => p.Orders)
-                .WithOne(o => o.Patient)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

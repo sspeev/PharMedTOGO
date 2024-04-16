@@ -135,7 +135,7 @@ namespace PharMedTOGO.Controllers
                 var model = new AttachMedicineFormModel()
                 {
                     SaleId = saleId,
-                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList()
                 };
                 return View(model);
             }
