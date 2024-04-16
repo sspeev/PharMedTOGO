@@ -3,10 +3,13 @@
 @inject ISaleService saleService
 
 <div class="container d-flex flex-row-reverse gap-lg-5 justify-content-center">
-    @* <div class="deliveryInfo">
-        <h3>Total medicines: @Model.TotalMedicinesSum BGN</h3>
-        <h4>Delivery price: @Model.DeliveryPrice.ToString("f2") BGN</h4>
-    </div> *@
+    <div class="deliveryInfo">
+        <input asp-for="TotalMedicinesSum" />
+        <input asp-for="DeliveryPrice" />
+        <input asp-for="Total" />
+        <input asp-for="Medicines" />
+
+    </div>
     <div class="cart">
         <div class="d-flex gap-3">
             <h2 class="text-center text-black">My Cart</h2>
@@ -14,7 +17,7 @@
                 <img src="~/fontawesome-free-6.4.0-web/svgs/solid/cart-shopping.svg" alt="Alternate Text" />
             </div>
         </div>
-        
+
         @if (!Model.Medicines.Any())
         {
             <h1 class="cartMessage">Your shopping cart is empty!</h1>
@@ -51,8 +54,12 @@
                 </div>
             }
             <h3 class="cartMessage">If the order is over 30BGN the delivery is free</h3>
-            <form class="cart-footer">
-                <button onmouseover="highlight()" onmouseout="highout()" class="buton">
+            <form class="cart-footer" asp-area="" asp-controller="Stripe" asp-action="CreateCheckoutSession" method="post">
+                <input hidden asp-for="TotalMedicinesSum" />
+                <input hidden asp-for="DeliveryPrice" />
+                <input hidden asp-for="Total" />
+                <input hidden asp-for="Medicines" />
+                <button type="submit" onmouseover="highlight()" onmouseout="highout()" class="buton">
                     <p class="text-center mt-2">Checkout</p>
                 </button>
                 <h4 class="pay">Total + Delivery: @Model.Total BGN</h4>

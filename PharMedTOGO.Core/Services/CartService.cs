@@ -93,5 +93,10 @@ namespace PharMedTOGO.Core.Services
             return await context.Carts
                 .AnyAsync(c => c.PatientId == userId && c.MedicineId == medicineId);
         }
+
+        public AllCartsQueryModel DetailsAsync(AllCartsQueryModel model)
+        {
+            return model;
+        }
     }
 }

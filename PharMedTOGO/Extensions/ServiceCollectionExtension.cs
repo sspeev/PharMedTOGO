@@ -4,6 +4,7 @@ using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Services;
 using PharMedTOGO.Infrastrucure.Data;
 using PharMedTOGO.Infrastrucure.Data.Models;
+using PharMedTOGO.PaymentIntegrations.Stripe;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -42,6 +43,13 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddRoles<IdentityRole<string>>()
             .AddEntityFrameworkStores<PharMedDbContext>();
+
+            return service;
+        }
+
+        public static IServiceCollection AddPaymentIntegration(this IServiceCollection service, IConfiguration config)
+        {
+            service.Configure<StripeSettings>(config.GetSection("StripeSettings"));
 
             return service;
         }

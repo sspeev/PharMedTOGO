@@ -151,6 +151,28 @@ namespace PharMedTOGO.Core.Services
             IList<Medicine> saleMedicines = sale.Medicines.ToList();
             saleMedicines.Add(medicine);
             medicine.SaleId = saleId;
+            decimal salePrice = decimal.Parse(sale.Discount.ToString());
+            var discount = medicine.Price * (salePrice / 100);
+
+            if (sale.StartDate.Date <= DateTime.Now.Date && sale.EndDate.Date >= DateTime.Now.Date)
+            {
+                if (!medicine.HasSaleApplied)
+                {
+                    medicine.Price = medicine.Price - discount;
+
+                    medicine.HasSaleApplied = true;
+                }
+            }
+            else if (sale.EndDate < DateTime.Now && !sale.IsEnded)
+            {
+                medicine.Price = medicine.Price - discount;
+
+                medicine.Sale = null;
+
+                medicine.SaleId = null;
+
+                sale.IsEnded = true;
+            }
 
             await context.SaveChangesAsync();
         }

@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using PharMedTOGO.Areas.Admin.Models;
 using PharMedTOGO.Core.Contracts;
-using PharMedTOGO.Core.Models;
-using PharMedTOGO.Extensions;
 using PharMedTOGO.Infrastrucure.Data.Enums;
 using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
@@ -72,6 +70,7 @@ namespace PharMedTOGO.Areas.Admin.Controllers
                     throw new ArgumentException("That user is already an admin!");
                 }
                 await adminService.MakeAdminByIdAsync(id);
+                memoryCache.Remove(UserCacheKey);
 
                 return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }
