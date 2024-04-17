@@ -1,5 +1,6 @@
 ﻿using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Services;
+using PharMedTOGO.Infrastrucure.Data.Enums;
 
 namespace PharMedTOGO.Test.UnitTests
 {
@@ -37,6 +38,22 @@ namespace PharMedTOGO.Test.UnitTests
             var prescription = await prescriptionService.DetailsAsync(2);
 
             Assert.AreEqual(2, prescription.Id);
+        }
+
+        [Test]
+        public async Task ExistsAndNot()
+        {
+            Assert.AreEqual(true, await prescriptionService.ExistsByIdAsync(2));
+
+            Assert.AreEqual(false, await prescriptionService.ExistsByIdAsync(11));
+        }
+
+        [Test]
+        public async Task Validate()
+        {
+            await prescriptionService.ValidatePrescriptionAsync(1);
+            var prescription = await prescriptionService.FindByIdAsync(1);
+            Assert.AreEqual(PrescriptionState.Reviewing, prescription.PrescriptionState);
         }
 
         [OneTimeTearDown]

@@ -6,22 +6,22 @@ namespace PharMedTOGO.Test
 {
     public class Seed
     {
-        public Patient Patient1 { get; private set; }
-        public Patient Patient2 { get; private set; }
+        public Patient Patient1 { get; private set; } = null!;
+        public Patient Patient2 { get; private set; } = null!;
 
-        public Prescription Prescription1 { get; private set; }
-        public Prescription Prescription2 { get; private set; }
+        public Prescription Prescription1 { get; private set; } = null!;
+        public Prescription Prescription2 { get; private set; } = null!;
 
-        public Medicine Medicine1 { get; private set; }
-        public Medicine Medicine2 { get; private set; }
-        public Medicine Medicine3 { get; private set; }
-        public Medicine Medicine4 { get; private set; }
-        public Medicine Medicine5 { get; private set; }
-        public Medicine Medicine6 { get; private set; }
+        public Medicine Medicine1 { get; private set; } = null!;
+        public Medicine Medicine2 { get; private set; } = null!;
+        public Medicine Medicine3 { get; private set; } = null!;
+        public Medicine Medicine4 { get; private set; } = null!;
+        public Medicine Medicine5 { get; private set; } = null!;
+        public Medicine Medicine6 { get; private set; } = null!;
 
-        public Sale Sale1 { get; private set; }
-        public Sale Sale2 { get; private set; }
-        public Sale Sale3 { get; private set; }
+        public Sale Sale1 { get; private set; } = null!;
+        public Sale Sale2 { get; private set; } = null!;
+        public Sale Sale3 { get; private set; } = null!;
 
 
         public void SeedDatabase(PharMedDbContext context)
