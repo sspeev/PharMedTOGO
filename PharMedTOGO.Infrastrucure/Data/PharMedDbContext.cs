@@ -8,10 +8,18 @@ namespace PharMedTOGO.Infrastrucure.Data
 {
     public class PharMedDbContext : IdentityDbContext<Patient, IdentityRole<string>, string>
     {
-        public PharMedDbContext(DbContextOptions<PharMedDbContext> options)
+        private bool seed;
+
+        public PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool _seed = true)
             : base(options)
         {
+            if (!Database.IsRelational())
+            {
+                Database.EnsureCreated();
+            }
+            else Database.Migrate();
 
+            seed = _seed;
         }
 
         public DbSet<Medicine> Medicines { get; set; } = null!;
@@ -26,12 +34,12 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new MedicineConfiguration());
-            builder.ApplyConfiguration(new PatientConfiguration());
-            builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new UsersRolesConfiguration());
-            builder.ApplyConfiguration(new PrescriptionConfiguration());
-            builder.ApplyConfiguration(new SaleConfiguration());
+            builder.ApplyConfiguration(new MedicineConfiguration(seed));
+            builder.ApplyConfiguration(new PatientConfiguration(seed));
+            builder.ApplyConfiguration(new RoleConfiguration(seed));
+            builder.ApplyConfiguration(new UsersRolesConfiguration(seed));
+            builder.ApplyConfiguration(new PrescriptionConfiguration(seed));
+            builder.ApplyConfiguration(new SaleConfiguration(seed));
             builder.ApplyConfiguration(new CartConfiguration());
 
             base.OnModelCreating(builder);

@@ -7,15 +7,25 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
     public class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription>
     {
+        private bool seed;
+
+        public PrescriptionConfiguration(bool _seed)
+        {
+            seed = _seed;
+        }
+
         public void Configure(EntityTypeBuilder<Prescription> builder)
         {
-            var data = new SeedData();
+            if (seed)
+            {
+                var data = new SeedData();
 
-            builder
-                .HasData(
-                data.Prescription1,
-                data.Prescription2
-                );
+                builder
+                    .HasData(
+                    data.Prescription1,
+                    data.Prescription2
+                    );
+            }
         }
     }
 }

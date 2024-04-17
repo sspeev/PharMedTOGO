@@ -150,6 +150,7 @@ namespace PharMedTOGO.Core.Services
 
             IList<Medicine> saleMedicines = sale.Medicines.ToList();
             saleMedicines.Add(medicine);
+            sale.Medicines = saleMedicines;
             medicine.SaleId = saleId;
             decimal salePrice = decimal.Parse(sale.Discount.ToString());
             var discount = medicine.Price * (salePrice / 100);

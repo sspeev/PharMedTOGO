@@ -11,15 +11,10 @@ namespace PharMedTOGO.Core.Services
     public class MedicineService : IMedicineService
     {
         private readonly PharMedDbContext context;
-        //private readonly ISaleService saleService;
 
-        public MedicineService(
-            PharMedDbContext _context//,
-                                     //ISaleService _saleService
-            )
+        public MedicineService(PharMedDbContext _context)
         {
             context = _context;
-            //saleService = _saleService;
         }
 
         public AllMedicinesQueryModel AllSorted(
@@ -133,22 +128,8 @@ namespace PharMedTOGO.Core.Services
         public async Task<Medicine> FindByIdAsync(int id)
         {
             return await context.Medicines
-                .FirstOrDefaultAsync(x => x.Id == id) ?? throw new ArgumentException("Unexisting medicine");
-        }
-
-        public MedicineServiceModel MapMedicineToService(Medicine medicine)
-        {
-            return new MedicineServiceModel()
-            {
-                Id = medicine.Id,
-                Name = medicine.Name,
-                Category = medicine.Category,
-                Price = medicine.Price,
-                HasSaleApplied = medicine.HasSaleApplied,
-                Description = medicine.Description,
-                RequiresPrescription = medicine.RequiresPrescription,
-                ImageUrl = medicine.ImageUrl
-            };
+                .FirstOrDefaultAsync(x => x.Id == id) ?? 
+                throw new ArgumentException("Unexisting medicine");
         }
 
         public async Task<MedicineDetailsServiceModel> MedicineDetails(int id)

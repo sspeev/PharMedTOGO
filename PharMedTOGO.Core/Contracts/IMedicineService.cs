@@ -22,8 +22,6 @@ namespace PharMedTOGO.Core.Contracts
 
         Task<Medicine> FindByIdAsync(int id);
 
-        MedicineServiceModel MapMedicineToService(Medicine medicine);
-
         Task EditAsync(int medicineId, MedicineFormModel model);
 
         Task DeleteAsync(int medicineId);

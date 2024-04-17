@@ -7,10 +7,19 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
     public class UsersRolesConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
+        private bool seed;
+
+        public UsersRolesConfiguration(bool _seed)
+        {
+            seed = _seed;
+        }
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
-            var data = new SeedData();
-            builder.HasData(data.UsersRoles);
+            if (seed)
+            {
+                var data = new SeedData();
+                builder.HasData(data.UsersRoles);
+            }
         }
     }
 }

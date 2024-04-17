@@ -7,12 +7,18 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
     public class MedicineConfiguration : IEntityTypeConfiguration<Medicine>
     {
+        private bool seed;
+        public MedicineConfiguration(bool _seed)
+        {
+            seed = _seed;
+        }
+
         public void Configure(EntityTypeBuilder<Medicine> builder)
         {
-            var data = new SeedData();
-
-            builder
-                .HasData(
+            if (seed)
+            {
+                var data = new SeedData();
+                builder.HasData(
                     data.Medicine1,
                     data.Medicine2,
                     data.Medicine3,
@@ -21,6 +27,7 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
                     data.Medicine6,
                     data.Medicine7
                     );
+            }
             builder
                 .HasOne(m => m.Sale)
                 .WithMany(s => s.Medicines);

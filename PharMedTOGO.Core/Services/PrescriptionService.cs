@@ -24,6 +24,7 @@ namespace PharMedTOGO.Core.Services
                 {
                     Id = pr.Id,
                     CreatedOn = pr.CreatedOn,
+                    Description = pr.Description,
                     ExpireDate = pr.ExpireDate,
                     PrescriptionState = pr.PrescriptionState,
                     IsValid = pr.IsValid,
