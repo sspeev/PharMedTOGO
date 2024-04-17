@@ -66,7 +66,8 @@
 .pay {
     text-align: center;
 }
-.medicineImg{
+
+.medicineImg {
     width: 100%;
     height: auto;
 }
@@ -81,17 +82,19 @@
     border-radius: 8px;
     box-shadow: 0 4px 18px #2a2f430b;
 }
-.details{
+
+.details {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-.details p{
-    color: var(--primary-color);
-    font-size: 2rem;
-}
 
-.cartMessage{
+    .details p {
+        color: var(--primary-color);
+        font-size: 2rem;
+    }
+
+.cartMessage {
     width: 100%;
     color: var(--primary-color);
     text-align: center;

@@ -39,9 +39,8 @@ function highlight() {
         h6.style.color = '#2a2f43';
         h6.style.transition = "1s";
     });
-
-
 }
+
 function highout() {
 
     // Get the button element
@@ -54,5 +53,3 @@ function highout() {
         h6.style.color = '#f5f5f5';
     });
 }
-
-

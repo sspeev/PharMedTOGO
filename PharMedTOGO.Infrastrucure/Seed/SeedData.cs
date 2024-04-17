@@ -146,7 +146,7 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 CreatedOn = DateTime.Now,
                 ExpireDate = DateTime.Now.AddDays(10),
                 Description = "Flu",
-                PatientId = "f13628c2-5ff0-4d1c-a0e2-2527ec425aa4"
+                PatientId = Patient1.Id
             };
 
             Prescription2 = new Prescription()
@@ -166,10 +166,10 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Patient1 = new Patient()
             {
                 Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
-                UserName = "stoyan@mail.com",
-                Email = "stoyan@mail.com",
-                FirstName = "Stoyan",
-                LastName = "Peev",
+                UserName = "admin@mail.com",
+                Email = "admin@mail.com",
+                FirstName = "Admin",
+                LastName = "Adminov",
                 EGN = "0549050487",
                 Address = "Burgas-Slaveikov"
             };
@@ -180,10 +180,10 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Patient2 = new Patient()
             {
                 Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
-                UserName = "kristalin@mail.com",
-                Email = "kristalin@mail.com",
-                FirstName = "Kristalin",
-                LastName = "Zhelezhchev",
+                UserName = "test@mail.com",
+                Email = "test@mail.com",
+                FirstName = "Test",
+                LastName = "Testov",
                 EGN = "0506047819",
                 Address = "Pomorie-Mahala-N1"
             };

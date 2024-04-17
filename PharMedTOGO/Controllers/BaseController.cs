@@ -6,6 +6,6 @@ namespace PharMedTOGO.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        
+
     }
 }

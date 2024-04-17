@@ -22,9 +22,6 @@
             <th class="text-light">
                 EGN
             </th>
-            @* <th>
-                Admin
-            </th> *@
         </tr>
     </thead>
     <tbody>
@@ -43,14 +40,6 @@
                 <td class="text-light">
                     @user.EGN
                 </td>
-                @* @if (user)
-                {
-                    <td class="text-success">Yes</td>
-                }
-                else
-                {
-                    <td class="text-danger">No</td>
-                } *@
                 <td class="text-light gap-1">
                     <form asp-area="Admin" asp-controller="Admin" asp-action="MakeUserAdmin" asp-route-id="@user.Id" method="post">
                         <button class="btn btn-success text-light" type="submit">Make Admin</button>
