@@ -100,5 +100,28 @@ namespace PharMedTOGO.Core.Services
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<bool> ExistsUserByIdAsync(string userId)
+        {
+            return await context.Users
+                .AnyAsync(u => u.Id == userId);
+        }
+
+        public async Task<PatientServiceModel> FindUserById(string userId)
+        {
+            if (await ExistsUserByIdAsync(userId))
+            {
+                var user = await context.Users.FirstAsync(u => u.Id == userId);
+                return new PatientServiceModel()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    EGN = user.EGN,
+                    Email = user.Email
+                };
+            }
+            throw new ArgumentException("Unexisting user");
+        }
     }
 }

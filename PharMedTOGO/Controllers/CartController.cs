@@ -125,15 +125,5 @@ namespace PharMedTOGO.Controllers
 
             return RedirectToAction(nameof(ShoppingCart), "Cart");
         }
-
-        public IActionResult Details(AllCartsQueryModel model)
-        {
-            return View(model);
-        }
-
-        public IActionResult Fail(AllCartsQueryModel model)
-        {
-            return View(model);
-        }
     }
 }

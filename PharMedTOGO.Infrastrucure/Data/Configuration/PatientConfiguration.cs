@@ -18,7 +18,9 @@ namespace PharMedTOGO.Infrastrucure.Data.Configuration
                     );
 
             builder
-                .HasOne(pat => pat.Prescription);
+                .HasOne(pat => pat.Prescription)
+                .WithOne(pre => pre.Patient)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

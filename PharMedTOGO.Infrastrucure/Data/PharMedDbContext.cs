@@ -22,6 +22,8 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         public DbSet<Cart> Carts { get; set; } = null!;
 
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new MedicineConfiguration());

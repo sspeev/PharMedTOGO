@@ -166,25 +166,29 @@ namespace PharMedTOGO.Infrastrucure.Seed
             Patient1 = new Patient()
             {
                 Id = "d42ae752-35a7-4ba3-a9c0-190484b6c253",
-                UserName = "Stoyan",
+                UserName = "stoyan@mail.com",
                 Email = "stoyan@mail.com",
                 FirstName = "Stoyan",
                 LastName = "Peev",
                 EGN = "0549050487",
                 Address = "Burgas-Slaveikov"
             };
+            Patient1.NormalizedEmail = Patient1.Email.ToUpper();
+            Patient1.NormalizedUserName = Patient1.UserName.ToUpper();
             Patient1.PasswordHash = hasher.HashPassword(Patient1, "123456");
 
             Patient2 = new Patient()
             {
                 Id = "3fe16750-157b-4110-a05f-0d2ba0812b3c",
-                UserName = "Kristalin",
+                UserName = "kristalin@mail.com",
                 Email = "kristalin@mail.com",
                 FirstName = "Kristalin",
                 LastName = "Zhelezhchev",
                 EGN = "0506047819",
                 Address = "Pomorie-Mahala-N1"
             };
+            Patient2.NormalizedEmail = Patient2.Email.ToUpper();
+            Patient2.NormalizedUserName = Patient2.UserName.ToUpper();
             Patient2.PasswordHash = hasher.HashPassword(Patient2, "123456");
         }
 

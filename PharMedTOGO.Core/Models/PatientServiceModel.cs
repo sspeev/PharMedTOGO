@@ -1,6 +1,4 @@
-﻿using PharMedTOGO.Core.Models;
-
-namespace PharMedTOGO.Areas.Admin.Models
+﻿namespace PharMedTOGO.Areas.Admin.Models
 {
     public class PatientServiceModel
     {
@@ -11,5 +9,7 @@ namespace PharMedTOGO.Areas.Admin.Models
         public string LastName { get; set; } = string.Empty;
 
         public string EGN { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
     }
 }
