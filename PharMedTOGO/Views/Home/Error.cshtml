@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Error";
     string message = "Unexpected error occured! Try again later or contact with an administrator!";
-    string moreInfo = Model.ExceptionMessage;
+    string moreInfo = string.Empty;
+    if (Model != null)
+    {
+        moreInfo = Model.ExceptionMessage;
+    }
+    
 }
 
 <h1 class="text-danger">Error.</h1>

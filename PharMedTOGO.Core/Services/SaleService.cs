@@ -163,15 +163,9 @@ namespace PharMedTOGO.Core.Services
                     medicine.HasSaleApplied = true;
                 }
             }
-            else if (sale.EndDate < DateTime.Now && !sale.IsEnded)
+            else if (sale.EndDate < DateTime.Now)
             {
-                medicine.Price = medicine.Price - discount;
-
-                medicine.Sale = null;
-
-                medicine.SaleId = null;
-
-                sale.IsEnded = true;
+                throw new ArgumentException("You entered old expire date!");
             }
 
             await context.SaveChangesAsync();
