@@ -1,27 +1,29 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>@ViewData["Title"] - PharMedTOGO</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="/css/navbar.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PharMedTOGO.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/shoppingCart.css" asp-append-version="true"/>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-    </style>
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/navbar.css" asp-append-version="true" /> *@
+    @* <link rel="stylesheet" href="~/PharMedTOGO.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shoppingCart.css" asp-append-version="true" /> *@
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/font-icons.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/plugins.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true">
 </head>
 <body>
-    <header class="h-25">
-        @await Component.InvokeAsync(nameof(NavbarComponent))
+    <header class="ltn__header-area ltn__header-5 ltn__header-logo-and-mobile-menu-in-mobile--- ltn__header-logo-and-mobile-menu--- ltn__header-transparent gradient-color-4---">
+        @await Component.InvokeAsync(nameof(HeaderComponent))
     </header>
-
     <main class="m-lg-5">
         @RenderBody()
     </main>
@@ -31,11 +33,22 @@
             &copy; 2024 - ASP.NET Advanced Web project
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <div class="preloader d-none" id="preloader">
+        <div class="preloader-inner">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
     <script src="~/js/jquery.override-validator.js"></script>
     <script src="https://kit.fontawesome.com/b2cc653b32.js" crossorigin="anonymous"></script>
+
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

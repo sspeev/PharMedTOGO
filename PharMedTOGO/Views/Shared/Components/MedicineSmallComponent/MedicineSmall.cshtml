@@ -1,0 +1,129 @@
+﻿@using PharMedTOGO.Core.Contracts
+@model AllCartsQueryModel
+@inject IMedicineService medicineService
+
+@{
+    var allMedicines = await medicineService.AllAsync();
+}
+
+<div class="body-wrapper">
+
+    <!-- PRODUCT AREA START (product-item-3) -->
+    <div class="ltn__product-area ltn__product-gutter pt-115 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title">Cosmetics</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row ltn__tab-product-slider-one-active--- slick-arrow-1">
+
+                @foreach (var item in Model.Medicines.Where(m => m.Category == MedicineCategory.Cosmetics))
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                        <div class="ltn__product-item ltn__product-item-3 text-left">
+                            <div class="product-img">
+                                <img src="@item.ImageUrl" />
+                                @if (item.SaleId != 0)
+                                {
+                                    <div class="product-badge">
+                                        <ul>
+                                            <li class="sale-badge">@item.Sale.Discount</li>
+                                        </ul>
+                                    </div>
+                                }
+                                <div class="product-hover-action">
+                                    <ul>
+                                        <li>
+                                            <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                                <i class="fas fa-shopping-cart"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                                <i class="far fa-heart"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-ratting">
+                                    <ul>
+                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                        <li><a href="#"><i class="far fa-star"></i></a></li>
+                                    </ul>
+                                </div>
+                                <h2 class="product-title"><a href="product-details.html">Antiseptic Spray</a></h2>
+                                <div class="product-price">
+                                    <span>$32.00</span>
+                                    <del>$46.00</del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- PRODUCT AREA END -->
+    <!-- FEATURE AREA START ( Feature - 3) -->
+    <div class="ltn__feature-area section-bg-1 mt-90 pt-30 pb-30 mt--65---">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__feature-item-box-wrap ltn__feature-item-box-wrap-2 ltn__border--- section-bg-1">
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="img/icons/svg/8-trolley.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>Free shipping</h4>
+                                <p>On all orders over $49.00</p>
+                            </div>
+                        </div>
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="img/icons/svg/9-money.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>15 days returns</h4>
+                                <p>Moneyback guarantee</p>
+                            </div>
+                        </div>
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="img/icons/svg/10-credit-card.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>Secure checkout</h4>
+                                <p>Protected by Paypal</p>
+                            </div>
+                        </div>
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="img/icons/svg/11-gift-card.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>Offer & gift here</h4>
+                                <p>On all orders over</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FEATURE AREA END -->
+
+</div>

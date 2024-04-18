@@ -2,11 +2,11 @@
 
 namespace PharMedTOGO.Components
 {
-    public class NavbarComponent : ViewComponent
+    public class MedicineSmallComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return await Task.FromResult<IViewComponentResult>(View("Navbar"));
+            return await Task.FromResult<IViewComponentResult>(View("MedicineSmall"));
         }
     }
 }

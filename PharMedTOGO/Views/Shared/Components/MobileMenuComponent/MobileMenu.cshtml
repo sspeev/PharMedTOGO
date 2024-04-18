@@ -1,0 +1,102 @@
+﻿@using PharMedTOGO.Core.Contracts
+@using PharMedTOGO.Extensions
+@using PharMedTOGO.Infrastrucure.Data.Models
+
+@inject SignInManager<Patient> SignInManager
+@inject IAdminService adminService
+
+@{
+    int prescriptionId = await adminService.HasUserPrescription(User.Id());
+}
+
+<!-- Utilize Mobile Menu Start -->
+<div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu">
+    <div class="ltn__utilize-menu-inner ltn__scrollbar">
+        <div class="ltn__utilize-menu-head">
+            <div class="site-logo">
+                <a asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/fontawesome-free-6.4.0-web/svgs/solid/pills.svg" alt="Logo">
+                </a>
+                <h3>PharMedTOGO</h3>
+            </div>
+            <button class="ltn__utilize-close">×</button>
+        </div>
+        <div class="ltn__utilize-menu">
+            <ul>
+                <li class="menu-icon">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="menu-icon">
+                    <a asp-area="" asp-controller="Medicine" asp-action="All">Store</a>
+                    @if (User.IsAdmin())
+                    {
+                        <ul>
+                            <li><a asp-area="" asp-controller="Medicine" asp-action="Add">Add new medicine</a></li>
+                        </ul>
+                    }
+                </li>
+                @if (User.IsAdmin())
+                {
+                    <li class="menu-icon">
+                        <a asp-area="" asp-controller="Sale" asp-action="All">Sales</a>
+                        <ul>
+                            <li><a asp-area="" asp-controller="Sale" asp-action="Add">Add new sale</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-icon">
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="Index">administration panel</a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="ltn__utilize-buttons ltn__utilize-buttons-2">
+            <ul>
+                <li>
+                    <a href="#"><img src="~/fontawesome-free-6.4.0-web//svgs//solid/circle-user.svg" class="icon-user" /></a>
+                    <ul>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My account</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Order" asp-action="All">My transactions</a>
+                            </li>
+                            @if (prescriptionId != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="Details" asp-route-id="@prescriptionId">My Prescription</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <form class="form-inline" asp-controller="Patient" asp-action="Logout">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Patient" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Patient" asp-action="Login">Login</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="ltn__social-media-2">
+            <ul>
+                <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Utilize Mobile Menu End -->

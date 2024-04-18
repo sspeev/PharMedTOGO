@@ -1,18 +1,105 @@
-﻿@using PharMedTOGO.Infrastrucure.Data.Models
+﻿@using PharMedTOGO.Areas.Admin.Models
+@using PharMedTOGO.Core.Contracts
+@using PharMedTOGO.Extensions
+@using PharMedTOGO.Infrastrucure.Data.Models
+
 @inject UserManager<Patient> UserManager
+@model AllCartsQueryModel
+@inject IAdminService adminService
 
 @{
     ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">PharMedTOGO</h1>
-    <p>The fastest way to recive your medicines to home!</p>
+    PatientServiceModel currUser = new();
+    AllMedicinesQueryModel allMedicines = new();
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
-        <div class="p-3">
-            <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName</h5>
+        currUser = await adminService.FindUserById(User.Id());
+    }
+}
+@await Component.InvokeAsync(nameof(CartMenuComponent), Model)
+<div class="ltn__slider-area ltn__slider-3  section-bg-1">
+    <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
+        <div class="ltn__slide-item ltn__slide-item-2 ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60--- slick-slide slick-current slick-active"
+             data-bs-bg="https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202110/AdobeStock_121729074.jpeg?itok=95Fb0DrY"
+             style="background-image: url(https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202110/AdobeStock_121729074.jpeg?itok=95Fb0DrY); width: 1903px; position: relative; left: -1903px; top: 0px; z-index: 999; opacity: 1;"
+             tabindex="-1" role="option" aria-describedby="slick-slide01" data-slick-index="1" aria-hidden="false">
+            <div class="ltn__slide-item-inner text-left">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/fontawesome-free-6.4.0-web/svgs/solid/star-of-life.svg" /></span></h6>
+                                    <h1 class="slide-title animated ">The fastest way to recive your medicines</h1>
+                                    <div class="btn-wrapper animated">
+                                        <a asp-controller="Medicine" asp-action="All" class="theme-btn-1 btn btn-effect-1">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ltn__slide-item ltn__slide-item-2 ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---"
+             data-bs-bg="https://img2.novini.bg/uploads/news_pictures/2023-42/big/895910.png"
+             style="background-image: url(https://img2.novini.bg/uploads/news_pictures/2023-42/big/895910.png); width: 1903px; position: relative; left: -1903px; top: 0px; z-index: 999; opacity: 1;">
+            <div class="ltn__slide-item-inner text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/fontawesome-free-6.4.0-web/svgs/solid/star-of-life.svg" /></span></h6>
+                                    <h1 class="slide-title animated ">Made possible integration with the upcoming online prescriptions in Bulgaria</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bs-bg="img/slider/12.jpg">
+        <div class="ltn__slide-item-inner  text-right text-end">
+        <div class="container">
+        <div class="row">
+        <div class="col-lg-12 align-self-center">
+        <div class="slide-item-info">
+        <div class="slide-item-info-inner ltn__slide-animation">
+        <h6 class="slide-sub-title white-color--- animated"><span><i class="fas fa-syringe"></i></span> 100% genuine Products</h6>
+        <h1 class="slide-title animated ">Get 20% Discount <br>Of N95 Mask</h1>
+        <div class="slide-brief animated">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        </div>
+        <div class="btn-wrapper animated">
+        <a href="shop.html" class="theme-btn-1 btn btn-effect-1">Shop Now</a>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div> *@
+    </div>
+</div>
+<div class="container">
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <div class="p-3 text-center">
+            <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName <span><img style="width: 30px; height: 30px;" src="~/fontawesome-free-6.4.0-web/svgs/solid/heart-circle-check.svg" alt="Alternate Text" /></span></h5>
+        </div>
+        <div class="p-3 text-center">
+            @if (currUser.PrescriptionId != 0)
+            {
+                <h6 class="fs-1">You have prescription assigned!</h6>
+            }
+            else
+            {
+                <h6 class="fs-1">No prescriptions found!</h6>
+            }
         </div>
     }
-    <img class="w-25 " src="~/fontawesome-free-6.4.0-web/svgs/solid/pills.svg" />
 </div>
+@await Component.InvokeAsync(nameof(MedicineSmallComponent));
