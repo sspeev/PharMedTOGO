@@ -5,21 +5,15 @@ using PharMedTOGO.Infrastrucure.Seed;
 
 namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
-    public class UsersRolesConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
+    public class UsersRolesSeedConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
-        private bool seed;
-
-        public UsersRolesConfiguration(bool _seed)
+        public UsersRolesSeedConfiguration()
         {
-            seed = _seed;
         }
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
-            if (seed)
-            {
-                var data = new SeedData();
-                builder.HasData(data.UsersRoles);
-            }
+            var data = new SeedData();
+            builder.HasData(data.UsersRoles);
         }
     }
 }

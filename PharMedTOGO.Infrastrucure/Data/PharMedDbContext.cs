@@ -8,16 +8,16 @@ namespace PharMedTOGO.Infrastrucure.Data
 {
     public class PharMedDbContext : IdentityDbContext<Patient, IdentityRole<string>, string>
     {
-        private bool seed;
+        private bool seed = true;
 
         public PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool _seed = true)
             : base(options)
         {
-            if (!Database.IsRelational())
+            if (Database.IsRelational())
             {
-                Database.EnsureCreated();
+                Database.Migrate();
             }
-            else Database.Migrate();
+            else Database.EnsureCreated();
 
             seed = _seed;
         }
@@ -34,14 +34,21 @@ namespace PharMedTOGO.Infrastrucure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new MedicineConfiguration(seed));
-            builder.ApplyConfiguration(new PatientConfiguration(seed));
-            builder.ApplyConfiguration(new RoleConfiguration(seed));
-            builder.ApplyConfiguration(new UsersRolesConfiguration(seed));
-            builder.ApplyConfiguration(new PrescriptionConfiguration(seed));
-            builder.ApplyConfiguration(new SaleConfiguration(seed));
-            builder.ApplyConfiguration(new CartConfiguration());
-
+            builder.ApplyConfiguration(new MedicineEntityConfiguration());
+            builder.ApplyConfiguration(new PatientEntityConfiguration());
+            builder.ApplyConfiguration(new PrescriptionEntityConfiguration());
+            builder.ApplyConfiguration(new SaleEntityConfiguration());
+            builder.ApplyConfiguration(new CartEntityConfiguration());
+            if (seed)
+            {
+                builder.ApplyConfiguration(new SaleSeedConfiguration());
+                builder.ApplyConfiguration(new MedicineSeedConfiguration());
+                builder.ApplyConfiguration(new PatientSeedConfiguration());
+                builder.ApplyConfiguration(new PrescriptionSeedConfiguration());
+                
+                builder.ApplyConfiguration(new RoleSeedConfiguration());
+                builder.ApplyConfiguration(new UsersRolesSeedConfiguration());
+            }
             base.OnModelCreating(builder);
         }
     }

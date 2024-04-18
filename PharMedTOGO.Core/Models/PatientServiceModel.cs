@@ -11,5 +11,7 @@
         public string EGN { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
+
+        public int PrescriptionId { get; set; }
     }
 }

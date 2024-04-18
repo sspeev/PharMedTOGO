@@ -4,7 +4,7 @@ using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Infrastrucure.Data.Configuration
 {
-    internal class CartConfiguration : IEntityTypeConfiguration<Cart>
+    internal class CartEntityConfiguration : IEntityTypeConfiguration<Cart>
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {

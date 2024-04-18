@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Areas.Admin.Models;
 using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data;
 using PharMedTOGO.Infrastrucure.Data.Enums;
 using static PharMedTOGO.Core.Constants.MessageConstants;
@@ -112,13 +113,18 @@ namespace PharMedTOGO.Core.Services
             if (await ExistsUserByIdAsync(userId))
             {
                 var user = await context.Users.FirstAsync(u => u.Id == userId);
+                if (user.PrescriptionId == null)
+                {
+                    user.PrescriptionId = 0;
+                }
                 return new PatientServiceModel()
                 {
                     Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     EGN = user.EGN,
-                    Email = user.Email
+                    Email = user.Email,
+                    PrescriptionId = user.PrescriptionId.Value
                 };
             }
             throw new ArgumentException("Unexisting user");

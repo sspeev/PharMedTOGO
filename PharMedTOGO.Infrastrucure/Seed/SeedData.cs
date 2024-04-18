@@ -38,11 +38,11 @@ namespace PharMedTOGO.Infrastrucure.Seed
 
         public SeedData()
         {
-            SeedMedicines();
             SeedSales();
+            SeedMedicines();
+            SeedPrescriptions();
             SeedPatients();
             SeedRoles();
-            SeedPrescriptions();
             SeedUsersRoles();
         }
 
@@ -145,8 +145,7 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 PrescriptionState = PrescriptionState.NotReviewed,
                 CreatedOn = DateTime.Now,
                 ExpireDate = DateTime.Now.AddDays(10),
-                Description = "Flu",
-                PatientId = Patient1.Id
+                Description = "Flu"
             };
 
             Prescription2 = new Prescription()
@@ -155,8 +154,7 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 PrescriptionState = PrescriptionState.NotReviewed,
                 CreatedOn = DateTime.UtcNow.AddDays(-11),
                 ExpireDate = DateTime.Now,
-                Description = "COVID-19",
-                PatientId = Patient2.Id
+                Description = "COVID-19"
             };
         }
 
@@ -171,7 +169,8 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 FirstName = "Admin",
                 LastName = "Adminov",
                 EGN = "0549050487",
-                Address = "Burgas-Slaveikov"
+                Address = "Burgas-Slaveikov",
+                PrescriptionId = Prescription1.Id,
             };
             Patient1.NormalizedEmail = Patient1.Email.ToUpper();
             Patient1.NormalizedUserName = Patient1.UserName.ToUpper();
@@ -185,7 +184,8 @@ namespace PharMedTOGO.Infrastrucure.Seed
                 FirstName = "Test",
                 LastName = "Testov",
                 EGN = "0506047819",
-                Address = "Pomorie-Mahala-N1"
+                Address = "Pomorie-Mahala-N1",
+                PrescriptionId = Prescription2.Id
             };
             Patient2.NormalizedEmail = Patient2.Email.ToUpper();
             Patient2.NormalizedUserName = Patient2.UserName.ToUpper();
