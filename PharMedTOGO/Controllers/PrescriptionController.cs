@@ -25,7 +25,7 @@ namespace PharMedTOGO.Controllers
             try
             {
                 var prescription = await prescriptionService.FindByIdAsync(id);
-                var user = await adminService.FindAdminById(User.Id());
+                var user = await adminService.FindUserById(User.Id());
                 var model = new PrescriptionServiceModel()
                 {
                     Id = prescription.Id,

@@ -7,7 +7,11 @@
 @inject IAdminService adminService
 
 @{
-    int prescriptionId = await adminService.HasUserPrescription(User.Id());
+    PatientServiceModel currUser = new();
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        currUser = await adminService.FindUserById(User.Id());
+    }
 }
 <div class="ltn__header-middle-area ltn__logo-right-menu-option ltn__header-row-bg-white ltn__header-padding ltn__header-sticky ltn__sticky-bg-white">
     <div class="container">
@@ -72,10 +76,10 @@
                                     @* <li class="nav-item">
                                         <a class="nav-link text-dark" asp-controller="Order" asp-action="All">My transactions</a>
                                     </li> *@
-                                    @if (prescriptionId != 0)
+                                    @if (currUser.PrescriptionId != 0)
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="Details" asp-route-id="@prescriptionId">My Prescription</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="Details" asp-route-id="@currUser.PrescriptionId">My Prescription</a>
                                         </li>
                                     }
                                     <li class="nav-item">

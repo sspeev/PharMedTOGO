@@ -77,12 +77,12 @@ namespace PharMedTOGO.Core.Services
 
         public async Task<int> HasUserPrescription(string userId)
         {
-            var prescription = await context.Prescriptions
-                .FirstOrDefaultAsync(pr => pr.PatientId == userId);
+            var user = await context.Users
+                .FirstOrDefaultAsync(p => p.Id == userId && p.PrescriptionId != null);
 
-            if (prescription != null)
+            if (user.Prescription != null)
             {
-                return prescription.Id;
+                return user.PrescriptionId.Value;
             }
             return 0;
         }

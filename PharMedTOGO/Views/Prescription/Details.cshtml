@@ -1,5 +1,7 @@
 ﻿@using PharMedTOGO.Core.Contracts
 @using static PharMedTOGO.Core.Constants.MessageConstants
+
+
 @model PrescriptionServiceModel
 @inject IPrescriptionService PrescriptionService
 
@@ -64,7 +66,10 @@
         <label asp-for="Description"></label>
         <span>-  @Model.Description</span>
     </div>
-    <form asp-area="" asp-controller="Prescription" asp-action="Validate" asp-route-id="@Model.Id" method="post">
-        <button class="btn btn-success" type="submit">Validate</button>
-    </form>
+    @if (Model.PrescriptionState == PrescriptionState.NotReviewed)
+    {
+        <form asp-area="" asp-controller="Prescription" asp-action="Validate" asp-route-id="@Model.Id" method="post">
+            <button class="btn btn-success" type="submit">Validate</button>
+        </form>
+    }
 </div>
