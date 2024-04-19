@@ -1,8 +1,8 @@
 ﻿@model AllMedicinesQueryModel
 
-<form method="get">
+<form method="get" style="padding-top: 10em; box-sizing: border-box">
     <div class="d-flex flex-row gap-lg-3">
-        <div class="form-group col-md-3">
+        <div class="form-group">
             <label asp-for="SearchTerm"></label>
             <input asp-for="SearchTerm" class="form-control" placeholder="...">
         </div>
@@ -33,7 +33,7 @@
     }
     var maxPage = Math.Ceiling((double)Model.MedicinesCount / Model.MedicinesPerPage);
 }
-<div class="mb-4 mt-4 d-flex justify-content-between">
+<div class="mb-4 mt-4 d-flex justify-content-between" style="padding: 3em 5em;">
     <div class="">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Medicine"
