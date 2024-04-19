@@ -427,7 +427,6 @@ body {
     color: var(--white);
     padding: 0 18px;
     height: 100%;
-    border: 1px solid var(--ltn__primary-color);
 }
 
 h1, .h1 {

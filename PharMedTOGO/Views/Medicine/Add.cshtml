@@ -1,7 +1,9 @@
 ﻿@model MedicineFormModel
 
 <div class="addMedicine">
+    
     <form asp-action="Add" method="post" class="addMedicineForm col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5 h-100" enctype="multipart/form-data">
+        <h2>Add new medicine</h2>
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control m-0" placeholder="Name...">
@@ -13,16 +15,16 @@
             <span asp-validation-for="ImageUrl" class="small text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="RequiresPrescription"></label>
+            <label class="text-black" asp-for="RequiresPrescription"></label>
             <input class="form-check-input m-0" type="checkbox" asp-for="RequiresPrescription">
         </div>
-        <div>
+        <div class="form-group">
             <label asp-for="Price"></label>
             <input asp-for="Price" class="form-control m-0" placeholder="Price...">
             <span asp-validation-for="Price" class="small text-danger"></span>
         </div>
-        <div>
-            <label>@nameof(Model.Category)</label>
+        <div class="form-group">
+
             <select asp-for="Category" class="form-control">
                 @for (int i = 1; i <= 5; i++)
                 {
@@ -31,13 +33,13 @@
             </select>
             <span asp-validation-for="Category" class="small text-danger"></span>
         </div>
-        <div>
+        <div class="form-group">
             <label asp-for="Description"></label>
-            <input type="text" asp-for="Description" class="form-control m-0">
+            <input type="text" asp-for="Description" class="form-control m-0" placeholder="Description">
             <span asp-validation-for="Description" class="small text-danger"></span>
         </div>
         <div class="text-center">
-            <input class="btn btn-primary" type="submit" value="Save" />
+            <button class="theme-btn-1 btn btn-effect-1" type="submit" value="Save">Add</button>
         </div>
     </form>
 </div>
