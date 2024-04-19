@@ -1,7 +1,7 @@
 ﻿@model MedicineFormModel
 
-<div class="w-100 h-auto d-flex justify-content-center">
-    <form asp-action="Add" method="post" class="addMedicine col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5" enctype="multipart/form-data">
+<div class="addMedicine">
+    <form asp-action="Add" method="post" class="addMedicineForm col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5 h-100" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control m-0" placeholder="Name...">
@@ -12,7 +12,7 @@
             <input asp-for="ImageUrl" class="form-control m-0" placeholder="Image url...">
             <span asp-validation-for="ImageUrl" class="small text-danger"></span>
         </div>
-        <div>
+        <div class="form-group">
             <label asp-for="RequiresPrescription"></label>
             <input class="form-check-input m-0" type="checkbox" asp-for="RequiresPrescription">
         </div>

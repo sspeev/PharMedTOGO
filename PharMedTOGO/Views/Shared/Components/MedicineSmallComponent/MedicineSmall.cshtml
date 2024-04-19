@@ -20,13 +20,13 @@
             </div>
             <div class="row ltn__tab-product-slider-one-active--- slick-arrow-1">
 
-                @foreach (var item in Model.Medicines.Where(m => m.Category == MedicineCategory.Cosmetics))
+                @foreach (var item in allMedicines.Medicines.Where(m => m.Category == MedicineCategory.Cosmetics))
                 {
                     <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                         <div class="ltn__product-item ltn__product-item-3 text-left">
                             <div class="product-img">
                                 <img src="@item.ImageUrl" />
-                                @if (item.SaleId != 0)
+                                @if (item.SaleId != null)
                                 {
                                     <div class="product-badge">
                                         <ul>
