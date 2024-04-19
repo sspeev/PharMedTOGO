@@ -26,7 +26,7 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKey);
+                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKeyCart);
 
                 if (model == null)
                 {
@@ -35,7 +35,7 @@ namespace PharMedTOGO.Controllers
                     var cacheOptions = new MemoryCacheEntryOptions()
                         .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
 
-                    memoryCache.Set(UserCacheKey, model, cacheOptions);
+                    memoryCache.Set(UserCacheKeyCart, model, cacheOptions);
                 }
                 return View(model);
             }

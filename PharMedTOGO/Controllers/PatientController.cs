@@ -76,7 +76,7 @@ namespace PharMedTOGO.Controllers
                 await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                    memoryCache.Remove(UserCacheKey);
+                    memoryCache.Remove(UserCacheKeyCart);
                     return RedirectToAction("Login", "Patient");
                 }
 

@@ -412,6 +412,17 @@ body {
     margin: 0 auto;
     height: 100%;
 }
+.button{
+    padding: 0.2em 0.5em;
+    border-radius: 10%;
+}
+
+.btns-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: center;
+}
 
 .addMedicine {
     display: flex;
@@ -427,6 +438,12 @@ body {
     color: var(--white);
     padding: 0 18px;
     height: 100%;
+}
+
+.allMedicines {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10em;
 }
 
 h1, .h1 {

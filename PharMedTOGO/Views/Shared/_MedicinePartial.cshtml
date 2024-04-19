@@ -1,7 +1,7 @@
 ﻿@model MedicineServiceModel
 
 <div class="col-md-2">
-    <div class="card">
+    <div class="ltn__product-item ltn__product-item-3 text-left">
         <div class="d-flex justify-content-center">
             <img class="card-img-top w-50 h-auto" src="@Model.ImageUrl" alt="Medicine Image">
         </div>
@@ -11,20 +11,22 @@
             <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
             <h6 class="text-black">RequiresPrescription: <b>@(Model.RequiresPrescription ? "Yes" : "No")</b></h6>
             <br />
-            <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
-            @if (User?.IsInRole("Admin") ?? false)
-            {
-                <a asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                <a asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-            }
-            @if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                <form asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
-                    <button class="btn btn-success">
-                        Add to cart
-                    </button>
-                </form>
-            }
+            <div class="btns-wrap">
+                <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="button btn-info">Details</a>
+                @if (User?.IsInRole("Admin") ?? false)
+                {
+                    <a asp-controller="Medicine" asp-action="Edit" asp-route-id="@Model.Id" class="button btn-warning">Edit</a>
+                    <a asp-controller="Medicine" asp-action="Delete" asp-route-id="@Model.Id" class="button btn-danger">Delete</a>
+                }
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <form asp-area="" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                        <button class="button btn-success">
+                            Add to cart
+                        </button>
+                    </form>
+                }
+            </div>
         </div>
     </div>
 </div>

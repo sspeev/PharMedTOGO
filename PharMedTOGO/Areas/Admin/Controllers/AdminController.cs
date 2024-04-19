@@ -34,7 +34,7 @@ namespace PharMedTOGO.Areas.Admin.Controllers
         {
             try
             {
-                var users = memoryCache.Get<IEnumerable<PatientServiceModel>>(UserCacheKey);
+                var users = memoryCache.Get<IEnumerable<PatientServiceModel>>(UserCacheKeyAllUsers);
 
                 if (users == null)
                 {
@@ -42,7 +42,7 @@ namespace PharMedTOGO.Areas.Admin.Controllers
                     var cacheOptions = new MemoryCacheEntryOptions()
                         .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
 
-                    memoryCache.Set(UserCacheKey, users, cacheOptions);
+                    memoryCache.Set(UserCacheKeyAllUsers, users, cacheOptions);
                 }
 
                 return View(users);
@@ -70,7 +70,7 @@ namespace PharMedTOGO.Areas.Admin.Controllers
                     throw new ArgumentException("That user is already an admin!");
                 }
                 await adminService.MakeAdminByIdAsync(id);
-                memoryCache.Remove(UserCacheKey);
+                memoryCache.Remove(UserCacheKeyCart);
 
                 return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }

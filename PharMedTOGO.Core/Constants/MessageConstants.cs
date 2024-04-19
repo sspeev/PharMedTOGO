@@ -20,6 +20,7 @@
 
         public const string AdminConstant = "Admin";
 
-        public const string UserCacheKey = "UserCacheKey";
+        public const string UserCacheKeyCart = "UserCacheKeyCart";
+        public const string UserCacheKeyAllUsers = "UserCacheKeyAllUsers";
     }
 }

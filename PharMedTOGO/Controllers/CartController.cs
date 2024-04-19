@@ -36,7 +36,7 @@ namespace PharMedTOGO.Controllers
         {
             try
             {
-                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKey);
+                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKeyCart);
 
                 if (model == null)
                 {
@@ -45,7 +45,7 @@ namespace PharMedTOGO.Controllers
                     var cacheOptions = new MemoryCacheEntryOptions()
                         .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
 
-                    memoryCache.Set(UserCacheKey, model, cacheOptions);
+                    memoryCache.Set(UserCacheKeyCart, model, cacheOptions);
                 }
                 return View(model);
             }
@@ -99,7 +99,7 @@ namespace PharMedTOGO.Controllers
                 else
                 {
                     await cartService.AddToCartAsync(id, User.Id());// possible throwing
-                    memoryCache.Remove(UserCacheKey);
+                    memoryCache.Remove(UserCacheKeyCart);
                 }
 
                 return RedirectToAction(nameof(ShoppingCart), "Cart");
@@ -121,7 +121,7 @@ namespace PharMedTOGO.Controllers
                 return Unauthorized();
             }
             await cartService.RemoveFromCartAsync(id, User.Id());
-            memoryCache.Remove(UserCacheKey);
+            memoryCache.Remove(UserCacheKeyCart);
 
             return RedirectToAction(nameof(ShoppingCart), "Cart");
         }
