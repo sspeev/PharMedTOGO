@@ -26,7 +26,6 @@
                     <div class="account-login-inner">
                         <form asp-controller="Patient" asp-action="Login" id="account" method="post" class="ltn__form-box contact-form-box">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <hr />
                             <input asp-for="@Model.Email" type="text" name="email" placeholder="Email*">
                             <span asp-validation-for="Email" class="text-danger"></span>
 

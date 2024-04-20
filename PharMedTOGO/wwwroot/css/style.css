@@ -957,8 +957,8 @@ mark {
 }
 
 hr {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 5em;
+    margin-bottom: 10em;
     border-top: 1px solid var(--border-color-12);
 }
 
