@@ -121,6 +121,8 @@ namespace PharMedTOGO.Core.Services
                         {
                             medicineModel.Price = medicineModel.Price - discount;
                             medicine.Price = medicine.Price - discount;
+                            medicine.Sale = sale;
+                            medicineModel.Sale = await MapByIdSale(sale.Id);
 
                             medicineModel.HasSaleApplied = true;
                             medicine.HasSaleApplied = true;
@@ -160,7 +162,8 @@ namespace PharMedTOGO.Core.Services
                 if (!medicine.HasSaleApplied)
                 {
                     medicine.Price = medicine.Price - discount;
-
+                    medicine.SaleId = sale.Id;
+                    medicine.Sale = sale;
                     medicine.HasSaleApplied = true;
                 }
             }

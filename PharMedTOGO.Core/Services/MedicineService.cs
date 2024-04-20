@@ -79,19 +79,32 @@ namespace PharMedTOGO.Core.Services
         {
             var medicines = await context.Medicines
                 .AsNoTracking()
-                .Select(h => new MedicineServiceModel()
+                .Select(m => new MedicineServiceModel()
                 {
-                    Id = h.Id,
-                    Name = h.Name,
-                    Category = h.Category,
-                    ImageUrl = h.ImageUrl,
-                    Description = h.Description,
-                    Price = h.Price,
-                    HasSaleApplied = h.HasSaleApplied,
-                    RequiresPrescription = h.RequiresPrescription,
-                    SaleId = h.SaleId
+                    Id = m.Id,
+                    Name = m.Name,
+                    Category = m.Category,
+                    ImageUrl = m.ImageUrl,
+                    Description = m.Description,
+                    Price = m.Price,
+                    HasSaleApplied = m.HasSaleApplied,
+                    RequiresPrescription = m.RequiresPrescription,
+                    SaleId = m.SaleId
                 })
                 .ToListAsync();
+
+            Sale sale = null;
+            foreach (var medicine in medicines.Where(m => m.SaleId != null))
+            {
+                sale = await FindSaleByIdAsync(medicine.SaleId.Value);
+                medicine.Sale = new SaleServiceModel()
+                {
+                    Discount = sale.Discount,
+                    StartDate = sale.StartDate,
+                    EndDate = sale.EndDate,
+                    IsEnded = sale.IsEnded
+                };
+            }
 
             return new AllMedicinesQueryModel()
             {
@@ -128,7 +141,7 @@ namespace PharMedTOGO.Core.Services
         public async Task<Medicine> FindByIdAsync(int id)
         {
             return await context.Medicines
-                .FirstOrDefaultAsync(x => x.Id == id) ?? 
+                .FirstOrDefaultAsync(x => x.Id == id) ??
                 throw new ArgumentException("Unexisting medicine");
         }
 
@@ -175,6 +188,11 @@ namespace PharMedTOGO.Core.Services
 
             context.Remove(medicine);
             await context.SaveChangesAsync();
+        }
+
+        private async Task<Sale> FindSaleByIdAsync(int id)
+        {
+            return await context.Sales.FirstOrDefaultAsync(s => s.Id == id) ?? throw new ArgumentException("Unexisting sale");
         }
     }
 }
