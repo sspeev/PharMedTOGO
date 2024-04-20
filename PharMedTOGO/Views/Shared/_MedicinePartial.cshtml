@@ -1,4 +1,7 @@
-﻿@model MedicineServiceModel
+﻿@using PharMedTOGO.Core.Contracts
+
+@model MedicineServiceModel
+@inject ISaleService saleService
 
 <div class="col-md-2">
     <div class="ltn__product-item ltn__product-item-3 text-left">
@@ -8,6 +11,16 @@
         <div class="card-body text-center">
             <h4 class="text-black">@Model.Name</h4>
             <h6 class="text-black">Category: <b>@Model.Category</b></h6>
+            @if (Model.SaleId != null)
+            {
+                <div class="d-flex justify-content-center gap-2">
+                    @{
+                        Model.Sale = await saleService.MapByIdSale(Model.SaleId.Value);
+                    }
+                    <p class="text-black text-center"><b>Discount: @($"{Model.Sale.Discount:f0}%")</b></p>
+                    <img style="width: 20px; height: 20px;" src="~/fontawesome-free-6.4.0-web/svgs/solid/tag.svg" alt="Sale icon" />
+                </div>
+            }
             <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
             <h6 class="text-black">RequiresPrescription: <b>@(Model.RequiresPrescription ? "Yes" : "No")</b></h6>
             <br />

@@ -5,7 +5,7 @@ namespace PharMedTOGO.Core.Models
 {
     public class AllMedicinesQueryModel
     {
-        public int MedicinesPerPage { get; set; } = 6;
+        public int MedicinesPerPage { get; set; } = 5;
 
         [Display(Name = "search by text")]
         public string SearchTerm { get; set; } = string.Empty;

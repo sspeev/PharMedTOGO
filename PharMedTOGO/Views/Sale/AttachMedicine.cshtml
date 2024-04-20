@@ -3,14 +3,20 @@
 @{
     ViewData["Title"] = $"Attach Medicine on sale({Model.SaleId})";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+     data-bs-bg="https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg"
+     style="background-image: url(https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg)">
+    <div style="padding: 5em;">
+        <h2>@ViewData["Title"]</h2>
+        <h2 class="text-dark">Total available medicines count: @Model.Medicines.Count()</h2>
+    </div>
+</div>
 
-<h4 class="text-light">Total available medicines count: @Model.Medicines.Count()</h4>
 @if (!Model.Medicines.Any())
 {
     <h2 class="text-center">No medicines found!</h2>
 }
-<div class="d-flex gap-2 m-3">
+<div class="d-flex gap-2 m-3 flex-wrap">
     @foreach (var medicine in Model.Medicines)
     {
         <div class="col-md-2">
@@ -22,7 +28,7 @@
                     <h4 class="text-black">@medicine.Name</h4>
                     <h6 class="text-black"> Price: <b>@String.Format("{0:f2}", medicine.Price) BGN</b></h6>
                     <form asp-controller="Sale" asp-action="AttachMedicine" asp-route-saleId="@Model.SaleId" asp-route-medicineId="@medicine.Id" method="post">
-                        <input class="text-light bg-info p-1" style="border-radius: 0.5em" type="submit" value="Apply to sale"/>
+                        <input class="text-light bg-info p-1" style="border-radius: 0.5em" type="submit" value="Apply to sale" />
                     </form>
                 </div>
             </div>

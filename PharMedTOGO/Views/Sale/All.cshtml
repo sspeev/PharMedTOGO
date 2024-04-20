@@ -3,23 +3,82 @@
 @{
     ViewData["Title"] = "All sales";
 }
-<h1>@ViewData["Title"]</h1>
-<a asp-controller="Sale" asp-action="Add"><b>Create New</b></a>
 
-<h4 class="text-light">Total Sales count: @Model.TotalSales</h4>
-<article class="d-flex gap-lg-3 flex-wrap">
-    @foreach (var sale in Model.Sales)
-    {
-        if (!sale.IsEnded)
-        {
-            <div class="bg-light p-lg-3" style="border-radius: 0.5em">
-                <h6 class="text-dark">Discount: @($"{sale.Discount:f0}%")</h6>
-                <p class="text-black">Start date: @sale.StartDate.ToString(DateFormat)</p>
-                <p class="text-black">End date @sale.EndDate.ToString(DateFormat)</p>
-                <a asp-controller="Sale" asp-action="Edit" asp-route-id="@sale.Id" class="text-black bg-warning p-1" style="border-radius: 0.5em">Edit</a>
-                <a asp-controller="Sale" asp-action="Delete" asp-route-id="@sale.Id" class="text-black bg-danger p-1" style="border-radius: 0.5em">Delete</a>
-                <a asp-controller="Sale" asp-action="AttachMedicine" asp-route-saleId="@sale.Id" class="text-black bg-success p-1" style="border-radius: 0.5em">Attach medicines</a>
+@await Component.InvokeAsync(nameof(MobileMenuComponent))
+
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "
+     data-bs-bg="https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg"
+     style="background-image: url(https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner">
+                    <h1 class="page-title">All sales</h1>
+                </div>
             </div>
-        }
-    }
-</article>
+        </div>
+    </div>
+</div>
+
+
+<div class="ltn__blog-area ltn__blog-item-3-normal mb-100">
+    <div class="container">
+        <div class="row">
+            <h4 class="text-black">Total Sales count: @Model.TotalSales</h4>
+            <a class="text-black" asp-controller="Sale" asp-action="Add"><b>Create New</b></a>
+            @foreach (var item in Model.Sales)
+            {
+                if (!item.IsEnded)
+                {
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="ltn__blog-item ltn__blog-item-3">
+                            <div class="ltn__blog-brief">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-author">
+                                            <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                        </li>
+                                        <li class="ltn__blog-tags">
+                                            <a href="#"><i class="fas fa-tags"></i>Sale</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="ltn__blog-title">Discount: @($"{item.Discount:f0}%")</h3>
+                                <div class="ltn__blog-meta-btn">
+                                    <div class="ltn__blog-meta">
+                                        <ul>
+                                            <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>@item.StartDate.ToString(DateFormat)</li>
+                                            <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>@item.EndDate.ToString(DateFormat)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="ltn__blog-btn">
+                                        <a asp-controller="Sale" asp-action="Edit" asp-route-id="@item.Id" class="text-black bg-warning p-1" style="border-radius: 0.5em">Edit</a>
+                                        <a asp-controller="Sale" asp-action="Delete" asp-route-id="@item.Id" class="text-black bg-danger p-1" style="border-radius: 0.5em">Delete</a>
+                                        <a asp-controller="Sale" asp-action="AttachMedicine" asp-route-saleId="@item.Id" class="text-black bg-success p-1" style="border-radius: 0.5em">Attach medicines</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        @* <div class="row">
+        <div class="col-lg-12">
+        <div class="ltn__pagination-area text-center">
+        <div class="ltn__pagination">
+        <ul>
+        <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
+        <li><a href="#">1</a></li>
+        <li class="active"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">...</a></li>
+        <li><a href="#">10</a></li>
+        <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        </div> *@
+    </div>
+</div>

@@ -1,22 +1,36 @@
 ﻿@model SaleFormModel
 
-<form asp-controller="Sale" asp-action="Add" method="post" class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5">
-    <div class="form-group">
-        <label asp-for="Discount">Discount</label>
-        <input asp-for="Discount" class="form-control" placeholder="Discount...">
-        <span asp-validation-for="Discount" class="small text-danger"></span>
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+     data-bs-bg="https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg"
+     style="background-image: url(https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg)">
+    <div style="padding: 5em;"></div>
+</div>
+<div class="w-100 d-flex flex-column justify-content-center">
+    <h3 class="text-center">Add new sale</h3>
+    <div class="w-100 d-flex flex-column justify-content-center">
+        <form asp-controller="Sale" asp-action="Add" method="post" class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 m-5">
+            <div class="form-group">
+                <label asp-for="Discount">Discount</label>
+                <input asp-for="Discount" class="form-control" placeholder="Discount...">
+                <span asp-validation-for="Discount" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate">StartDate</label>
+                <input asp-for="StartDate" class="form-control" placeholder="StartDate...">
+                <span asp-validation-for="StartDate" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate">EndDate</label>
+                <input asp-for="EndDate" class="form-control" placeholder="EndDate...">
+                <span asp-validation-for="EndDate" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <button class="theme-btn-1 btn btn-effect-1" type="submit">Save</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="StartDate">StartDate</label>
-        <input asp-for="StartDate" class="form-control" placeholder="StartDate...">
-        <span asp-validation-for="StartDate" class="small text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EndDate">EndDate</label>
-        <input asp-for="EndDate" class="form-control" placeholder="EndDate...">
-        <span asp-validation-for="EndDate" class="small text-danger"></span>
-    </div>
-    <div class="text-center">
-        <input class="btn btn-primary" type="submit" value="Save" />
-    </div>
-</form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -5,10 +5,14 @@
     int id = (int)TempData["saleId"];
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+     data-bs-bg="https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg"
+     style="background-image: url(https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg)">
+    <div style="padding: 5em;"></div>
+</div>
 
-<h3>Are you sure you want to delete this?</h3>
 <form asp-controller="Sale" asp-action="DeleteConfirmed" asp-route-id="@id" method="post">
+    <h3>Are you sure you want to delete this?</h3>
     <div class="row gap-3">
         <div class="col-md-6">
             <div class="form-group">

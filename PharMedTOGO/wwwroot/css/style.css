@@ -12637,6 +12637,9 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 }
 
 .ltn__blog-btn {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
     color: var(--ltn__heading-color);
     -webkit-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;

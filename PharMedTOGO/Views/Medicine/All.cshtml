@@ -1,14 +1,18 @@
 ﻿@model AllMedicinesQueryModel
 
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+     data-bs-bg="https://img.freepik.com/free-photo/colorful-pills-with-white-container_23-2148506763.jpg"
+     style="background-image: url(https://img.freepik.com/free-photo/colorful-pills-with-white-container_23-2148506763.jpg)">
+</div>
 
 @await Component.InvokeAsync(nameof(MobileMenuComponent))
-<form method="get" style="padding-top: 10em; box-sizing: border-box">
+<form method="get" style="display: flex; justify-content: center">
     <div class="d-flex flex-row gap-lg-3">
-        <div class="form-group">
+        <div class="d-flex justify-content-center flex-column">
             <label asp-for="SearchTerm"></label>
             <input asp-for="SearchTerm" class="form-control" placeholder="...">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 d-flex justify-content-center flex-column">
             <div class="form-group">
                 <label asp-for="Sorting"></label>
                 <select asp-for="Sorting" class="form-control">
@@ -22,8 +26,8 @@
                 </select>
             </div>
         </div>
-        <div class="form-group align-content-end">
-            <input type="submit" value="Search" class="btn btn-primary" />
+        <div class="form-group d-flex justify-content-center flex-column">
+            <button type="submit" class="theme-btn-1 btn btn-effect-1">Search</button>
         </div>
     </div>
 </form>
@@ -37,7 +41,7 @@
 }
 <div class="mb-4 mt-4 d-flex justify-content-between" style="padding: 3em 5em;">
     <div class="">
-        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+        <a class="theme-btn-1 btn btn-effect-1 @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Medicine"
            asp-action="All"
            asp-route-currentPage="@previousPage"
@@ -51,7 +55,7 @@
         var shouldButtonBeDisabled = Model.CurrentPage == maxPage || !Model.Medicines.Any();
     }
     <div class="">
-        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+        <a class="theme-btn-1 btn btn-effect-1 @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
            asp-controller="Medicine"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
@@ -65,7 +69,7 @@
 {
     <h2 class="text-center">No medicines found by the given criteria!</h2>
 }
-<div class="d-flex gap-2 m-3 flex-wrap">
+<div class="d-flex gap-2 m-3 flex-wrap justify-content-center">
     @foreach (var medicine in Model.Medicines)
     {
         <partial name="_MedicinePartial" model="@medicine" />
