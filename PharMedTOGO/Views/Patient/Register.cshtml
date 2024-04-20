@@ -3,46 +3,60 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="body-wrapper">
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="FirstName" class="form-control text-black" aria-required="true" />
-                <label class="text-black" asp-for="FirstName"></label>
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+         data-bs-bg=https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg
+         style="background-image: url(https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg); padding-bottom: 5em;">
+        <div style="padding: 5em;"></div>
+    </div>
+
+    <div class="ltn__login-area pb-110">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area text-center">
+                        <h1 class="section-title">Create <br>Your Account</h1>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating">
-                <input asp-for="LastName" class="form-control text-black" aria-required="true" />
-                <label class="text-black" asp-for="LastName"></label>
-                <span asp-validation-for="LastName" class="text-danger"></span>
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="account-login-inner">
+                        <form asp-controller="Patient" asp-action="Register" id="registerForm" method="post" class="ltn__form-box contact-form-box">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <input asp-for="FirstName" type="text" name="firstname" placeholder="First Name">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+
+                            <input asp-for="LastName" type="text" name="lastname" placeholder="Last Name">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+
+                            <input asp-for="Email" type="text" name="email" placeholder="Email*">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                            <input asp-for="EGN" type="text" name="egn" placeholder="EGN*">
+                            <span asp-validation-for="EGN" class="text-danger"></span>
+
+                            <input asp-for="Password" type="password" name="password" placeholder="Password*">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                            <input asp-for="ConfirmPassword" type="password" name="confirmpassword" placeholder="Confirm Password*">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                            <div class="btn-wrapper">
+                                <button id="registerSubmit" class="theme-btn-1 btn reverse-color btn-block" type="submit">CREATE ACCOUNT</button>
+                            </div>
+                        </form>
+                        <div class="by-agree text-center">
+                            <div class="go-to-btn mt-50">
+                                <a asp-controller="Patient" asp-action="Login">ALREADY HAVE AN ACCOUNT ?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating">
-                <input asp-for="Email" class="form-control text-black" aria-required="true" />
-                <label class="text-black" asp-for="Email"></label>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="EGN" class="form-control text-black" aria-required="true" />
-                <label class="text-black" asp-for="EGN"></label>
-                <span asp-validation-for="EGN" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Password" class="form-control text-black" aria-required="true" />
-                <label asp-for="Password"></label>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="ConfirmPassword" class="form-control text-black" aria-required="true" />
-                <label class="text-black" asp-for="ConfirmPassword"></label>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
+        </div>
     </div>
 </div>
 
