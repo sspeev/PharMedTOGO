@@ -80,7 +80,7 @@ namespace PharMedTOGO.Core.Services
             var user = await context.Users
                 .FirstOrDefaultAsync(p => p.Id == userId && p.PrescriptionId != null);
 
-            if (user.Prescription != null)
+            if (user.PrescriptionId != null)
             {
                 return user.PrescriptionId.Value;
             }
