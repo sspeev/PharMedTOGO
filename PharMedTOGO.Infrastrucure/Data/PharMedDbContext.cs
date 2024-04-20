@@ -8,7 +8,7 @@ namespace PharMedTOGO.Infrastrucure.Data
 {
     public class PharMedDbContext : IdentityDbContext<Patient, IdentityRole<string>, string>
     {
-        private bool seed;
+        private bool seed = true;
 
         public PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool _seed = true)
             : base(options)
