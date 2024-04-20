@@ -2,62 +2,81 @@
 @model LoginViewModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Login";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <section>
-            <form asp-controller="Patient" asp-action="Login" id="account" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="text-center mb-3">
-                    <label asp-for="@Model.Email" class="form-label"></label>
-                    <input asp-for="@Model.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="text-center mb-3">
-                    <label asp-for="@Model.Password" class="form-label"></label>
-                    <input asp-for="@Model.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="text-center">
-                    <button id="login-submit" type="submit" class="btn btn-primary">Log in</button>
-                </div>
-            </form>
-        </section>
+<div class="body-wrapper">
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image" 
+    data-bs-bg=https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg 
+    style="background-image: url(https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg); padding-bottom: 5em;">
+    <div style="padding: 5em;"></div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                article
-                                about setting up this ASP.NET application to support logging in via external services
-                            </a>.
-                        </p>
+
+    <div class="ltn__login-area pb-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area text-center">
+                        <h1 class="section-title">Log in <br> your account</h1>
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-action="ExternalLogin" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="account-login-inner">
+                        <form asp-controller="Patient" asp-action="Login" id="account" method="post" class="ltn__form-box contact-form-box">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <hr />
+                            <input asp-for="@Model.Email" type="text" name="email" placeholder="Email*">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                            <input asp-for="@Model.Password type=" password" name="password" placeholder="Password*">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                            <div class="btn-wrapper mt-0">
+                                <button class="theme-btn-1 btn btn-block" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="account-create text-center pt-50">
+                        <h4>DON'T HAVE AN ACCOUNT?</h4>
+                        <div class="btn-wrapper">
+                            <a asp-controller="Patient" asp-action="Register" class="theme-btn-1 btn black-btn">CREATE ACCOUNT</a>
                         </div>
-                    </form>
-                }
-            }
-        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-2">
+                <section>
+                    <h3>Use another service to log in.</h3>
+                    <hr />
+                    @{
+                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                        {
+                            <div>
+                                <p>
+                                    Google login to be implemented
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <form id="external-account" asp-action="ExternalLogin" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    }
+                </section>
+            </div>
+        </div>
     </div>
 </div>
