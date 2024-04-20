@@ -14,15 +14,18 @@ namespace PharMedTOGO.Controllers
         private readonly StripeSettings stripeSettings;
         private readonly IAdminService adminService;
         private readonly ITransactionService transactionService;
+        private readonly ICartService cartService;
 
         public StripeController(
             IOptions<StripeSettings> _stripeSettings,
             IAdminService _adminService,
-            ITransactionService _transactionService)
+            ITransactionService _transactionService,
+            ICartService _cartService)
         {
             stripeSettings = _stripeSettings.Value;
             adminService = _adminService;
             transactionService = _transactionService;
+            cartService = _cartService;
         }
 
         [HttpPost]
@@ -84,6 +87,7 @@ namespace PharMedTOGO.Controllers
                     SessionIntendId = session.PaymentIntentId
                 };
                 await transactionService.AddAsync(model);
+                await cartService.ClearCart(User.Id());
 
                 return View("Details", model);
             }

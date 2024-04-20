@@ -97,5 +97,15 @@ namespace PharMedTOGO.Core.Services
         {
             return model;
         }
+
+        public async Task ClearCart(string userId)
+        {
+            var buyedMedicines = await context.Carts.Where(c => c.PatientId == userId).ToListAsync();
+            foreach (var item in buyedMedicines)
+            {
+                context.Remove(item);
+            }
+            await context.SaveChangesAsync();
+        }
     }
 }

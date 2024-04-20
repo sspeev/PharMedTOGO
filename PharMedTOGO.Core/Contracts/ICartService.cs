@@ -13,5 +13,7 @@ namespace PharMedTOGO.Core.Contracts
         Task<bool> AlreadyAddedToCart(int medicineId, string userId);
 
         AllCartsQueryModel DetailsAsync(AllCartsQueryModel model);
+
+        Task ClearCart(string userId);
     }
 }
