@@ -25,7 +25,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseExceptionHandler("/Home/Error/500");
+    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+    //app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
