@@ -4,28 +4,48 @@
     ViewData["Title"] = "Transaction details";
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SessionIntendId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SessionIntendId)
-        </dd>
-    </dl>
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+     data-bs-bg="https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg"
+     style="background-image: url(https://st4.depositphotos.com/8846918/40660/i/450/depositphotos_406604956-stock-photo-blood-pressure-meter-medical-equipment.jpg)">
+    <div style="padding: 5em;">
+        <h1 class="text-center">@ViewData["Title"]</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="ltn__shop-details-inner mb-60">
+            <div class="row">
+                <div class="d-flex justify-content-center col-md-6">
+                    <dl class="row">
+                        <dd class="col-sm-10">
+                            <p class="text-black"style="font-weight: 600;">Email: @Model.Email</p>
+                        </dd>
+                        <dd class="col-sm-10">
+                            <p class="text-black" style="font-weight: 600;">Amount: @Model.Amount</p>
+                        </dd>
+                        <dd class="col-sm-10">
+                            <p class="text-black" style="font-weight: 600;">Session Id: @Model.SessionIntendId</p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <div class="modal-product-info shop-details-info pl-0">
+                        <div class="ltn__safe-checkout">
+                            <h5>Guaranteed Safe Checkout</h5>
+                            <img style="width: 40px; height: 40px;" src="~/fontawesome-free-6.4.0-web/svgs/brands/cc-visa.svg">
+                            <img style="width: 40px; height: 40px;" src="~/fontawesome-free-6.4.0-web/svgs/brands/cc-mastercard.svg">
+                            <img style="width: 40px; height: 40px;" src="~/fontawesome-free-6.4.0-web/svgs/brands/cc-stripe.svg">
+                        </div>
+                        <button class="theme-btn-1 btn btn-effect-1 gap-2" title="Add to Cart">
+                            <img style="width: 20px; height: 20px;" src="~/fontawesome-free-6.4.0-web//svgs/solid/arrow-left-long.svg" />
+                            <span>Back to the shop</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

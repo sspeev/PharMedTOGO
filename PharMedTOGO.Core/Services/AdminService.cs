@@ -78,7 +78,7 @@ namespace PharMedTOGO.Core.Services
         public async Task<int> HasUserPrescription(string userId)
         {
             var user = await context.Users
-                .FirstOrDefaultAsync(p => p.Id == userId && p.PrescriptionId != null);
+                .FirstOrDefaultAsync(p => p.Id == userId);
 
             if (user.PrescriptionId != null)
             {
