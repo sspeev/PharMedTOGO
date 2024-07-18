@@ -6,10 +6,10 @@
 }
 
 <div class="body-wrapper">
-    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image" 
-    data-bs-bg=https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg 
-    style="background-image: url(https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg); padding-bottom: 5em;">
-    <div style="padding: 5em;"></div>
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image"
+         data-bs-bg=https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg
+         style="background-image: url(https://img.freepik.com/premium-photo/shopping-cart-with-medical-pills-green-background-banner_427957-559.jpg); padding-bottom: 5em;">
+        <div style="padding: 5em;"></div>
     </div>
 
     <div class="ltn__login-area pb-65">
@@ -62,14 +62,15 @@
                         }
                         else
                         {
-                            <form id="external-account" asp-action="ExternalLogin" method="post" class="form-horizontal">
+                            <form id="external-account" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                                 <div>
-                                    <p>
+                                    @if (Model.ExternalLogins != null)
+                                    {
                                         @foreach (var provider in Model.ExternalLogins)
                                         {
                                             <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                                         }
-                                    </p>
+                                    }
                                 </div>
                             </form>
                         }
@@ -79,3 +80,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

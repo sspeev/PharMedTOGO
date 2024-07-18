@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return service;
         }
 
-        public static IServiceCollection AddApplicationIdentity(this IServiceCollection service)
+        public static IServiceCollection AddApplicationIdentity(this IServiceCollection service, IConfiguration config)
         {
             service.AddDefaultIdentity<Patient>(options =>
             {
@@ -44,6 +44,12 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddRoles<IdentityRole<string>>()
             .AddEntityFrameworkStores<PharMedDbContext>();
+
+            service.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = config["web:client_id"];
+                googleOptions.ClientSecret = config["web:client_secret"];
+            });
 
             return service;
         }

@@ -55,6 +55,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-md-offset-2">
+                    <section>
+                        <h3>Use another service to log in.</h3>
+                        <hr />
+                        @{
+                            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                            {
+                                <div>
+                                    <p>
+                                        Google login to be implemented
+                                    </p>
+                                </div>
+                            }
+                            else
+                            {
+                                <form id="external-account" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                    <div>
+                                        @if (Model.ExternalLogins != null)
+                                        {
+                                            @foreach (var provider in Model.ExternalLogins)
+                                            {
+                                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                            }
+                                        }
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </section>
+                </div>
             </div>
         </div>
     </div>

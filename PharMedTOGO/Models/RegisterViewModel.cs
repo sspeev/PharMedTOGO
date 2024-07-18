@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.ComponentModel.DataAnnotations;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Core.Models
@@ -36,5 +37,10 @@ namespace PharMedTOGO.Core.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
+
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        = new List<AuthenticationScheme>();
+
+        public string? ReturnUrl { get; set; }
     }
 }
