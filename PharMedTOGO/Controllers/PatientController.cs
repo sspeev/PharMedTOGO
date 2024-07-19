@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data.Models;
 using PharMedTOGO.Models;
 using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Text;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
 namespace PharMedTOGO.Controllers
@@ -196,12 +191,12 @@ namespace PharMedTOGO.Controllers
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action("ExternalLoginCallback", "Patient", new { returnUrl });
             var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            
+
             return new ChallengeResult(provider, properties);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
@@ -229,10 +224,12 @@ namespace PharMedTOGO.Controllers
             }
             else
             {
-                var model = new ExternalLoginViewModel();
                 // If the user does not have an account, then ask the user to create an account.
-                model.ReturnUrl = returnUrl;
-                model.ProviderDisplayName = info.ProviderDisplayName;
+                var model = new ExternalLoginViewModel()
+                {
+                    ReturnUrl = returnUrl,
+                    ProviderDisplayName = info.ProviderDisplayName,
+                };
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
                     string[] patientNames = info.Principal.FindFirstValue(ClaimTypes.Name).Split(" ").ToArray();
@@ -243,16 +240,14 @@ namespace PharMedTOGO.Controllers
                         LastName = patientNames[1]
                     };
                 }
-
-                return View("ExternalLoginConfirm", model);
+                return View(model);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnConfirmationAsync(string returnUrl = null)
+        public async Task<IActionResult> Confirmation(ExternalLoginViewModel model, string? returnUrl = null)
         {
-            var model = new ExternalLoginViewModel();
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
             // Get the information about the user from the external login provider
             var info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -263,7 +258,16 @@ namespace PharMedTOGO.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var passwordHasher = new PasswordHasher<Patient>();
+                var user = new Patient()
+                {
+                    Email = model.Input.Email,
+                    FirstName = model.Input.FirstName,
+                    LastName = model.Input.LastName,
+                    EGN = model.Input.EGN,
+                    UserName = $"{model.Input.FirstName} {model.Input.LastName}"
+                };
+                user.PasswordHash = passwordHasher.HashPassword(user, model.Input.Password);
 
                 var result = await userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -271,23 +275,27 @@ namespace PharMedTOGO.Controllers
                     result = await userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        //var userId = await userManager.GetUserIdAsync(user);
-                        //var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                        //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        //var callbackUrl = Url.Page(
-                        //    "/Account/ConfirmEmail",
-                        //    pageHandler: null,
-                        //    values: new { area = "Identity", userId = userId, code = code },
-                        //    protocol: Request.Scheme);
+                        //The code below is for confirming email
+                        /*
+                        var userId = await userManager.GetUserIdAsync(user);
+                        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId = userId, code = code },
+                            protocol: Request.Scheme);
 
-                        //await emailSender.SendEmailAsync(model.Input.Email, "Confirm your email",
-                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await emailSender.SendEmailAsync(model.Input.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                         */
+                        
 
-                        //// If account confirmation is required, we need to show the link if we don't have a real email sender
-                        //if (userManager.Options.SignIn.RequireConfirmedAccount)
-                        //{
-                        //    return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        //}
+                        // If account confirmation is required, we need to show the link if we don't have a real email sender
+                        if (userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            return RedirectToPage("./RegisterConfirmation", new { Email = model.Input.Email });
+                        }
 
                         await signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
@@ -302,21 +310,11 @@ namespace PharMedTOGO.Controllers
             model.ProviderDisplayName = info.ProviderDisplayName;
             model.ReturnUrl = returnUrl;
 
-            return RedirectToAction("Index", "Home");
-        }
-
-        private Patient CreateUser()
-        {
-            try
+            if (!ModelState.IsValid)
             {
-                return Activator.CreateInstance<Patient>();
+                return View("ExternalLoginCallback", model);
             }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Patient)}'. " +
-                    $"Ensure that '{nameof(Patient)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
-            }
+            return RedirectToAction("Index", nameof(HomeController));
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿@model ExternalLoginViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h2 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h2>
+<hr />
+
+<p id="external-login-description" class="text-info">
+    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+    Please enter an email address for this site below and click the Register button to finish
+    logging in.
+</p>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-floating ">
+                
+                <label asp-for="@Model.Input.Email" class="form-label"></label>
+                <input asp-for="@Model.Input.Email" class="form-control" autocomplete="email" />
+                <span asp-validation-for="@Model.Input.Email" class="text-danger"></span>
+
+                <label asp-for="@Model.Input.FirstName" class="form-label"></label>
+                <input asp-for="@Model.Input.FirstName" class="form-control" />
+                <span asp-validation-for="@Model.Input.FirstName" class="text-danger"></span>
+
+                <label asp-for="@Model.Input.LastName" class="form-label"></label>
+                <input asp-for="@Model.Input.LastName" class="form-control" />
+                <span asp-validation-for="@Model.Input.LastName" class="text-danger"></span>
+
+                <label asp-for="@Model.Input.EGN" class="form-label"></label>
+                <input asp-for="@Model.Input.EGN" class="form-control" />
+                <span asp-validation-for="@Model.Input.EGN" class="text-danger"></span>
+
+                <input asp-for="@Model.Input.Password" class="form-control" value="aaaaaa" hidden/>
+                <span asp-validation-for="@Model.Input.Password" class="text-danger" hidden></span>
+
+                <input asp-for="@Model.Input.ConfirmPassword" class="form-control" value="aaaaaa" hidden/>
+                <span asp-validation-for="@Model.Input.ConfirmPassword" class="text-danger" hidden></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <script type="text/javascript">
+             window.onload = function () {
+                 alert(@Model.ErrorMessage);
+             };
+    </script>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

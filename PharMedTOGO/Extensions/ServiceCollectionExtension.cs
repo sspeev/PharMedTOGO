@@ -41,6 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
             })
             .AddRoles<IdentityRole<string>>()
             .AddEntityFrameworkStores<PharMedDbContext>();
