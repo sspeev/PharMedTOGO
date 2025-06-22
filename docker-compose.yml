@@ -1,0 +1,28 @@
+networks:
+    pharmedtogo:
+
+services:
+  pharmedtogodb:
+    container_name: PharMedTOGO_DB
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - "1433:1433"
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=${DB_PASSWORD}
+    networks:
+      - pharmedtogo
+
+  pharmedtogo:
+    container_name: pharmedtogo
+    image: ${DOCKER_REGISTRY-}pharmedtogo
+    build:
+      context: .
+      dockerfile: PharMedTOGO/Dockerfile
+    ports:
+      - "8001:80"
+      - "8002:443"
+    depends_on:
+      - pharmedtogodb
+    environment:
+      - ConnectionStrings__MyConnection
