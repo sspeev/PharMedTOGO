@@ -1,41 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Globalization;
 
-namespace PharMedTOGO.ModelBinders
+namespace PharMedTOGO.ModelBinders;
+
+public class DecimalModelBinder : IModelBinder
 {
-    public class DecimalModelBinder : IModelBinder
+    public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        public Task BindModelAsync(ModelBindingContext bindingContext)
+        ValueProviderResult valueResult = bindingContext.ValueProvider
+            .GetValue(bindingContext.ModelName);
+
+        if (valueResult != ValueProviderResult.None && !string.IsNullOrEmpty(valueResult.FirstValue))
         {
-            ValueProviderResult valueResult = bindingContext.ValueProvider
-                .GetValue(bindingContext.ModelName);
+            decimal result = 0M;
+            bool success = false;
 
-            if (valueResult != ValueProviderResult.None && !string.IsNullOrEmpty(valueResult.FirstValue))
+            try
             {
-                decimal result = 0M;
-                bool success = false;
+                string strValue = valueResult.FirstValue.Trim();
+                strValue = strValue.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                strValue = strValue.Replace(",", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
-                try
-                {
-                    string strValue = valueResult.FirstValue.Trim();
-                    strValue = strValue.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-                    strValue = strValue.Replace(",", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-
-                    result = Convert.ToDecimal(strValue, CultureInfo.CurrentCulture);
-                    success = true;
-                }
-                catch (FormatException fe)
-                {
-                    bindingContext.ModelState.AddModelError(bindingContext.ModelName, fe, bindingContext.ModelMetadata);
-                }
-
-                if (success)
-                {
-                    bindingContext.Result = ModelBindingResult.Success(result);
-                }
+                result = Convert.ToDecimal(strValue, CultureInfo.CurrentCulture);
+                success = true;
+            }
+            catch (FormatException fe)
+            {
+                bindingContext.ModelState.AddModelError(bindingContext.ModelName, fe, bindingContext.ModelMetadata);
             }
 
-            return Task.CompletedTask;
+            if (success)
+            {
+                bindingContext.Result = ModelBindingResult.Success(result);
+            }
         }
+
+        return Task.CompletedTask;
     }
 }

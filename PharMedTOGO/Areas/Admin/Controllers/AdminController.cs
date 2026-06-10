@@ -3,120 +3,107 @@ using Microsoft.Extensions.Caching.Memory;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data.Enums;
-using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
-namespace PharMedTOGO.Areas.Admin.Controllers
+namespace PharMedTOGO.Areas.Admin.Controllers;
+
+public class AdminController(
+    IAdminService _adminService,
+    IPrescriptionService _prescriptionService,
+    IMemoryCache _memoryCache) : BaseController
 {
-    public class AdminController : BaseController
+    public IActionResult Index()
     {
-        private readonly IAdminService adminService;
-        private readonly IPrescriptionService prescriptionService;
-        private readonly IMemoryCache memoryCache;
+        return View();
+    }
 
-        public AdminController(
-            IAdminService _adminService,
-            IPrescriptionService _prescriptionService,
-            IMemoryCache _memoryCache)
+    [HttpGet]
+    public async Task<IActionResult> AllUsers()
+    {
+        try
         {
-            adminService = _adminService;
-            prescriptionService = _prescriptionService;
-            memoryCache = _memoryCache;
+            var users = _memoryCache.Get<IEnumerable<PatientServiceModel>>(UserCacheKeyAllUsers);
+
+            if (users == null)
+            {
+                users = await _adminService.AllUsersAsync();
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
+
+                _memoryCache.Set(UserCacheKeyAllUsers, users, cacheOptions);
+            }
+
+            return View(users);
         }
-
-        public IActionResult Index()
+        catch (Exception e)
         {
-            return View();
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> AllUsers()
+    [HttpPost]
+    public async Task<IActionResult> MakeUserAdmin(string id)
+    {
+        try
         {
-            try
+            if (!await _adminService.ExistsByIdAsync(id))
             {
-                var users = memoryCache.Get<IEnumerable<PatientServiceModel>>(UserCacheKeyAllUsers);
-
-                if (users == null)
-                {
-                    users = await adminService.AllUsersAsync();
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
-
-                    memoryCache.Set(UserCacheKeyAllUsers, users, cacheOptions);
-                }
-
-                return View(users);
+                throw new ArgumentException("Unexisting user!");
             }
-            catch (Exception e)
+            if (await _adminService.ExistsAdminByUserIdAsync(id))
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
+                throw new ArgumentException("That user is already an admin!");
             }
+            await _adminService.MakeAdminByIdAsync(id);
+            _memoryCache.Remove(UserCacheKeyCart);
+
+            return RedirectToAction("Index", "Admin", new { area = "Admin" });
         }
-
-        [HttpPost]
-        public async Task<IActionResult> MakeUserAdmin(string id)
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                if (!await adminService.ExistsByIdAsync(id))
-                {
-                    throw new ArgumentException("Unexisting user!");
-                }
-                if (await adminService.ExistsAdminByUserIdAsync(id))
-                {
-                    throw new ArgumentException("That user is already an admin!");
-                }
-                await adminService.MakeAdminByIdAsync(id);
-                memoryCache.Remove(UserCacheKeyCart);
-
-                return RedirectToAction("Index", "Admin", new { area = "Admin" });
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> ValidatePrescriptions()
+    [HttpGet]
+    public async Task<IActionResult> ValidatePrescriptions()
+    {
+        try
         {
-            try
-            {
-                var prescriptions = await prescriptionService.AllAsync();
+            var prescriptions = await _prescriptionService.AllAsync();
 
-                return View(prescriptions.Where(pr => pr.PrescriptionState == PrescriptionState.Reviewing));
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+            return View(prescriptions.Where(pr => pr.PrescriptionState == PrescriptionState.Reviewing));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> ValidatePrescriptions(bool valid, int id)
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                await adminService.Validate(valid, id);
+                ExceptionMessage = e.Message
+            });
+        }
+    }
 
-                return RedirectToAction("Index", "Admin", new { area = "Admin" });
-            }
-            catch (Exception e)
+    [HttpPost]
+    public async Task<IActionResult> ValidatePrescriptions(bool valid, int id)
+    {
+        try
+        {
+            await _adminService.Validate(valid, id);
+
+            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
     }
 }

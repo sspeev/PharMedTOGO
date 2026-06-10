@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace PharMedTOGO.ModelBinders
+namespace PharMedTOGO.ModelBinders;
+
+public class DecimalModelBinderProvider : IModelBinderProvider
 {
-    public class DecimalModelBinderProvider : IModelBinderProvider
+    public IModelBinder? GetBinder(ModelBinderProviderContext context)
     {
-        public IModelBinder? GetBinder(ModelBinderProviderContext context)
+        ArgumentNullException.ThrowIfNull(context);
+
+        if (context.Metadata.ModelType == typeof(decimal)
+            || context.Metadata.ModelType == typeof(decimal?))
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            if (context.Metadata.ModelType == typeof(decimal)
-                || context.Metadata.ModelType == typeof(decimal?))
-            {
-                return new DecimalModelBinder();
-            }
-
-            return null;
+            return new DecimalModelBinder();
         }
+
+        return null;
     }
 }

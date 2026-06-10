@@ -3,278 +3,267 @@ using Microsoft.AspNetCore.Mvc;
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Extensions;
-using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
-namespace PharMedTOGO.Controllers
+namespace PharMedTOGO.Controllers;
+
+[Authorize(Roles = AdminConstant)]
+public class SaleController(
+    ISaleService _saleService,
+    IMedicineService _medicineService) : BaseController
 {
-    [Authorize(Roles = AdminConstant)]
-    public class SaleController : BaseController
+    [HttpGet]
+    public IActionResult Add()
     {
-        private readonly ISaleService saleService;
-        private readonly IMedicineService medicineService;
+        return View(new SaleFormModel());
+    }
 
-        public SaleController(
-            ISaleService _saleService,
-            IMedicineService _medicineService)
+    [HttpPost]
+    public async Task<IActionResult> Add(SaleFormModel model)
+    {
+        try
         {
-            saleService = _saleService;
-            medicineService = _medicineService;
-        }
-
-        [HttpGet]
-        public IActionResult Add()
-        {
-            return View(new SaleFormModel());
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(SaleFormModel model)
-        {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                if (model == null)
-                {
-                    return BadRequest();
-                }
-                await saleService.CreateAsync(model);
-
-                return RedirectToAction("All", "Sale");
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> All([FromQuery] AllSalesQueryModel query)
-        {
-            try
-            {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                var model = await saleService.AllAsync();
-
-                query.TotalSales = model.TotalSales;
-                query.Sales = model.Sales;
-                query.Medicines = model.Medicines;
-
-                return View(query);
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> AttachMedicine(int saleId)
-        {
-            try
-            {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                if (!await saleService.ExistsByIdAsync(saleId))
-                {
-                    return BadRequest();
-                }
-
-                var medicines = await medicineService.AllAsync();
-                var model = new AttachMedicineFormModel()
-                {
-                    SaleId = saleId,
-                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
-                };
                 return View(model);
             }
-            catch (Exception e)
+
+            if (!User.IsAdmin())
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message,
-                });
+                return Unauthorized();
             }
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
-        {
-            try
+            if (model == null)
             {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
+                return BadRequest();
+            }
+            await _saleService.CreateAsync(model);
 
-                await saleService.AttachMedicine(saleId, medicineId);//possible throwing
+            return RedirectToAction("All", "Sale");
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+    }
 
-                var medicines = await medicineService.AllAsync();
-                var model = new AttachMedicineFormModel()
-                {
-                    SaleId = saleId,
-                    Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList()
-                };
+    [HttpGet]
+    public async Task<IActionResult> All([FromQuery] AllSalesQueryModel query)
+    {
+        try
+        {
+            if (!User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            var model = await _saleService.AllAsync();
+
+            query.TotalSales = model.TotalSales;
+            query.Sales = model.Sales;
+            query.Medicines = model.Medicines;
+
+            return View(query);
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AttachMedicine(int saleId)
+    {
+        try
+        {
+            if (!User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            if (!await _saleService.ExistsByIdAsync(saleId))
+            {
+                return BadRequest();
+            }
+
+            var medicines = await _medicineService.AllAsync();
+            var model = new AttachMedicineFormModel()
+            {
+                SaleId = saleId,
+                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList(),
+            };
+            return View(model);
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message,
+            });
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AttachMedicine(int saleId, int medicineId)
+    {
+        try
+        {
+            if (!User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            await _saleService.AttachMedicine(saleId, medicineId);//possible throwing
+
+            var medicines = await _medicineService.AllAsync();
+            var model = new AttachMedicineFormModel()
+            {
+                SaleId = saleId,
+                Medicines = medicines.Medicines.Where(m => m.SaleId == null).ToList()
+            };
+            return View(model);
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        try
+        {
+            if (!User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            var sale = await _saleService.FindByIdAsync(id);//possible throwing
+
+            var model = new SaleFormModel()
+            {
+                Discount = sale.Discount,
+                StartDate = sale.StartDate,
+                EndDate = sale.EndDate
+            };
+
+            TempData.Add("saleId", id);
+            return View(model);
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, SaleFormModel model)
+    {
+        try
+        {
+            if (!User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            if (!await _saleService.ExistsByIdAsync(id))
+            {
+                return BadRequest();
+            }
+            if (model == null)
+            {
+                return BadRequest();
+            }
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+            await _saleService.EditAsync(id, model);
+
+            return RedirectToAction(nameof(All));
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                var sale = await saleService.FindByIdAsync(id);//possible throwing
-
-                var model = new SaleFormModel()
-                {
-                    Discount = sale.Discount,
-                    StartDate = sale.StartDate,
-                    EndDate = sale.EndDate
-                };
-
-                TempData.Add("saleId", id);
-                return View(model);
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(int id, SaleFormModel model)
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
         {
-            try
+            if (!User.IsAdmin())
             {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                if (!await saleService.ExistsByIdAsync(id))
-                {
-                    return BadRequest();
-                }
-                if (model == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-                await saleService.EditAsync(id, model);
-
-                return RedirectToAction(nameof(All));
+                return Unauthorized();
             }
-            catch (Exception e)
+
+            var sale = await _saleService.FindByIdAsync(id);// possible throwing
+
+            if (sale == null)
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
+                return BadRequest();
             }
+
+            var model = new SaleDeleteModel()
+            {
+                Id = sale.Id,
+                StartDate = sale.StartDate,
+                EndDate = sale.EndDate
+            };
+            TempData.Add("saleId", id);
+
+            return View(model);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                var sale = await saleService.FindByIdAsync(id);// possible throwing
-
-                if (sale == null)
-                {
-                    return BadRequest();
-                }
-
-                var model = new SaleDeleteModel()
-                {
-                    Id = sale.Id,
-                    StartDate = sale.StartDate,
-                    EndDate = sale.EndDate
-                };
-                TempData.Add("saleId", id);
-
-                return View(model);
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        try
         {
-            try
+            if (!User.IsAdmin())
             {
-                if (!User.IsAdmin())
-                {
-                    return Unauthorized();
-                }
-
-                if (!await saleService.ExistsByIdAsync(id))
-                {
-                    return BadRequest();
-                }
-                await saleService.DeleteAsync(id);
-
-                return RedirectToAction(nameof(All));
+                return Unauthorized();
             }
-            catch (Exception e)
+
+            if (!await _saleService.ExistsByIdAsync(id))
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
+                return BadRequest();
             }
+            await _saleService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(All));
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
         }
     }
 }

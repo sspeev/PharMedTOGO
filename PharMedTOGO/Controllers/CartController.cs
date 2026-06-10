@@ -4,137 +4,120 @@ using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Extensions;
 using PharMedTOGO.Infrastrucure.Data.Enums;
-using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;
 
-namespace PharMedTOGO.Controllers
+namespace PharMedTOGO.Controllers;
+
+public class CartController(
+    ICartService _cartService,
+    IMedicineService _medicineService,
+    IAdminService _adminService,
+    IPrescriptionService _prescriptionService,
+    IMemoryCache _memoryCache) : Controller
 {
-    public class CartController : Controller
+    [HttpGet]
+    public async Task<IActionResult> ShoppingCart()
     {
-        private readonly ICartService cartService;
-        private readonly IMedicineService mediicineService;
-        private readonly IAdminService adminService;
-        private readonly IPrescriptionService prescriptionService;
-        private readonly IMemoryCache memoryCache;
-
-        public CartController(
-            ICartService _cartService,
-            IMedicineService _medicineService,
-            IAdminService _adminService,
-            IPrescriptionService _prescriptionService,
-            IMemoryCache _memoryCache)
+        try
         {
-            cartService = _cartService;
-            mediicineService = _medicineService;
-            adminService = _adminService;
-            prescriptionService = _prescriptionService;
-            memoryCache = _memoryCache;
-        }
+            var model = _memoryCache.Get<AllCartsQueryModel>(UserCacheKeyCart);
 
-        [HttpGet]
-        public async Task<IActionResult> ShoppingCart()
+            if (model == null)
+            {
+                model = await _cartService.AllCartProducts(User.Id());
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
+
+                _memoryCache.Set(UserCacheKeyCart, model, cacheOptions);
+            }
+            return View(model);
+        }
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                var model = memoryCache.Get<AllCartsQueryModel>(UserCacheKeyCart);
-
-                if (model == null)
-                {
-                    model = await cartService.AllCartProducts(User.Id());
-
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
-
-                    memoryCache.Set(UserCacheKeyCart, model, cacheOptions);
-                }
-                return View(model);
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(int id)
-        {
-            try
-            {
-                if (!User?.Identity?.IsAuthenticated ?? false)
-                {
-                    return Unauthorized();
-                }
-                if (!await mediicineService.ExistsByIdAsync(id))
-                {
-                    return BadRequest();
-                }
-                if (await cartService.AlreadyAddedToCart(id, User.Id()))
-                {
-                    throw new ArgumentException("The current medicine is already added to the shopping cart!");
-
-                }
-
-                var medicine = await mediicineService.FindByIdAsync(id);
-                var prescriptionId = await adminService.HasUserPrescription(User.Id());
-                if (medicine.RequiresPrescription && prescriptionId == 0)
-                {
-                    throw new ArgumentException("This medicine requires prescription which you do not have! Go to My prescription and send it to admin to validate it");
-                }
-                else if (medicine.RequiresPrescription)
-                {
-                    var prescription = await prescriptionService.FindByIdAsync(prescriptionId);
-
-                    if (medicine.RequiresPrescription && prescription.PrescriptionState != PrescriptionState.Finished)
-                    {
-                        throw new ArgumentException("Your prescription hasn't been validated yet!");
-                    }
-                    if (medicine.RequiresPrescription && !prescription.IsValid)
-                    {
-                        throw new ArgumentException("You have invalid prescription");
-                    }
-                }
-                else
-                {
-                    await cartService.AddToCartAsync(id, User.Id());// possible throwing
-                    memoryCache.Remove(UserCacheKeyCart);
-                }
-
-                return RedirectToAction(nameof(ShoppingCart), "Cart");
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Remove(int id)
+    [HttpPost]
+    public async Task<IActionResult> AddToCart(int id)
+    {
+        try
         {
             if (!User?.Identity?.IsAuthenticated ?? false)
             {
                 return Unauthorized();
             }
-            try
+            if (!await _medicineService.ExistsByIdAsync(id))
             {
-                await cartService.RemoveFromCartAsync(id, User.Id());
-                memoryCache.Remove(UserCacheKeyCart);
+                return BadRequest();
             }
-            catch (Exception e)
+            if (await _cartService.AlreadyAddedToCart(id, User.Id()))
             {
+                throw new ArgumentException("The current medicine is already added to the shopping cart!");
 
-                return View("Error", new ErrorViewModel()
+            }
+
+            var medicine = await _medicineService.FindByIdAsync(id);
+            var prescriptionId = await _adminService.HasUserPrescription(User.Id());
+            if (medicine.RequiresPrescription && prescriptionId == 0)
+            {
+                throw new ArgumentException("This medicine requires prescription which you do not have! Go to My prescription and send it to admin to validate it");
+            }
+            else if (medicine.RequiresPrescription)
+            {
+                var prescription = await _prescriptionService.FindByIdAsync(prescriptionId);
+
+                if (medicine.RequiresPrescription && prescription.PrescriptionState != PrescriptionState.Finished)
                 {
-                    ExceptionMessage = e.Message
-                });
+                    throw new ArgumentException("Your prescription hasn't been validated yet!");
+                }
+                if (medicine.RequiresPrescription && !prescription.IsValid)
+                {
+                    throw new ArgumentException("You have invalid prescription");
+                }
+            }
+            else
+            {
+                await _cartService.AddToCartAsync(id, User.Id());// possible throwing
+                _memoryCache.Remove(UserCacheKeyCart);
             }
 
             return RedirectToAction(nameof(ShoppingCart), "Cart");
         }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Remove(int id)
+    {
+        if (!User?.Identity?.IsAuthenticated ?? false)
+        {
+            return Unauthorized();
+        }
+        try
+        {
+            await _cartService.RemoveFromCartAsync(id, User.Id());
+            _memoryCache.Remove(UserCacheKeyCart);
+        }
+        catch (Exception e)
+        {
+
+            return View("Error", new ErrorViewModel()
+            {
+                ExceptionMessage = e.Message
+            });
+        }
+
+        return RedirectToAction(nameof(ShoppingCart), "Cart");
     }
 }

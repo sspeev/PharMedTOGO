@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using PharMedTOGO.Extensions;
 using PharMedTOGO.Infrastrucure.Data;
 using PharMedTOGO.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load .env file for local development configuration
+builder.Configuration.AddEnvFile();
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddApplicationIdentity(builder.Configuration);
@@ -52,26 +56,16 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(config =>
-{
-    config.MapControllerRoute(
-        name: "areas",
-        pattern: "/{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
-    config.MapControllerRoute(
-        name: "default",
-        pattern: "/{controller=Home}/{action=Index}/{id?}");
-
-    config.MapDefaultControllerRoute();
-
-    app.MapRazorPages();
-});
-
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 

@@ -1,9 +1,8 @@
-﻿namespace PharMedTOGO.PaymentIntegrations.Stripe
-{
-    public class StripeSettings
-    {
-        public string SecretKey { get; set; }
+﻿namespace PharMedTOGO.PaymentIntegrations.Stripe;
 
-        public string PublishableKey { get; set; }
-    }
+public class StripeSettings
+{
+    public string SecretKey { get; set; } = null!;
+
+    public string PublishableKey { get; set; } = null!;
 }

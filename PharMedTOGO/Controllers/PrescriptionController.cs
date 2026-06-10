@@ -2,78 +2,67 @@
 using PharMedTOGO.Core.Contracts;
 using PharMedTOGO.Core.Models;
 using PharMedTOGO.Extensions;
-using PharMedTOGO.Models;
 
-namespace PharMedTOGO.Controllers
+namespace PharMedTOGO.Controllers;
+
+public class PrescriptionController(
+    IPrescriptionService _prescriptionService,
+    IAdminService _adminService) : Controller
 {
-    public class PrescriptionController : Controller
+    [HttpGet]
+    public async Task<IActionResult> Details(int id)
     {
-        private readonly IPrescriptionService prescriptionService;
-        private readonly IAdminService adminService;
-
-        public PrescriptionController(
-            IPrescriptionService _prescriptionService,
-            IAdminService _adminService)
+        try
         {
-            prescriptionService = _prescriptionService;
-            adminService = _adminService;
+            var prescription = await _prescriptionService.FindByIdAsync(id);
+            var user = await _adminService.FindUserById(User.Id());
+            var model = new PrescriptionServiceModel()
+            {
+                Id = prescription.Id,
+                CreatedOn = prescription.CreatedOn,
+                ExpireDate = prescription.ExpireDate,
+                Description = prescription.Description,
+                PrescriptionState = prescription.PrescriptionState,
+                IsValid = prescription.IsValid,
+                PatientId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EGN = user.EGN
+            };
+            return View(model);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        catch (Exception e)
         {
-            try
+            return View("Error", new ErrorViewModel()
             {
-                var prescription = await prescriptionService.FindByIdAsync(id);
-                var user = await adminService.FindUserById(User.Id());
-                var model = new PrescriptionServiceModel()
-                {
-                    Id = prescription.Id,
-                    CreatedOn = prescription.CreatedOn,
-                    ExpireDate = prescription.ExpireDate,
-                    Description = prescription.Description,
-                    PrescriptionState = prescription.PrescriptionState,
-                    IsValid = prescription.IsValid,
-                    PatientId = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    EGN = user.EGN
-                };
-                return View(model);
-            }
-            catch (Exception e)
-            {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Validate(int id)
+    [HttpPost]
+    public async Task<IActionResult> Validate(int id)
+    {
+        try
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                if (!await prescriptionService.ExistsByIdAsync(id))
-                {
-                    return BadRequest();
-                }
-                await prescriptionService.ValidatePrescriptionAsync(id);
+                return BadRequest();
+            }
+            if (!await _prescriptionService.ExistsByIdAsync(id))
+            {
+                return BadRequest();
+            }
+            await _prescriptionService.ValidatePrescriptionAsync(id);
 
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception e)
+            return RedirectToAction("Index", "Home");
+        }
+        catch (Exception e)
+        {
+            return View("Error", new ErrorViewModel()
             {
-                return View("Error", new ErrorViewModel()
-                {
-                    ExceptionMessage = e.Message
-                });
-            }
+                ExceptionMessage = e.Message
+            });
         }
     }
 }

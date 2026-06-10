@@ -5,12 +5,6 @@ namespace PharMedTOGO.Extensions;
 
 public static class ClaimsPrincipalExtension
 {
-    public static string Id(this ClaimsPrincipal user)
-    {
-        return user.FindFirstValue(ClaimTypes.NameIdentifier);
-    }
-    public static bool IsAdmin(this ClaimsPrincipal user)
-    {
-        return user.IsInRole(AdminConstant);
-    }
+    public static string Id(this ClaimsPrincipal user) => user.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+    public static bool IsAdmin(this ClaimsPrincipal user) => user.IsInRole(AdminConstant);
 }

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace PharMedTOGO.Components
+namespace PharMedTOGO.Components;
+
+public class CartMenuComponent : ViewComponent
 {
-    public class CartMenuComponent : ViewComponent
-    {
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            return await Task.FromResult<IViewComponentResult>(View("CartMenu"));
-        }
-    }
+    public async Task<IViewComponentResult> InvokeAsync() =>
+        await Task.FromResult<IViewComponentResult>(View("CartMenu"));
+    
 }

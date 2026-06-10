@@ -6,61 +6,60 @@ using PharMedTOGO.Infrastrucure.Data;
 using PharMedTOGO.Infrastrucure.Data.Models;
 using PharMedTOGO.PaymentIntegrations.Stripe;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace PharMedTOGO.Extensions;
+
+public static class ServiceCollectionExtension
 {
-    public static class ServiceCollectionExtension
+    public static IServiceCollection AddApplicationServices(this IServiceCollection service)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection service)
+        service.AddScoped<ISaleService, SaleService>();
+        service.AddScoped<IMedicineService, MedicineService>();
+        service.AddScoped<IAdminService, AdminService>();
+        service.AddScoped<IPrescriptionService, PrescriptionService>();
+        service.AddScoped<ICartService, CartService>();
+        service.AddScoped<ITransactionService, TransactionService>();
+
+        return service;
+    }
+
+    public static IServiceCollection AddApplicationDbContext(this IServiceCollection service, IConfiguration config)
+    {
+        var connectionString = config.GetConnectionString("PharMedDbContextConnection");
+        service.AddDbContext<PharMedDbContext>(options =>
+            options.UseSqlServer(connectionString)
+                   .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
+        service.AddDatabaseDeveloperPageExceptionFilter();
+
+        return service;
+    }
+
+    public static IServiceCollection AddApplicationIdentity(this IServiceCollection service, IConfiguration config)
+    {
+        service.AddDefaultIdentity<Patient>(options =>
         {
-            service.AddScoped<ISaleService, SaleService>();
-            service.AddScoped<IMedicineService, MedicineService>();
-            service.AddScoped<IAdminService, AdminService>();
-            service.AddScoped<IPrescriptionService, PrescriptionService>();
-            service.AddScoped<ICartService, CartService>();
-            service.AddScoped<ITransactionService, TransactionService>();
+            options.SignIn.RequireConfirmedAccount = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
+        })
+        .AddRoles<IdentityRole<string>>()
+        .AddEntityFrameworkStores<PharMedDbContext>();
 
-            return service;
-        }
-
-        public static IServiceCollection AddApplicationDbContext(this IServiceCollection service, IConfiguration config)
+        service.AddAuthentication().AddGoogle(googleOptions =>
         {
-            var connectionString = config.GetConnectionString("PharMedDbContextConnection");
-            service.AddDbContext<PharMedDbContext>(options =>
-                options.UseSqlServer(connectionString)
-                       .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
-            service.AddDatabaseDeveloperPageExceptionFilter();
+            googleOptions.ClientId = config["web:client_id"]!;
+            googleOptions.ClientSecret = config["web:client_secret"]!;
+        });
 
-            return service;
-        }
+        return service;
+    }
 
-        public static IServiceCollection AddApplicationIdentity(this IServiceCollection service, IConfiguration config)
-        {
-            service.AddDefaultIdentity<Patient>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
-            })
-            .AddRoles<IdentityRole<string>>()
-            .AddEntityFrameworkStores<PharMedDbContext>();
+    public static IServiceCollection AddPaymentIntegration(this IServiceCollection service, IConfiguration config)
+    {
+        service.Configure<StripeSettings>(config.GetSection("StripeSettings"));
 
-            service.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = config["web:client_id"];
-                googleOptions.ClientSecret = config["web:client_secret"];
-            });
-
-            return service;
-        }
-
-        public static IServiceCollection AddPaymentIntegration(this IServiceCollection service, IConfiguration config)
-        {
-            service.Configure<StripeSettings>(config.GetSection("StripeSettings"));
-
-            return service;
-        }
+        return service;
     }
 }
