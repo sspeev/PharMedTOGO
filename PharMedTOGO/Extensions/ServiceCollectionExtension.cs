@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection service, IConfiguration config)
         {
-            var connectionString = config.GetConnectionString("MyConnection");
+            var connectionString = config.GetConnectionString("PharMedDbContextConnection");
             service.AddDbContext<PharMedDbContext>(options =>
                 options.UseSqlServer(connectionString));
             service.AddDatabaseDeveloperPageExceptionFilter();

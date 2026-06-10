@@ -1,4 +1,4 @@
-﻿@using PharMedTOGO.Areas.Admin.Models
+@using PharMedTOGO.Areas.Admin.Models
 @using PharMedTOGO.Core.Contracts
 @using PharMedTOGO.Extensions
 @using PharMedTOGO.Infrastrucure.Data.Models
@@ -29,7 +29,7 @@
                         <div class="col-lg-12 align-self-center">
                             <div class="slide-item-info">
                                 <div class="slide-item-info-inner ltn__slide-animation">
-                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/fontawesome-free-6.4.0-web/svgs/solid/star-of-life.svg" /></span></h6>
+                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/images/icons/star-of-life.svg" /></span></h6>
                                     <h1 class="slide-title animated ">The fastest way to recive your medicines</h1>
                                     <div class="btn-wrapper animated">
                                         <a asp-controller="Medicine" asp-action="All" class="theme-btn-1 btn btn-effect-1">Shop Now</a>
@@ -50,7 +50,7 @@
                         <div class="col-lg-12 align-self-center">
                             <div class="slide-item-info">
                                 <div class="slide-item-info-inner ltn__slide-animation">
-                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/fontawesome-free-6.4.0-web/svgs/solid/star-of-life.svg" /></span></h6>
+                                    <h6 class="slide-sub-title white-color--- animated"><span><img style="width: 30px; height: 30px" src="~/images/icons/star-of-life.svg" /></span></h6>
                                     <h1 class="slide-title animated ">Made possible integration with the upcoming online prescriptions in Bulgaria</h1>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <div class="p-3 text-center">
-            <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName <span><img style="width: 30px; height: 30px;" src="~/fontawesome-free-6.4.0-web/svgs/solid/heart-circle-check.svg" alt="Alternate Text" /></span></h5>
+            <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName <span><img style="width: 30px; height: 30px;" src="~/images/icons/heart-circle-check.svg" alt="Alternate Text" /></span></h5>
         </div>
         <div class="p-3 text-center">
             @if (currUser.PrescriptionId != 0)

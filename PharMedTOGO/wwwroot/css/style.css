@@ -19427,4 +19427,12 @@ input.cart-plus-minus-box {
     END
 ---------------------------------------------------- */
 
+.info {
+    display: grid;
+    grid-template-areas:
+        "prescrDetails patientDetails"
+        "descrip descrip";
+    gap: 5em;
+}
+
 /*# sourceMappingURL=style.css.map */

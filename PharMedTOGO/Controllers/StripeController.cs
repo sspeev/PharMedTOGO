@@ -31,7 +31,7 @@ namespace PharMedTOGO.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCheckoutSession(AllCartsQueryModel model)
         {
-            string currency = "bgn";
+            string currency = "eur";
             string successfulUrl = "https://localhost:7136/Stripe/OrderResult";
             string cancelUrl = "https://localhost:7136/Cart/ShoppingCart";
             StripeConfiguration.ApiKey = stripeSettings.SecretKey;

@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using PharMedTOGO.Areas.Admin.Models
 @using PharMedTOGO.Core.Contracts
 @using PharMedTOGO.Extensions
@@ -20,7 +20,7 @@
                 <div class="site-logo-wrap">
                     <div class="site-logo">
                         <a asp-area="" asp-controller="Home" asp-action="Index">
-                            <img src="~/fontawesome-free-6.4.0-web/svgs/solid/pills.svg" alt="Logo">
+                            <img src="~/images/icons/pills.svg" alt="Logo">
                         </a>
                         <h3>PharMedTOGO</h3>
                     </div>
@@ -66,7 +66,7 @@
                 <div class="ltn__drop-menu user-menu">
                     <ul>
                         <li>
-                            <a href="#"><img src="~/fontawesome-free-6.4.0-web//svgs//solid/circle-user.svg" class="icon-user" /></a>
+                            <a href="#"><img src="~/images/icons/circle-user.svg" class="icon-user" /></a>
                             <ul>
                                 @if (SignInManager.IsSignedIn(User))
                                 {
@@ -104,7 +104,7 @@
 
                 <div class="mini-cart-icon">
                     <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
-                        <img src="~/fontawesome-free-6.4.0-web//svgs/solid//cart-shopping.svg" class="icon-shopping-cart" />
+                        <img src="~/images/icons/cart-shopping.svg" class="icon-shopping-cart" />
                     </a>
                 </div>
 

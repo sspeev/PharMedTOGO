@@ -26,10 +26,4 @@ body {
     margin-bottom: 60px;
 }
 
-.info {
-    display: grid;
-    grid-template-areas:
-        "prescrDetails patientDetails"
-        "descrip descrip";
-    gap: 5em;
-}
+

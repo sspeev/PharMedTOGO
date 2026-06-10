@@ -1,4 +1,4 @@
-﻿@using PharMedTOGO.Core.Contracts
+@using PharMedTOGO.Core.Contracts
 @model AllCartsQueryModel
 @inject ISaleService saleService
 
@@ -48,7 +48,7 @@
                                                         }
                                                         <p class="text-black">Discount: @($"{item.Sale.Discount:f0}%")</p>
                                                         <div style="width: 40px; height: 40px;">
-                                                            <img src="~/fontawesome-free-6.4.0-web/svgs/solid/tag.svg" alt="Sale icon" />
+                                                            <img src="~/images/icons/tag.svg" alt="Sale icon" />
                                                         </div>
                                                     </div>
                                                 }
@@ -110,7 +110,7 @@
         <div class="d-flex gap-3">
             <h2 class="text-center text-black">My Cart</h2>
             <div style="width: 40px; height: 40px;">
-                <img src="~/fontawesome-free-6.4.0-web/svgs/solid/cart-shopping.svg" alt="Alternate Text" />
+                <img src="~/images/icons/cart-shopping.svg" alt="Alternate Text" />
             </div>
         </div>
 
@@ -138,7 +138,7 @@
                                 }
                                 <p class="text-black">Discount: @($"{medicine.Sale.Discount:f0}%")</p>
                                 <div style="width: 40px; height: 40px;">
-                                    <img src="~/fontawesome-free-6.4.0-web/svgs/solid/tag.svg" alt="Sale icon" />
+                                    <img src="~/images/icons/tag.svg" alt="Sale icon" />
                                 </div>
                             </div>
                         }
