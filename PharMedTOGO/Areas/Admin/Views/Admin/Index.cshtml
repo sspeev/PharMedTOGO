@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using PharMedTOGO.Infrastrucure.Data.Models
 @inject UserManager<Patient> UserManager
 @{
@@ -13,5 +13,6 @@
     <div class="p-3">
         <h5 class="fs-2">Welcome @UserManager.GetUserAsync(User).Result.FirstName  @UserManager.GetUserAsync(User).Result.LastName</h5>
     </div>
-    <img class="w-25 " src="~/fontawesome-free-6.4.0-web/svgs/solid/unlock.svg" />
+    <img class="w-25 " src="~/images/icons/unlock.svg" />
 </div>
+

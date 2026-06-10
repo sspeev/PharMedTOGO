@@ -26,3 +26,5 @@ services:
       - pharmedtogodb
     environment:
       - ConnectionStrings__MyConnection
+    networks:
+      - pharmedtogo
