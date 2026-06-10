@@ -1,0 +1,11 @@
+@using PharMedTOGO.Web.Extensions
+@{
+    if (User.IsAdmin())
+    {
+        Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}

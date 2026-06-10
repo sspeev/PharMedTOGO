@@ -1,0 +1,10 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace PharMedTOGO.Web.Areas.Admin.Components;
+
+public class AdminNavbarComponent : ViewComponent
+{
+    public async Task<IViewComponentResult> InvokeAsync() =>
+        await Task.FromResult<IViewComponentResult>(View("Navbar"));
+    
+}

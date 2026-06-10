@@ -18,7 +18,7 @@ services:
     image: ${DOCKER_REGISTRY-}pharmedtogo
     build:
       context: .
-      dockerfile: PharMedTOGO/Dockerfile
+      dockerfile: PharMedTOGO.Web/Dockerfile
     ports:
       - "8001:80"
       - "8002:443"
