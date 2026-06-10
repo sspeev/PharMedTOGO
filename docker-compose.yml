@@ -25,6 +25,6 @@ services:
     depends_on:
       - pharmedtogodb
     environment:
-      - ConnectionStrings__MyConnection
+      - ConnectionStrings__PharMedDbContextConnection=${ConnectionStrings__MyConnection}
     networks:
       - pharmedtogo

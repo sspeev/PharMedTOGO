@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Infrastrucure.Data.Configuration;
@@ -13,11 +13,10 @@ namespace PharMedTOGO.Infrastrucure.Data
         public PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool _seed = true)
             : base(options)
         {
-            if (Database.IsRelational())
+            if (!Database.IsRelational())
             {
-                Database.Migrate();
+                Database.EnsureCreated();
             }
-            else Database.EnsureCreated();
 
             seed = _seed;
         }

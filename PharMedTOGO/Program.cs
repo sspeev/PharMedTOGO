@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using PharMedTOGO.Infrastrucure.Data;
 using PharMedTOGO.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,16 @@ builder.Services.AddApplicationServices();
 builder.Services.AddMemoryCache();
 
 var app = builder.Build();
+
+// Automatically apply database migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<PharMedDbContext>();
+    if (context.Database.IsRelational())
+    {
+        await context.Database.MigrateAsync();
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {
