@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PharMedTOGO.Infrastrucure.Data;
 
 namespace PharMedTOGO.Test.Mock
@@ -13,7 +13,9 @@ namespace PharMedTOGO.Test.Mock
                 .UseInMemoryDatabase("PharMedInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
-                return new PharMedDbContext(contextOptions, false);
+                var context = new PharMedDbContext(contextOptions, false);
+                context.Database.EnsureCreated();
+                return context;
             }
         }
     }

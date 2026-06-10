@@ -1,7 +1,6 @@
-namespace PharMedTOGO.Models
+namespace PharMedTOGO.Core.Models;
+
+public class ErrorViewModel
 {
-    public class ErrorViewModel
-    {
-        public string ExceptionMessage { get; set; } = string.Empty;
-    }
+    public string ExceptionMessage { get; set; } = string.Empty;
 }

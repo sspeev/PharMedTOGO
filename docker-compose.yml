@@ -18,13 +18,27 @@ services:
     image: ${DOCKER_REGISTRY-}pharmedtogo
     build:
       context: .
-      dockerfile: PharMedTOGO/Dockerfile
+      dockerfile: PharMedTOGO.Web/Dockerfile
     ports:
       - "8001:80"
       - "8002:443"
     depends_on:
       - pharmedtogodb
     environment:
-      - ConnectionStrings__MyConnection
+      - ConnectionStrings__PharMedDbContextConnection=${ConnectionStrings__MyConnection}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=8002
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${KESTREL_CERTIFICATE_PASSWORD}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/PharMedTOGO.pfx
+      - web__client_id=${GOOGLE_CLIENT_ID}
+      - web__client_secret=${GOOGLE_CLIENT_SECRET}
+      - StripeSettings__SecretKey=${STRIPE_SECRET_KEY}
+      - StripeSettings__PublishableKey=${STRIPE_PUBLISHABLE_KEY}
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:
       - pharmedtogo

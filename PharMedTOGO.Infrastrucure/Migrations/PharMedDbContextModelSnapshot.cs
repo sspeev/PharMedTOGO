@@ -17,10 +17,10 @@ namespace PharMedTOGO.Infrastrucure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.29")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<string>", b =>
                 {
@@ -61,7 +61,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -86,7 +86,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -184,7 +184,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("PharMedTOGO.Infrastrucure.Data.Models.Medicine", b =>
@@ -194,7 +194,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .HasColumnType("int")
                         .HasComment("The identifier of the medicine");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Category")
                         .HasColumnType("int");
@@ -234,9 +234,10 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.HasIndex("SaleId");
 
-                    b.ToTable("Medicines");
-
-                    b.HasComment("Medicine Entity");
+                    b.ToTable("Medicines", null, t =>
+                        {
+                            t.HasComment("Medicine Entity");
+                        });
 
                     b.HasData(
                         new
@@ -413,9 +414,10 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .IsUnique()
                         .HasFilter("[PrescriptionId] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasComment("The patient entity");
+                    b.ToTable("AspNetUsers", null, t =>
+                        {
+                            t.HasComment("The patient entity");
+                        });
 
                     b.HasData(
                         new
@@ -468,7 +470,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2")
@@ -497,9 +499,10 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prescriptions");
-
-                    b.HasComment("The prescription entity");
+                    b.ToTable("Prescriptions", null, t =>
+                        {
+                            t.HasComment("The prescription entity");
+                        });
 
                     b.HasData(
                         new
@@ -530,7 +533,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Discount")
                         .HasColumnType("int")
@@ -550,7 +553,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sales");
+                    b.ToTable("Sales", (string)null);
 
                     b.HasData(
                         new
@@ -577,7 +580,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -592,7 +595,7 @@ namespace PharMedTOGO.Infrastrucure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

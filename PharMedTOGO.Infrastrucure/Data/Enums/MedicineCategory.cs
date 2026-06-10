@@ -1,11 +1,10 @@
-﻿namespace PharMedTOGO.Infrastrucure.Data.Enums
+﻿namespace PharMedTOGO.Infrastrucure.Data.Enums;
+
+public enum MedicineCategory
 {
-    public enum MedicineCategory
-    {
-        Cosmetics = 1,
-        FoodAdditives = 2,
-        Homeophatic = 3,
-        Antibiotics = 4,
-        General = 5
-    }
+    Cosmetics = 1,
+    FoodAdditives = 2,
+    Homeophatic = 3,
+    Antibiotics = 4,
+    General = 5
 }

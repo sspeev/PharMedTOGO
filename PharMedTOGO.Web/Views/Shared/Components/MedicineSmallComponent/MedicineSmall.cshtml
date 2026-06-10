@@ -1,0 +1,86 @@
+@using PharMedTOGO.Core.Contracts
+@model AllCartsQueryModel
+@inject IMedicineService medicineService
+
+@{
+    var allMedicines = await medicineService.AllAsync();
+    string currency = "EUR";
+}
+
+<div class="body-wrapper">
+    <div class="ltn__product-area ltn__product-gutter pt-115 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title">Cosmetics</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row ltn__tab-product-slider-one-active--- slick-arrow-1">
+
+                @foreach (var item in allMedicines.Medicines.Where(m => m.Category == MedicineCategory.Cosmetics))
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                        <div class="ltn__product-item ltn__product-item-3 text-left">
+                            <div class="product-img">
+                                <img src="@item.ImageUrl" />
+                                @if (item.SaleId != null)
+                                {
+                                    <div class="product-badge">
+                                        <ul>
+                                            <li class="sale-badge">@item.Sale.Discount %</li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title">@item.Name</h2>
+                                <div class="product-price">
+                                    <span>@item.Price @currency</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="ltn__feature-area section-bg-1 mt-90 pt-30 pb-30 mt--65---">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__feature-item-box-wrap ltn__feature-item-box-wrap-2 ltn__border--- section-bg-1">
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="~/images/icons/truck.svg">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>Free shipping</h4>
+                                <p>On all orders over 30 @currency are free</p>
+                            </div>
+                        </div>
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="~/images/icons/money-bill-1-wave.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>15 days returns</h4>
+                                <p>Moneyback guarantee</p>
+                            </div>
+                        </div>
+                        <div class="ltn__feature-item ltn__feature-item-8">
+                            <div class="ltn__feature-icon">
+                                <img src="~/images/icons/cc-stripe.svg" alt="#">
+                            </div>
+                            <div class="ltn__feature-info">
+                                <h4>Secure checkout</h4>
+                                <p>Protected by Stripe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
