@@ -1,4 +1,4 @@
-name: .NET 10 CI
+name: Project CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build & Test (.NET 10)
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
+
+    - name: Remove docker-compose.dcproj from Solution (Linux Compatibility)
+      run: dotnet sln PharMedTOGO.slnx remove docker-compose.dcproj
 
     - name: Restore NuGet Packages
       run: dotnet restore PharMedTOGO.slnx
@@ -45,7 +48,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: PharMedTOGO/Dockerfile
+        file: PharMedTOGO.Web/Dockerfile
         push: false
         tags: pharmedtogo:latest
         cache-from: type=gha

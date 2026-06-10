@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".env" />
+    <File Path=".gitignore" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="PharMedTOGO.Core/PharMedTOGO.Core.csproj" />
+  <Project Path="PharMedTOGO.Infrastrucure/PharMedTOGO.Infrastrucure.csproj" />
+  <Project Path="PharMedTOGO.Test/PharMedTOGO.Test.csproj" />
+  <Project Path="PharMedTOGO.Web/PharMedTOGO.Web.csproj" />
+</Solution>

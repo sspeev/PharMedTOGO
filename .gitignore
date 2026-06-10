@@ -12,7 +12,6 @@
 *.user
 *.userprefs
 *.sln.docstates
-*.slnx
 
 # Local configurations and secrets
 *.env
