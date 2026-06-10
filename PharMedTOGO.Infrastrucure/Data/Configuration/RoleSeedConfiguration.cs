@@ -3,14 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PharMedTOGO.Infrastrucure.Seed;
 
-namespace PharMedTOGO.Infrastrucure.Data.Configuration
+namespace PharMedTOGO.Infrastrucure.Data.Configuration;
+
+public class RoleSeedConfiguration : IEntityTypeConfiguration<IdentityRole>
 {
-    public class RoleSeedConfiguration : IEntityTypeConfiguration<IdentityRole>
+    public void Configure(EntityTypeBuilder<IdentityRole> builder)
     {
-        public void Configure(EntityTypeBuilder<IdentityRole> builder)
-        {
-            var data = new SeedData();
-            builder.HasData(data.Roles);
-        }
+        var data = new SeedData();
+        builder.HasData(data.Roles);
     }
 }

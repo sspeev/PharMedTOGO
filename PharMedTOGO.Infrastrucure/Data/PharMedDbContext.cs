@@ -6,21 +6,9 @@ using PharMedTOGO.Infrastrucure.Data.Models;
 
 namespace PharMedTOGO.Infrastrucure.Data
 {
-    public class PharMedDbContext : IdentityDbContext<Patient, IdentityRole<string>, string>
+    public class PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool seed = true) 
+        : IdentityDbContext<Patient, IdentityRole<string>, string>(options)
     {
-        private bool seed;
-
-        public PharMedDbContext(DbContextOptions<PharMedDbContext> options, bool _seed = true)
-            : base(options)
-        {
-            if (!Database.IsRelational())
-            {
-                Database.EnsureCreated();
-            }
-
-            seed = _seed;
-        }
-
         public DbSet<Medicine> Medicines { get; set; } = null!;
 
         public DbSet<Prescription> Prescriptions { get; set; } = null!;

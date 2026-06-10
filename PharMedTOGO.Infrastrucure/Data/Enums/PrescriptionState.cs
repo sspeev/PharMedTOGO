@@ -1,9 +1,8 @@
-﻿namespace PharMedTOGO.Infrastrucure.Data.Enums
+﻿namespace PharMedTOGO.Infrastrucure.Data.Enums;
+
+public enum PrescriptionState
 {
-    public enum PrescriptionState
-    {
-        NotReviewed = 0,
-        Reviewing = 1,
-        Finished = 2,
-    }
+    NotReviewed = 0,
+    Reviewing = 1,
+    Finished = 2,
 }
