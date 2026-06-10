@@ -1,14 +1,12 @@
-﻿namespace PharMedTOGO.Core.Models
+﻿namespace PharMedTOGO.Core.Models;
+
+public class AllCartsQueryModel
 {
-    public class AllCartsQueryModel
-    {
-        public decimal TotalMedicinesSum { get; set; }
+    public decimal TotalMedicinesSum { get; set; }
 
-        public decimal DeliveryPrice { get; set; }
+    public decimal DeliveryPrice { get; set; }
 
-        public IList<MedicineServiceModel> Medicines { get; set; } 
-            = new List<MedicineServiceModel>();
+    public IList<MedicineServiceModel> Medicines { get; set; } = [];
 
-        public decimal Total { get; set; }
-    }
+    public decimal Total { get; set; }
 }

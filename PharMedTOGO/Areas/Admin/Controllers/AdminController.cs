@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using PharMedTOGO.Areas.Admin.Models;
 using PharMedTOGO.Core.Contracts;
+using PharMedTOGO.Core.Models;
 using PharMedTOGO.Infrastrucure.Data.Enums;
 using PharMedTOGO.Models;
 using static PharMedTOGO.Core.Constants.MessageConstants;

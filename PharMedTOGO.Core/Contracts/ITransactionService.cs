@@ -1,9 +1,8 @@
 ﻿using PharMedTOGO.Core.Models;
 
-namespace PharMedTOGO.Core.Contracts
+namespace PharMedTOGO.Core.Contracts;
+
+public interface ITransactionService
 {
-    public interface ITransactionService
-    {
-        Task AddAsync(TransactionServiceModel model);
-    }
+    Task AddAsync(TransactionServiceModel model);
 }

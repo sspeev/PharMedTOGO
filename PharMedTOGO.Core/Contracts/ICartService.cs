@@ -1,19 +1,18 @@
 ﻿using PharMedTOGO.Core.Models;
 
-namespace PharMedTOGO.Core.Contracts
+namespace PharMedTOGO.Core.Contracts;
+
+public interface ICartService
 {
-    public interface ICartService
-    {
-        Task<string> AddToCartAsync(int medicineId, string userId);
+    Task<string> AddToCartAsync(int medicineId, string userId);
 
-        Task<string> RemoveFromCartAsync(int medicineId, string userId);
+    Task<string> RemoveFromCartAsync(int medicineId, string userId);
 
-        Task<AllCartsQueryModel> AllCartProducts(string userId);
+    Task<AllCartsQueryModel> AllCartProducts(string userId);
 
-        Task<bool> AlreadyAddedToCart(int medicineId, string userId);
+    Task<bool> AlreadyAddedToCart(int medicineId, string userId);
 
-        AllCartsQueryModel DetailsAsync(AllCartsQueryModel model);
+    AllCartsQueryModel DetailsAsync(AllCartsQueryModel model);
 
-        Task ClearCart(string userId);
-    }
+    Task ClearCart(string userId);
 }

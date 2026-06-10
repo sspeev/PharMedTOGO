@@ -120,8 +120,19 @@ namespace PharMedTOGO.Controllers
             {
                 return Unauthorized();
             }
-            await cartService.RemoveFromCartAsync(id, User.Id());
-            memoryCache.Remove(UserCacheKeyCart);
+            try
+            {
+                await cartService.RemoveFromCartAsync(id, User.Id());
+                memoryCache.Remove(UserCacheKeyCart);
+            }
+            catch (Exception e)
+            {
+
+                return View("Error", new ErrorViewModel()
+                {
+                    ExceptionMessage = e.Message
+                });
+            }
 
             return RedirectToAction(nameof(ShoppingCart), "Cart");
         }

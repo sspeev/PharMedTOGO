@@ -1,12 +1,10 @@
-﻿namespace PharMedTOGO.Core.Models
+﻿namespace PharMedTOGO.Core.Models;
+
+public class AttachMedicineFormModel
 {
-    public class AttachMedicineFormModel
-    {
-        public int SaleId { get; set; }
+    public int SaleId { get; set; }
 
-        public int CurrMedicineId { get; set; }
+    public int CurrMedicineId { get; set; }
 
-        public IEnumerable<MedicineServiceModel> Medicines { get; set; }
-        = new List<MedicineServiceModel>();
-    }
+    public IEnumerable<MedicineServiceModel> Medicines { get; set; } = [];
 }

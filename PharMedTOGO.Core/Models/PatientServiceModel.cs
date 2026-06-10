@@ -1,17 +1,16 @@
-﻿namespace PharMedTOGO.Areas.Admin.Models
+﻿namespace PharMedTOGO.Core.Models;
+
+public class PatientServiceModel
 {
-    public class PatientServiceModel
-    {
-        public string Id { get; set; } = string.Empty;
+    public string Id { get; set; } = string.Empty;
 
-        public string FirstName { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
 
-        public string EGN { get; set; } = string.Empty;
+    public string EGN { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
-        public int PrescriptionId { get; set; }
-    }
+    public int PrescriptionId { get; set; }
 }
